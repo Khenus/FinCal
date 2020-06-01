@@ -6,22 +6,30 @@ Financier
 
 The aim of this project is to allow users, primarily teenagers, to better monitor their personal spending.
 
+## Level of Achievement
+
+Gemini
+
 ## Features
 
 * Home Page
-  * Summary of all spending for the month
-  * Breakdown of all spending for the month 
   * Display of user's name
   * Display of current date
-  * 3 different options for summary display, Pie chart, Bar graph and List
+  * Overview of various app sections – monthly budget, recent transactions, ledger debts
+* Personal Page
+  * Three main sections: budget breakdown, transaction list, spending and saving goals (WIP)
+  * Budget breakdown: Two visualisation options for displaying budget summary (pie chart, bar graph), four different options to choose viewing timeframe (day, week, month, year), detailed expenses breakdown
+  * Complete transaction list – ability to sort transactions (time, amount, category)
+  * Spending and saving goals (WIP)
 * Ledger Page
+  * Ability to filter by – all payments, debts to pay, debts to receive
   * Summary of payments to be made to others
-  * Summary of payments made to others
+  * Summary of payments that others need to pay
   * Total owed by an individual to you
-  * Ability to search though pass payments
+  * Ability to search though past payments
   * Transaction history with a specific individual
-  * Ability to send reminder to others to remind them of a debt
   * Ability to pay off amount owed to others
+  * Ability to send reminder to others to remind them of a debt
 * Settings Page
   * Ability to change color theme (Dark mode toggle)
   * Ability to allow for push notification
@@ -30,8 +38,9 @@ The aim of this project is to allow users, primarily teenagers, to better monito
   * Ability to change default sort
   * Ability to change preferred payment method
 * MISC
-  * Ability to quickly add spending/earnings
-  * Ability to quickly set up 'JIO' system to keep track of payment done during an outing
+  * Quick Add - Ability to quickly add spending/earnings
+  * Create Jio - Ability to quickly set up 'Jio' system to keep track of combined payments and debts. Includes: create a ‘Jio’ and share it via a link, add an order, ability to share compiled ‘Jio’ and automated adding of debts to ledger after order is closed.
+
 
 ## Current Progress
 
@@ -64,3 +73,9 @@ Below are the langugages used in this project
 * [React JS](https://reactjs.org/)
 * [MySQL](https://www.mysql.com/)
 
+## Video
+* [Milestone 1](https://youtu.be/7X9w2PTFrMo)
+
+## Screenshots
+* [UI Planning]
+* [Login and Signup pages Implementation]
