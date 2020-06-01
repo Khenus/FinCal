@@ -44,19 +44,19 @@ To get started, we need to set up the following environment.
 * [Android Studios](https://developer.android.com/studio) - For Android development
 * [XCode](https://developer.apple.com/xcode/) - For iPhone development
 
-After installing these, redirect to the downloaded folder.
+After setting up the environment, download the "Financier" folder though GitHub. Open up Commmand Prompt/Terminal and redirect to the location Financier using the following command
 ```
 cd <dirOfFolder>/Financier
 ```
 
-Using Android Studios:
+Using Android Studios to emulate:
 Open Financier with Android Studios.
-To allow emulator to run properly, run the following command in Command Prompt/Terminal
+To allow emulator to run properly, run the following command in Command Prompt/Terminal.
 ```
 react-native start
 ```
 
-The emulator should be running properly
+The emulator should now be running properly
 
 ## Built With
 
