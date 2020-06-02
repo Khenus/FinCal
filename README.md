@@ -26,6 +26,7 @@ Gemini
   * Summary of payments to be made to others
   * Summary of payments that others need to pay
   * Total owed by an individual to you
+  * Total owed by you to an individual
   * Ability to search though past payments
   * Transaction history with a specific individual
   * Ability to pay off amount owed to others
@@ -37,10 +38,12 @@ Gemini
   * Ability to change default display in home page
   * Ability to change default sort
   * Ability to change preferred payment method
-* MISC
-  * Quick Add - Ability to quickly add spending/earnings
-  * Create Jio - Ability to quickly set up 'Jio' system to keep track of combined payments and debts. Includes: create a ‘Jio’ and share it via a link, add an order, ability to share compiled ‘Jio’ and automated adding of debts to ledger after order is closed.
-
+* Quick actions
+  * Quick Add - ability to quickly add spending/earnings
+  * Create Jio - Ability to quickly set up 'Jio' system to keep track of combined payments and debts. Includes: 
+    * Create a ‘Food Jio’ and share it via a link. Our app has a database of food outlets’ menus in and around NUS, so the Jio creator simply needs to select the food outlet(s) that they are placing an order from.
+    * Add an order, having accessed it via the shared link. The menu will be automatically generated, based on the food outlet(s) selected earlier by the Jio creator.
+    * After the order is closed, the compiled ‘Jio’ order can be shared, and debts are automatically added to the Ledger.
 
 ## Current Progress
 
