@@ -77,5 +77,5 @@ Below are the langugages used in this project
 * [Milestone 1](https://youtu.be/7X9w2PTFrMo)
 
 ## Screenshots
-* [UI Planning]
-* [Login and Signup pages Implementation]
+* [UI Planning](https://drive.google.com/file/d/1U7s1N2Aw_nzgjfEXnctHzRt8YLwEMFsB/view?usp=sharing)
+* [Login and Signup pages Implementation](https://drive.google.com/file/d/1KKRm851dHYDXya13o0JTvY_PifKRSl9J/view?usp=sharing)
