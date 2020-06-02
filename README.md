@@ -4,7 +4,7 @@ Financier
 
 ## Introduction
 
-The aim of this project is to allow users, primarily teenagers, to better monitor their personal spending.
+We aim to make managing personal finances easier for NUS students, who are our initial target audience. In the future, we hope to expand our target audience to include students from other school campuses, with our ultimate goal being students in general.
 
 ## Level of Achievement
 
