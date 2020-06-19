@@ -6,26 +6,27 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import {darkTheme, lightTheme} from '../GlobalValues';
 
 export default function LedgerCard(props) {
-  let paymentType = props.paymentType;
-  let cardType = props.cardType;
-  let parentThemeDark = props.parentThemeDark;
+  let paymentType = props.paymentType || 'normal';
+  let cardType = props.cardType || 'payment';
+  let parentThemeDark = props.parentThemeDark || true;
   let parWidth = props.parWidth;
 
   let [themeDark, updatetheme] = useState(true);
   let colorScheme = themeDark === true ? darkTheme : lightTheme;
 
-  // useEffect(() => {
-  //   updatetheme(parentThemeDark);
-  // }, [parentThemeDark]);
+  useEffect(() => {
+    updatetheme(parentThemeDark);
+  }, [parentThemeDark]);
 
   const styles = StyleSheet.create({
     header: {
       color: colorScheme.cardContent,
-      fontSize: 18,
+      fontSize: 15,
     },
 
     sub: {
       color: colorScheme.cardContent,
+      fontSize: 12,
     },
 
     iconContain: {
@@ -69,18 +70,23 @@ export default function LedgerCard(props) {
     amountText: {
       color: colorScheme.cardContent,
       fontSize: 15,
-      marginRight: 5,
+      marginRight: 10,
     }, 
 
     padding: {
       width: parWidth * 0.4,
-      borderWidth: 1,
+      // borderWidth: 1,
     },
 
     allWrapper: {
       flexDirection: 'row',
     },
   });
+
+  let name, date, amount;
+  name = props.currObj.Name || 'Name here';
+  date = props.currObj.Date || 'Apr 25';
+  amount = props.currObj.Amount || '99.99';
 
   let icons;
   if(paymentType === 'late') {
@@ -102,12 +108,12 @@ export default function LedgerCard(props) {
             </View>
   
             <View style={styles.textContain}>
-              <Text style={styles.header}>testing</Text>
-              <Text style={styles.sub}>tesubg</Text>
+              <Text style={styles.header}>{name}</Text>
+              <Text style={styles.sub}>{date}</Text>
             </View>
           </View>
           <View style={styles.end}>
-            <Text style={styles.amountText}>Amount</Text>
+            <Text style={styles.amountText}>${amount}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -122,12 +128,12 @@ export default function LedgerCard(props) {
             </View>
   
             <View style={styles.textContain}>
-              <Text style={styles.header}>testing</Text>
-              <Text style={styles.sub}>tesubg</Text>
+              <Text style={styles.header}>{name}</Text>
+              <Text style={styles.sub}>{date}</Text>
             </View>
           </View>
           <View style={styles.end}>
-            <Text style={styles.amountText}>Amount</Text>
+            <Text style={styles.amountText}>${amount}</Text>
           </View>
         </TouchableOpacity>
         <View style={styles.padding}/>
