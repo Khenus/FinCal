@@ -9,9 +9,7 @@ export default function LedgerSummary() {
   let currWidth = useWindowDimensions().width;
   let [themeDark, updatetheme] = useState(true); 
   let [toPayArr, updateToPayArr] = useState([]);
-  let [toRecvArr, updateToRecvArr] = useState([]);
   let [toPayAmt, updateToPayAmt] = useState(0.0);
-  let [toRecvAmt, updateToRecvAmt] = useState(0.0);
 
   let colorScheme = themeDark === true ? darkTheme : lightTheme;
 
@@ -93,13 +91,6 @@ export default function LedgerSummary() {
       color: colorScheme.toPayHeader,
     },
 
-    toReceiveHeader: {
-      fontStyle: 'italic',
-      fontSize: 20,
-      textAlign: 'left',
-      color: colorScheme.toReceiveHeader,
-    },
-
     scroller: {
       flex: 1,
       // borderWidth: 1,
@@ -114,34 +105,17 @@ export default function LedgerSummary() {
       {Name: 'Colin', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
       {Name: 'Donkey', Date: 'Jan 27', Amount: '50.70', Type: 'toPay'},
       {Name: 'Echo', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-      {Name: 'Newww', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-      {Name: 'AAA', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'}, 
-      {Name: 'VVVVte', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'}, 
-      {Name: 'ZCCCoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
-      {Name: 'Xavier', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'}, 
-      {Name: 'Yvette', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'}, 
-      {Name: 'Zoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'}];
+      {Name: 'Newww', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'}];
       //Change this to fetch from server
 
-    let toPayTemp = [];
     let toPayAmtTemp = 0.0;
-    let toRecvTemp = [];
-    let toRecvAmtTemp = 0.0;
 
     for(let i = 0; i < result.length; i++){
-      if(result[i].Type === 'toPay') {
-        toPayAmtTemp += parseFloat(result[i].Amount);
-        toPayTemp.push(result[i]);
-      } else {
-        toRecvAmtTemp += parseFloat(result[i].Amount);
-        toRecvTemp.push(result[i]);
-      }
+       toPayAmtTemp += parseFloat(result[i].Amount);
     }
 
-    updateToPayAmt(toPayAmtTemp.toFixed(2));
-    updateToRecvAmt(toRecvAmtTemp.toFixed(2));
-    updateToPayArr(toPayTemp);
-    updateToRecvArr(toRecvTemp);
+    updateToPayArr(result);
+    updateToPayAmt(toPayAmtTemp);
   }, []);
 
   return (
@@ -149,11 +123,11 @@ export default function LedgerSummary() {
       <View style={styles.marginView}>
         <Text style={styles.headerText}>Ledger</Text>
         <View style={styles.selectorBar}>
-          <TouchableOpacity style={[styles.btnWrap, styles.selectedBtn]}>
-            <Text style={[styles.btnText, styles.selectedBtnText]}>Summary</Text>
-          </TouchableOpacity>
           <TouchableOpacity style={styles.btnWrap}>
-            <Text style={styles.btnText}>To Pay</Text>
+            <Text style={styles.btnText}>Summary</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.btnWrap, styles.selectedBtn]}>
+            <Text style={[styles.btnText, styles.selectedBtnText]}>To Pay</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnWrap}>
             <Text style={styles.btnText}>To Receive</Text>
@@ -167,12 +141,6 @@ export default function LedgerSummary() {
             <Text style={styles.toPayHeader}>To pay: SGD {toPayAmt}</Text>
             <ScrollView style={styles.scroller} nestedScrollEnabled={true}>
               {toPayArr.map((currItem, currIdx) => (<LedgerCard key={currIdx} currObj={currItem} cardType="payment" parentThemeDark={themeDark} parWidth={currWidth-40}/>))}
-            </ScrollView>
-          </View>
-          <View style={styles.mainContainers}>
-            <Text style={styles.toReceiveHeader}>To receive: SGD {toRecvAmt}</Text>
-            <ScrollView style={styles.scroller} nestedScrollEnabled={true}>
-              {toRecvArr.map((currItem, currIdx) => (<LedgerCard key={currIdx} currObj={currItem} cardType="receive" parentThemeDark={themeDark} parWidth={currWidth-40}/>))}
             </ScrollView>
           </View>
         </View>
