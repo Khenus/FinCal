@@ -4,6 +4,7 @@ import {
   View,
   ScrollView,
   StyleSheet,
+  ActivityIndicator,
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
@@ -13,16 +14,16 @@ import {CommonActions} from '@react-navigation/native';
 import {darkTheme, lightTheme} from '../GlobalValues';
 import LedgerCard from './LedgerCard';
 
-export default function LedgerSummary(props) {
+export default function LedgerToRecv(props) {
   let currWidth = useWindowDimensions().width;
+
+  let [isLoading, updateLoading] = useState(false);
   let [themeDark, updateTheme] = useState(true);
   let [colorScheme, updateColorScheme] = useState(darkTheme);
 
   let navigation = props.navigation;
   let parentDarkTheme = true;
-    // typeof props.route.params.parentDarkTheme === 'undefined'
-    //   ? true
-    //   : props.route.params.parentDarkTheme;
+  // let parentDarkTheme = props.route.params.parentDarkTheme || true;
 
   useEffect(() => {
     themeDark === true
@@ -34,9 +35,7 @@ export default function LedgerSummary(props) {
     updateTheme(parentDarkTheme);
   }, [parentDarkTheme]);
 
-  let [toPayArr, updateToPayArr] = useState([]);
   let [toRecvArr, updateToRecvArr] = useState([]);
-  let [toPayAmt, updateToPayAmt] = useState(0.0);
   let [toRecvAmt, updateToRecvAmt] = useState(0.0);
 
   const styles = StyleSheet.create({
@@ -129,16 +128,22 @@ export default function LedgerSummary(props) {
       // borderWidth: 1,
       // borderColor: 'white',
     },
+
+    loadingMain: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    loadingText: {
+      color: 'grey',
+      fontSize: 20,
+    },
   });
 
   useEffect(() => {
+    updateLoading(true);
     let result = [
-      {Name: 'Amanda', Date: 'Apr 25', Amount: '5.50', Type: 'toPay'},
-      {Name: 'Bryne', Date: 'May 26', Amount: '6.60', Type: 'toPay'},
-      {Name: 'Colin', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-      {Name: 'Donkey', Date: 'Jan 27', Amount: '50.70', Type: 'toPay'},
-      {Name: 'Echo', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-      {Name: 'Newww', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
       {Name: 'AAA', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
       {Name: 'VVVVte', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
       {Name: 'ZCCCoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
@@ -148,26 +153,29 @@ export default function LedgerSummary(props) {
     ];
     //Change this to fetch from server
 
-    let toPayTemp = [];
-    let toPayAmtTemp = 0.0;
-    let toRecvTemp = [];
     let toRecvAmtTemp = 0.0;
 
     for (let i = 0; i < result.length; i++) {
-      if (result[i].Type === 'toPay') {
-        toPayAmtTemp += parseFloat(result[i].Amount);
-        toPayTemp.push(result[i]);
-      } else {
-        toRecvAmtTemp += parseFloat(result[i].Amount);
-        toRecvTemp.push(result[i]);
-      }
+      toRecvAmtTemp += parseFloat(result[i].Amount);
     }
 
-    updateToPayAmt(toPayAmtTemp.toFixed(2));
+    updateToRecvArr(result);
     updateToRecvAmt(toRecvAmtTemp.toFixed(2));
-    updateToPayArr(toPayTemp);
-    updateToRecvArr(toRecvTemp);
+    updateLoading(false);
   }, []);
+
+  function toSummaryPage() {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'LedgerSummary',
+          },
+        ],
+      }),
+    );
+  }
 
   function toPayPage() {
     navigation.dispatch(
@@ -182,72 +190,77 @@ export default function LedgerSummary(props) {
     );
   }
 
-  function toRecvPage() {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [
-          {
-            name: 'LedgerToRecv',
-          },
-        ],
-      }),
-    );
-  }
-
-  return (
-    <View style={styles.mainView}>
-      <View style={styles.marginView}>
-        <Text style={styles.headerText}>Ledger</Text>
-        <View style={styles.selectorBar}>
-          <TouchableOpacity style={[styles.btnWrap, styles.selectedBtn]}>
-            <Text style={[styles.btnText, styles.selectedBtnText]}>
-              Summary
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnWrap} onPress={toPayPage}>
-            <Text style={styles.btnText}>To Pay</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnWrap} onPress={toRecvPage}>
-            <Text style={styles.btnText}>To Receive</Text>
-          </TouchableOpacity>
-        </View>
-
-        <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
-
-        <View style={styles.fullSummary}>
-          <View style={styles.mainContainers}>
-            <Text style={styles.toPayHeader}>To pay: SGD {toPayAmt}</Text>
-            <ScrollView style={styles.scroller} nestedScrollEnabled={true}>
-              {toPayArr.map((currItem, currIdx) => (
-                <LedgerCard
-                  key={currIdx}
-                  currObj={currItem}
-                  cardType="payment"
-                  parentThemeDark={themeDark}
-                  parWidth={currWidth - 40}
-                />
-              ))}
-            </ScrollView>
+  if (isLoading) {
+    return (
+      <View style={styles.mainView}>
+        <View style={styles.marginView}>
+          <Text style={styles.headerText}>Ledger</Text>
+          <View style={styles.selectorBar}>
+            <TouchableOpacity style={styles.btnWrap} onPress={toSummaryPage}>
+              <Text style={styles.btnText}>Summary</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnWrap} onPress={toPayPage}>
+              <Text style={styles.btnText}>To Pay</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.btnWrap, styles.selectedBtn]}>
+              <Text style={[styles.btnText, styles.selectedBtnText]}>
+                To Receive
+              </Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.mainContainers}>
-            <Text style={styles.toReceiveHeader}>
-              To receive: SGD {toRecvAmt}
-            </Text>
-            <ScrollView style={styles.scroller} nestedScrollEnabled={true}>
-              {toRecvArr.map((currItem, currIdx) => (
-                <LedgerCard
-                  key={currIdx}
-                  currObj={currItem}
-                  cardType="receive"
-                  parentThemeDark={themeDark}
-                  parWidth={currWidth - 40}
-                />
-              ))}
-            </ScrollView>
+
+          <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+
+          <View style={styles.fullSummary}>
+            <View style={styles.loadingMain}>
+              <ActivityIndicator size="large" color="#0000ff" />
+              <Text style={styles.loadingText}>Loading...</Text>
+            </View>
           </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  } else {
+    return (
+      <View style={styles.mainView}>
+        <View style={styles.marginView}>
+          <Text style={styles.headerText}>Ledger</Text>
+          <View style={styles.selectorBar}>
+            <TouchableOpacity style={styles.btnWrap} onPress={toSummaryPage}>
+              <Text style={styles.btnText}>Summary</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnWrap} onPress={toPayPage}>
+              <Text style={styles.btnText}>To Pay</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.btnWrap, styles.selectedBtn]}>
+              <Text style={[styles.btnText, styles.selectedBtnText]}>
+                To Receive
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+
+          <View style={styles.fullSummary}>
+            <View style={styles.mainContainers}>
+              <Text style={styles.toReceiveHeader}>
+                To receive: SGD {toRecvAmt}
+              </Text>
+              <ScrollView style={styles.scroller} nestedScrollEnabled={true}>
+                {toRecvArr.map((currItem, currIdx) => (
+                  <LedgerCard
+                    key={currIdx}
+                    currObj={currItem}
+                    cardType="receive"
+                    parentThemeDark={themeDark}
+                    parWidth={currWidth - 40}
+                  />
+                ))}
+              </ScrollView>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  }
 }

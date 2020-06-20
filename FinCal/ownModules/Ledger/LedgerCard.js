@@ -11,11 +11,11 @@ export default function LedgerCard(props) {
   let parentThemeDark = props.parentThemeDark || true;
   let parWidth = props.parWidth;
 
-  let [themeDark, updatetheme] = useState(true);
+  let [themeDark, updateTheme] = useState(true);
   let colorScheme = themeDark === true ? darkTheme : lightTheme;
 
   useEffect(() => {
-    updatetheme(parentThemeDark);
+    updateTheme(parentThemeDark);
   }, [parentThemeDark]);
 
   const styles = StyleSheet.create({
@@ -71,7 +71,7 @@ export default function LedgerCard(props) {
       color: colorScheme.cardContent,
       fontSize: 15,
       marginRight: 10,
-    }, 
+    },
 
     padding: {
       width: parWidth * 0.4,
@@ -89,24 +89,22 @@ export default function LedgerCard(props) {
   amount = props.currObj.Amount || '99.99';
 
   let icons;
-  if(paymentType === 'late') {
-    icons = <FeatherIcon name="frown" size={35} style={styles.iconCol} />
+  if (paymentType === 'late') {
+    icons = <FeatherIcon name="frown" size={35} style={styles.iconCol} />;
   } else if (paymentType === 'normal') {
-    icons = <MatIcon name="face" size={30} style={styles.iconCol} />
+    icons = <MatIcon name="face" size={30} style={styles.iconCol} />;
   } else {
-    icons = <FeatherIcon name="smile" size={35} style={styles.iconCol} />
+    icons = <FeatherIcon name="smile" size={35} style={styles.iconCol} />;
   }
 
-  if(cardType === 'payment') {
+  if (cardType === 'payment') {
     return (
       <View style={styles.allWrapper}>
-        <View style={styles.padding}/>
+        <View style={styles.padding} />
         <TouchableOpacity style={styles.wholeCompo}>
-          <View style={styles.start}>  
-            <View style={styles.iconContain}>
-              {icons}
-            </View>
-  
+          <View style={styles.start}>
+            <View style={styles.iconContain}>{icons}</View>
+
             <View style={styles.textContain}>
               <Text style={styles.header}>{name}</Text>
               <Text style={styles.sub}>{date}</Text>
@@ -122,11 +120,9 @@ export default function LedgerCard(props) {
     return (
       <View style={styles.allWrapper}>
         <TouchableOpacity style={styles.wholeCompo}>
-          <View style={styles.start}>  
-            <View style={styles.iconContain}>
-              {icons}
-            </View>
-  
+          <View style={styles.start}>
+            <View style={styles.iconContain}>{icons}</View>
+
             <View style={styles.textContain}>
               <Text style={styles.header}>{name}</Text>
               <Text style={styles.sub}>{date}</Text>
@@ -136,8 +132,8 @@ export default function LedgerCard(props) {
             <Text style={styles.amountText}>${amount}</Text>
           </View>
         </TouchableOpacity>
-        <View style={styles.padding}/>
+        <View style={styles.padding} />
       </View>
     );
-  }  
+  }
 }

@@ -1,5 +1,4 @@
 module.exports = {
-  endOfLine: 'auto',
   bracketSpacing: false,
   jsxBracketSameLine: true,
   singleQuote: true,
