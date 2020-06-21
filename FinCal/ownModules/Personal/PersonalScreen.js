@@ -1,65 +1,105 @@
-/* eslint-disable react-native/no-inline-styles */
-import * as React from 'react';
-import {View, Text} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 import {FAB} from 'react-native-paper';
 
 import PieChartWithDynamicSlices from './PieChartWithDynamicSlices';
 
+import GlobalStyles from '../GlobalStyles.js';
 import TransactionList from './TransactionList.js';
-// import CustButton from './CustButton.js';
 import fakeData from './fakeData.js';
-// import FakeDataItem from './fakeDataItem'
-import styles from './styles';
 
-class PersonalScreen extends React.Component {
-  constructor() {
-    super();
-  }
+export default function PersonalScreen() {
+  let [transactData, updateTransactData] = useState([]);
 
-  render() {
-    var choppedArr = fakeData.slice(0, 5);
+  useEffect(() => {
+    //Fetch data from server
+    updateTransactData(fakeData); //Change this to result after you add in teh api
+  }, []);
 
-    return (
-      <View style={{flex: 1, backgroundColor: '#121212'}}>
-        {/* Header text */}
-        <View style={{marginBottom: 10}}>
-          <Text style={styles.welcomeStyle}>Your personal finances.</Text>
-        </View>
+  const localStyle = StyleSheet.create({
+    mainView: {
+      flex: 1,
+      backgroundColor: '#121212',
+    },
 
-        {/* Budget breakdown */}
-        <View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.subtitleStyle}>Budget</Text>
-            <Text style={{color: 'aquamarine', marginRight: 15}} onPress={() => console.log(to personal > budget breakdown page)}>
-              VIEW DETAILS
-            </Text>
-          </View>
+    header: {
+      marginBottom: 10,
+    },
 
-          <PieChartWithDynamicSlices />
+    subHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
 
-          <Text> </Text>
-        </View>
+    viewDetails: {
+      color: 'aquamarine',
+      marginRight: 15,
+    },
 
-        {/* Transaction List */}
-        <View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.subtitleStyle}>Transactions</Text>
-            <Text style={{color: 'aquamarine', marginRight: 15}} onPress={() => console.log(to personal > full transaction list page)}>
-              VIEW DETAILS
-            </Text>
-          </View>
+    subtitleStyle: {
+      color: '#FFFFFF',
+      fontSize: 18,
+      fontWeight: 'bold',
+      fontStyle: 'italic',
+      marginLeft: 15,
+    },
 
-          <TransactionList num="5" />
-        </View>
+    welcomeStyle: {
+      color: '#FFFFFF',
+      fontSize: 25,
+      fontWeight: 'bold',
+      //backgroundColor: 'grey',
+      marginTop: 20,
+      marginLeft: 15,
+    },
 
-        <FAB
-          icon="tooltip-plus-outline"
-          style={styles.fab}
-          onPress={() => alert('FAB pressed!')}
-        />
+    transList: {
+      flexGrow: 1,
+    },
+  });
+
+  return (
+    <View style={localStyle.mainView}>
+      {/* Header text */}
+      <View style={localStyle.header}>
+        <Text style={localStyle.welcomeStyle}>Your personal finances.</Text>
       </View>
-    );
-  }
-}
 
-export default PersonalScreen;
+      {/* Budget breakdown */}
+      <View>
+        <View style={localStyle.subHeader}>
+          <Text style={localStyle.subtitleStyle}>Budget</Text>
+          <Text
+            style={localStyle.viewDetails}
+            onPress={() => console.log('to personal > budget breakdown page')}>
+            VIEW DETAILS
+          </Text>
+        </View>
+
+        <PieChartWithDynamicSlices />
+      </View>
+
+      {/* Transaction List */}
+      <View style={localStyle.transList}>
+        <View style={localStyle.subHeader}>
+          <Text style={localStyle.subtitleStyle}>Latest Transactions</Text>
+          <Text
+            style={localStyle.viewDetails}
+            onPress={() =>
+              console.log('to personal > full transaction list page')
+            }>
+            View all transactions
+          </Text>
+        </View>
+
+        <TransactionList dataArr={transactData} num="5" />
+      </View>
+
+      <FAB
+        icon="tooltip-plus-outline"
+        style={GlobalStyles.fab}
+        onPress={() => console.log('FAB pressed!')}
+      />
+    </View>
+  );
+}

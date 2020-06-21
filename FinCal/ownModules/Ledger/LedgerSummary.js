@@ -8,11 +8,13 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
+import {FAB} from 'react-native-paper';
 import {Searchbar} from 'react-native-paper';
 import {CommonActions} from '@react-navigation/native';
 
 import {darkTheme, lightTheme} from '../GlobalValues';
 import LedgerCard from './LedgerCard';
+import GlobalStyles from '../GlobalStyles.js';
 
 export default function LedgerSummary(props) {
   let currWidth = useWindowDimensions().width;
@@ -294,6 +296,11 @@ export default function LedgerSummary(props) {
             </View>
           </View>
         </View>
+        <FAB
+          icon="tooltip-plus-outline"
+          style={GlobalStyles.fab}
+          onPress={() => console.log('FAB pressed!')}
+        />
       </View>
     );
   }

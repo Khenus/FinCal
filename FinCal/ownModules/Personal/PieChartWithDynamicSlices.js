@@ -29,20 +29,11 @@ class PieChartWithDynamicSlices extends React.PureComponent {
         value,
         svg: {
           fill: colors[index],
-          onPress: () => alert('hi'),
+          onPress: () => console.log('pie chart pressed ' + index),
         },
         key: `pie-${index}`,
       }));
 
-    //   const data = keys.map((key, index) => {
-    //       return {
-    //         key,
-    //         value: values[index],
-    //         svg: { fill: colors[index] },
-    //         arc: { outerRadius: (70 + values[index]) + '%', padAngle: label === key ? 0.1 : 0 },
-    //         onPress: () => this.setState({ selectedSlice: { label: key, value: values[index] } })
-    //       }
-    //     })
     const deviceWidth = Dimensions.get('window').width;
 
     return (
@@ -79,27 +70,5 @@ class PieChartWithDynamicSlices extends React.PureComponent {
     );
   }
 }
-
-// class PieChartExample extends React.PureComponent {
-//     render() {
-//         const data = [45, 10, 10, 20, 15]
-
-//         const colors = ['#FF6961','#FFB347','#77DD77','#87CEFA','#B19CD9']
-//         // const randomColor = () => ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7)
-
-// const pieData = data
-//     .filter((value) => value > 0)
-//     .map((value, index) => ({
-//         value,
-//         svg: {
-//             fill: colors[index],
-//             onPress: () => alert('hi'),
-//         },
-//         key: `pie-${index}`,
-//     }))
-
-//         return <PieChart style={{ height:200 }} data={pieData} />
-//     }
-// }
 
 export default PieChartWithDynamicSlices;

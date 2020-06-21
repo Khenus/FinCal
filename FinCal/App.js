@@ -8,8 +8,8 @@ import LedgerStack from './ownModules/Screens';
 import PersonalScreen from './ownModules/Personal/PersonalScreen';
 
 export default function App() {
-  return <PersonalScreen />;
-  //return <AppStack />;
+  //return <PersonalScreen />;
+  return <AppStack />;
   //return <LedgerStack />;
   //return <LedgerToPay />;
   //return <LedgerSummary />;

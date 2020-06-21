@@ -1,43 +1,92 @@
-/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {Divider} from 'react-native-elements';
 
-import fakeData from './fakeData.js';
-import styles from './styles';
+function ListItem(props) {
+  let currObj = props.currObj;
 
-function TransactionList(props) {
-  var choppedArr = fakeData.slice(0, props.num);
+  const localStyle = StyleSheet.create({
+    transactionListStyleL: {
+      color: 'white',
+      fontSize: 15,
+      // fontStyle: 'italic',
+      marginLeft: 15,
+    },
+
+    transactionListStyleR: {
+      color: 'white',
+      fontSize: 15,
+      fontStyle: 'italic',
+      marginRight: 15,
+      textAlign: 'right',
+    },
+
+    mainStyle: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 8,
+      marginBottom: 5,
+    },
+
+    divider: {
+      backgroundColor: 'grey',
+      marginLeft: 15,
+      marginRight: 15,
+    },
+  });
 
   return (
     <View>
-      {choppedArr.map((item, idx) => (
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 8,
-              marginBottom: 5,
-            }}>
-            <Text style={styles.transactionListStyleL} key={idx}>
-              SGD {item.amount}
-              {'\n'}
-              {item.title}
-            </Text>
-            <Text style={styles.transactionListStyleR} key={idx}>
-              {item.date}
-              {'\n'}
-              {item.category}
-            </Text>
-          </View>
-          <Divider
-            style={{backgroundColor: 'grey', marginLeft: 15, marginRight: 15}}
-          />
-        </View>
-      ))}
+      <View style={localStyle.mainStyle}>
+        <Text style={localStyle.transactionListStyleL}>
+          SGD {currObj.amount}
+          {'\n'}
+          {currObj.title}
+        </Text>
+        <Text style={localStyle.transactionListStyleR}>
+          {currObj.date}
+          {'\n'}
+          {currObj.category}
+        </Text>
+      </View>
+      <Divider style={localStyle.divider} />
     </View>
   );
 }
 
-export default TransactionList;
+export default function TransactionList(props) {
+  let dataArr = props.dataArr || [];
+  var choppedArr = dataArr.slice(0, props.num);
+
+  const localStyle = StyleSheet.create({
+    noResultView: {
+      flexGrow: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 40,
+      // borderWidth: 1,
+      // borderColor: 'white',
+    },
+    noResultText: {
+      color: 'white',
+    },
+  });
+
+  if (dataArr.length === 0) {
+    return (
+      <View style={localStyle.noResultView}>
+        <Text style={localStyle.noResultText}>
+          There are no transactions yet
+        </Text>
+      </View>
+    );
+  } else {
+    return (
+      <View>
+        {choppedArr.map((item, idx) => (
+          <ListItem currObj={item} key={idx} />
+        ))}
+      </View>
+    );
+  }
+}
