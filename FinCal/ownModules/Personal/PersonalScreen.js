@@ -6,7 +6,7 @@ import {FAB} from 'react-native-paper';
 import PieChartWithDynamicSlices from './PieChartWithDynamicSlices';
 
 import TransactionList from './TransactionList.js';
-import CustButton from './CustButton.js';
+// import CustButton from './CustButton.js';
 import fakeData from './fakeData.js';
 // import FakeDataItem from './fakeDataItem'
 import styles from './styles';
@@ -30,12 +30,9 @@ class PersonalScreen extends React.Component {
         <View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={styles.subtitleStyle}>Budget</Text>
-            <CustButton msg="to personal > budget breakdown page" />
-            {/* <Button title = "View details"
-                                color = "teal"
-                                onPress = { () => alert('to personal > budget breakdown page')}
-                                //onPress = { () => navigation.navigate('BudgetBreakdown')}
-                        /> */}
+            <Text style={{color: 'aquamarine', marginRight: 15}} onPress={() => console.log(to personal > budget breakdown page)}>
+              VIEW DETAILS
+            </Text>
           </View>
 
           <PieChartWithDynamicSlices />
@@ -47,12 +44,9 @@ class PersonalScreen extends React.Component {
         <View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={styles.subtitleStyle}>Transactions</Text>
-            <CustButton msg="to personal > full transaction list page" />
-            {/* <Button title = "View details"
-                                color = "teal"
-                                //onPress = { () => navigation.navigate('FullTransactionList')}
-                                onPress = { () => alert('to personal > full transaction list page')}
-                        /> */}
+            <Text style={{color: 'aquamarine', marginRight: 15}} onPress={() => console.log(to personal > full transaction list page)}>
+              VIEW DETAILS
+            </Text>
           </View>
 
           <TransactionList num="5" />
