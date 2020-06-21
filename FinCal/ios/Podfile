@@ -45,4 +45,6 @@ target 'FinCal' do
   use_native_modules!
   pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
 end

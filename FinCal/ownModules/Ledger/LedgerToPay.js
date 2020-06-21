@@ -4,6 +4,7 @@ import {
   View,
   ScrollView,
   StyleSheet,
+  ActivityIndicator,
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
@@ -15,6 +16,8 @@ import LedgerCard from './LedgerCard';
 
 export default function LedgerToPay(props) {
   let currWidth = useWindowDimensions().width;
+
+  let [isLoading, updateLoading] = useState(false);
   let [themeDark, updateTheme] = useState(true);
   let [colorScheme, updateColorScheme] = useState(darkTheme);
 
@@ -24,9 +27,9 @@ export default function LedgerToPay(props) {
   let [toPayAmt, updateToPayAmt] = useState(0.0);
 
   let parentDarkTheme = true;
-    // props.route.params.parentDarkTheme === undefined
-    //   ? true
-    //   : props.route.params.parentDarkTheme;
+  // props.route.params.parentDarkTheme === undefined
+  //   ? true
+  //   : props.route.params.parentDarkTheme;
 
   useEffect(() => {
     themeDark === true
@@ -121,9 +124,21 @@ export default function LedgerToPay(props) {
       // borderWidth: 1,
       // borderColor: 'white',
     },
+
+    loadingMain: {
+      flexGrow: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    loadingText: {
+      color: 'grey',
+      fontSize: 20,
+    },
   });
 
   useEffect(() => {
+    updateLoading(true);
     let result = [
       {Name: 'Amanda', Date: 'Apr 25', Amount: '5.50', Type: 'toPay'},
       {Name: 'Bryne', Date: 'May 26', Amount: '6.60', Type: 'toPay'},
@@ -142,6 +157,7 @@ export default function LedgerToPay(props) {
 
     updateToPayArr(result);
     updateToPayAmt(toPayAmtTemp);
+    updateLoading(false);
   }, []);
 
   function toSummaryPage() {
@@ -170,7 +186,7 @@ export default function LedgerToPay(props) {
     );
   }
 
-  return (
+  if (isLoading) {
     <View style={styles.mainView}>
       <View style={styles.marginView}>
         <Text style={styles.headerText}>Ledger</Text>
@@ -189,22 +205,52 @@ export default function LedgerToPay(props) {
         <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
 
         <View style={styles.fullSummary}>
-          <View style={styles.mainContainers}>
-            <Text style={styles.toPayHeader}>To pay: SGD {toPayAmt}</Text>
-            <ScrollView style={styles.scroller} nestedScrollEnabled={true}>
-              {toPayArr.map((currItem, currIdx) => (
-                <LedgerCard
-                  key={currIdx}
-                  currObj={currItem}
-                  cardType="payment"
-                  parentThemeDark={themeDark}
-                  parWidth={currWidth - 40}
-                />
-              ))}
-            </ScrollView>
+          <View style={styles.loadingMain}>
+            <ActivityIndicator size="small" color="white" />
+            <Text style={styles.loadingText}>Loading...</Text>
           </View>
         </View>
       </View>
-    </View>
-  );
+    </View>;
+  } else {
+    return (
+      <View style={styles.mainView}>
+        <View style={styles.marginView}>
+          <Text style={styles.headerText}>Ledger</Text>
+          <View style={styles.selectorBar}>
+            <TouchableOpacity style={styles.btnWrap} onPress={toSummaryPage}>
+              <Text style={styles.btnText}>Summary</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.btnWrap, styles.selectedBtn]}>
+              <Text style={[styles.btnText, styles.selectedBtnText]}>
+                To Pay
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnWrap} onPress={toRecvPage}>
+              <Text style={styles.btnText}>To Receive</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+
+          <View style={styles.fullSummary}>
+            <View style={styles.mainContainers}>
+              <Text style={styles.toPayHeader}>To pay: SGD {toPayAmt}</Text>
+              <ScrollView style={styles.scroller} nestedScrollEnabled={true}>
+                {toPayArr.map((currItem, currIdx) => (
+                  <LedgerCard
+                    key={currIdx}
+                    currObj={currItem}
+                    cardType="payment"
+                    parentThemeDark={themeDark}
+                    parWidth={currWidth - 40}
+                  />
+                ))}
+              </ScrollView>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  }
 }

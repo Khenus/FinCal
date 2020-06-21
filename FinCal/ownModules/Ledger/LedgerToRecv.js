@@ -130,7 +130,7 @@ export default function LedgerToRecv(props) {
     },
 
     loadingMain: {
-      flex: 1,
+      flexGrow: 1,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -213,7 +213,7 @@ export default function LedgerToRecv(props) {
 
           <View style={styles.fullSummary}>
             <View style={styles.loadingMain}>
-              <ActivityIndicator size="large" color="#0000ff" />
+              <ActivityIndicator size="small" color="white" />
               <Text style={styles.loadingText}>Loading...</Text>
             </View>
           </View>
