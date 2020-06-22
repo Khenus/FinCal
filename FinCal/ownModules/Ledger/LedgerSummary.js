@@ -15,6 +15,7 @@ import {CommonActions} from '@react-navigation/native';
 import {darkTheme, lightTheme} from '../GlobalValues';
 import LedgerCard from './LedgerCard';
 import GlobalStyles from '../GlobalStyles.js';
+import FloatActionButton from '../FloatActionButton.js'
 
 export default function LedgerSummary(props) {
   let currWidth = useWindowDimensions().width;
@@ -296,11 +297,12 @@ export default function LedgerSummary(props) {
             </View>
           </View>
         </View>
-        <FAB
-          icon="tooltip-plus-outline"
-          style={GlobalStyles.fab}
-          onPress={() => console.log('FAB pressed!')}
-        />
+//         <FAB
+//           icon="tooltip-plus-outline"
+//           style={GlobalStyles.fab}
+//           onPress={() => console.log('FAB pressed!')}
+//         />
+        <FloatActionButton/>
       </View>
     );
   }
