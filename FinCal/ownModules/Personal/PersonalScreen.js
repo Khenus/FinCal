@@ -7,6 +7,7 @@ import PieChartWithDynamicSlices from './PieChartWithDynamicSlices';
 import GlobalStyles from '../GlobalStyles.js';
 import TransactionList from './TransactionList.js';
 import fakeData from './fakeData.js';
+import FloatActionButton from '../FloatActionButton.js'
 
 export default function PersonalScreen() {
   let [transactData, updateTransactData] = useState([]);
@@ -95,11 +96,13 @@ export default function PersonalScreen() {
         <TransactionList dataArr={transactData} num="5" />
       </View>
 
-      <FAB
-        icon="tooltip-plus-outline"
-        style={GlobalStyles.fab}
-        onPress={() => console.log('FAB pressed!')}
-      />
+      <FloatActionButton/>
+
+//       <FAB
+//         icon="tooltip-plus-outline"
+//         style={GlobalStyles.fab}
+//         onPress={() => console.log('FAB pressed!')}
+//       />
     </View>
   );
 }
