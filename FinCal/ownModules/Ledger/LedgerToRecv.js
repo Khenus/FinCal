@@ -11,6 +11,7 @@ import {
 import {Searchbar} from 'react-native-paper';
 import {CommonActions} from '@react-navigation/native';
 
+import getLedger from '../API';
 import {darkTheme, lightTheme} from '../GlobalValues';
 import LedgerCard from './LedgerCard';
 
@@ -142,26 +143,30 @@ export default function LedgerToRecv(props) {
   });
 
   useEffect(() => {
-    updateLoading(true);
-    let result = [
-      {Name: 'AAA', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
-      {Name: 'VVVVte', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
-      {Name: 'ZCCCoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
-      {Name: 'Xavier', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
-      {Name: 'Yvette', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
-      {Name: 'Zoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
-    ];
-    //Change this to fetch from server
+    async function tempHandler() {
+      updateLoading(true);
+      // let result = await getLedger('toPay', currUser.Email, currUser.uuid);
+      let result = [
+        {Name: 'AAA', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
+        {Name: 'VVVVte', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
+        {Name: 'ZCCCoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
+        {Name: 'Xavier', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
+        {Name: 'Yvette', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
+        {Name: 'Zoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
+      ];
+      //Change this to fetch from server
 
-    let toRecvAmtTemp = 0.0;
+      let toRecvAmtTemp = 0.0;
 
-    for (let i = 0; i < result.length; i++) {
-      toRecvAmtTemp += parseFloat(result[i].Amount);
+      for (let i = 0; i < result.length; i++) {
+        toRecvAmtTemp += parseFloat(result[i].Amount);
+      }
+
+      updateToRecvArr(result);
+      updateToRecvAmt(toRecvAmtTemp.toFixed(2));
+      updateLoading(false);
     }
-
-    updateToRecvArr(result);
-    updateToRecvAmt(toRecvAmtTemp.toFixed(2));
-    updateLoading(false);
+    tempHandler();
   }, []);
 
   function toSummaryPage() {

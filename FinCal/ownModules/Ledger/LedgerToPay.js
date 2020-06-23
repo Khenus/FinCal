@@ -11,6 +11,7 @@ import {
 import {Searchbar} from 'react-native-paper';
 import {CommonActions} from '@react-navigation/native';
 
+import getLedger from '../API';
 import {darkTheme, lightTheme} from '../GlobalValues';
 import LedgerCard from './LedgerCard';
 
@@ -138,26 +139,29 @@ export default function LedgerToPay(props) {
   });
 
   useEffect(() => {
-    updateLoading(true);
-    let result = [
-      {Name: 'Amanda', Date: 'Apr 25', Amount: '5.50', Type: 'toPay'},
-      {Name: 'Bryne', Date: 'May 26', Amount: '6.60', Type: 'toPay'},
-      {Name: 'Colin', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-      {Name: 'Donkey', Date: 'Jan 27', Amount: '50.70', Type: 'toPay'},
-      {Name: 'Echo', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-      {Name: 'Newww', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-    ];
-    //Change this to fetch from server
+    async function tempHandler() {
+      updateLoading(true);
+      // let result = await getLedger('toPay', currUser.Email, currUser.uuid);
+      let result = [
+        {Name: 'Amanda', Date: 'Apr 25', Amount: '5.50', Type: 'toPay'},
+        {Name: 'Bryne', Date: 'May 26', Amount: '6.60', Type: 'toPay'},
+        {Name: 'Colin', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
+        {Name: 'Donkey', Date: 'Jan 27', Amount: '50.70', Type: 'toPay'},
+        {Name: 'Echo', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
+        {Name: 'Newww', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
+      ];
 
-    let toPayAmtTemp = 0.0;
+      let toPayAmtTemp = 0.0;
 
-    for (let i = 0; i < result.length; i++) {
-      toPayAmtTemp += parseFloat(result[i].Amount);
+      for (let i = 0; i < result.length; i++) {
+        toPayAmtTemp += parseFloat(result[i].Amount);
+      }
+
+      updateToPayArr(result);
+      updateToPayAmt(toPayAmtTemp);
+      updateLoading(false);
     }
-
-    updateToPayArr(result);
-    updateToPayAmt(toPayAmtTemp);
-    updateLoading(false);
+    tempHandler();
   }, []);
 
   function toSummaryPage() {
