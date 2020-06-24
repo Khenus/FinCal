@@ -1,25 +1,51 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {FAB} from 'react-native-paper';
+import {View, Text, StyleSheet, useWindowDimensions} from 'react-native';
+import {connect} from 'react-redux';
 
+import FloatActionButton from '../FloatActionButton';
 import PieChartWithDynamicSlices from './PieChartWithDynamicSlices';
 
-import GlobalStyles from '../GlobalStyles.js';
 import TransactionList from './TransactionList.js';
-import fakeData from './fakeData.js';
+import {fetchTransact} from '../API';
+import {darkTheme, lightTheme} from '../GlobalValues.js';
 
-export default function PersonalScreen() {
+function PersonalScreen(props) {
+  let currHeight = useWindowDimensions().height;
+
   let [transactData, updateTransactData] = useState([]);
+  let [themeDark, updateTheme] = useState(true);
+  let [colorScheme, updateColorScheme] = useState(darkTheme);
+
+  let currUser = props.currUser;
+  let parentDarkTheme = currUser.themeIsDark === 'true';
 
   useEffect(() => {
-    //Fetch data from server
-    updateTransactData(fakeData); //Change this to result after you add in teh api
-  }, []);
+    themeDark === true
+      ? updateColorScheme(darkTheme)
+      : updateColorScheme(lightTheme);
+  }, [themeDark]);
+
+  useEffect(() => {
+    updateTheme(parentDarkTheme);
+  }, [parentDarkTheme]);
+
+  useEffect(() => {
+    async function tempHandler() {
+      let result = await fetchTransact(currUser.Email, currUser.uuid);
+      if (typeof result === 'object') {
+        updateTransactData(result);
+      }
+    }
+
+    tempHandler();
+  }, [currUser.Email, currUser.uuid]);
 
   const localStyle = StyleSheet.create({
     mainView: {
       flex: 1,
-      backgroundColor: '#121212',
+      backgroundColor: colorScheme.backCol,
+      // borderColor: 'white',
+      // borderWidth: 1,
     },
 
     header: {
@@ -37,7 +63,7 @@ export default function PersonalScreen() {
     },
 
     subtitleStyle: {
-      color: '#FFFFFF',
+      color: colorScheme.textCol,
       fontSize: 18,
       fontWeight: 'bold',
       fontStyle: 'italic',
@@ -45,7 +71,7 @@ export default function PersonalScreen() {
     },
 
     welcomeStyle: {
-      color: '#FFFFFF',
+      color: colorScheme.textCol,
       fontSize: 25,
       fontWeight: 'bold',
       //backgroundColor: 'grey',
@@ -55,8 +81,19 @@ export default function PersonalScreen() {
 
     transList: {
       flexGrow: 1,
+      marginTop: 20,
+      height: currHeight * 0.431,
+      borderColor: 'white',
+      borderWidth: 1,
     },
   });
+
+  async function updateData() {
+    let result = await fetchTransact(currUser.Email, currUser.uuid);
+    if (typeof result === 'object') {
+      updateTransactData(result);
+    }
+  }
 
   return (
     <View style={localStyle.mainView}>
@@ -95,11 +132,15 @@ export default function PersonalScreen() {
         <TransactionList dataArr={transactData} num="5" />
       </View>
 
-      <FAB
-        icon="tooltip-plus-outline"
-        style={GlobalStyles.fab}
-        onPress={() => console.log('FAB pressed!')}
-      />
+      <FloatActionButton currUser={currUser} pullTransact={updateData} />
     </View>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    currUser: state.currUser,
+  };
+};
+
+export default connect(mapStateToProps)(PersonalScreen);

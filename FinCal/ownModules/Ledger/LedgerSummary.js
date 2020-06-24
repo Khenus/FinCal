@@ -8,26 +8,26 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
-import {FAB} from 'react-native-paper';
+import {connect} from 'react-redux';
+import FloatActionButton from '../FloatActionButton';
 import {Searchbar} from 'react-native-paper';
 import {CommonActions} from '@react-navigation/native';
 
+import getLedger from '../API';
 import {darkTheme, lightTheme} from '../GlobalValues';
 import LedgerCard from './LedgerCard';
-import GlobalStyles from '../GlobalStyles.js';
 
-export default function LedgerSummary(props) {
+function LedgerSummary(props) {
   let currWidth = useWindowDimensions().width;
+  let currHeight = useWindowDimensions().height;
 
   let [isLoading, updateLoading] = useState(false);
   let [themeDark, updateTheme] = useState(true);
   let [colorScheme, updateColorScheme] = useState(darkTheme);
 
   let navigation = props.navigation;
-  let parentDarkTheme = true;
-  // typeof props.route.params.parentDarkTheme === 'undefined'
-  //   ? true
-  //   : props.route.params.parentDarkTheme;
+  let currUser = props.currUser;
+  let parentDarkTheme = currUser.themeIsDark === 'true';
 
   useEffect(() => {
     themeDark === true
@@ -57,11 +57,16 @@ export default function LedgerSummary(props) {
     mainView: {
       flex: 1,
       backgroundColor: colorScheme.backCol,
+      // borderWidth: 1,
+      // borderColor: 'green',
     },
 
     marginView: {
       flexGrow: 1,
       margin: 20,
+      height: currHeight * 0.8,
+      // borderWidth: 1,
+      // borderColor: 'green',
     },
 
     headerText: {
@@ -104,9 +109,9 @@ export default function LedgerSummary(props) {
 
     fullSummary: {
       marginTop: 15,
-      flex: 1,
+      flexGrow: 1,
       // borderWidth: 1,
-      // borderColor: 'pink',
+      // borderColor: 'yellow',
     },
 
     mainContainers: {
@@ -148,44 +153,47 @@ export default function LedgerSummary(props) {
   });
 
   useEffect(() => {
-    updateLoading(true);
-    let result = [
-      {Name: 'Amanda', Date: 'Apr 25', Amount: '5.50', Type: 'toPay'},
-      {Name: 'Bryne', Date: 'May 26', Amount: '6.60', Type: 'toPay'},
-      {Name: 'Colin', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-      {Name: 'Donkey', Date: 'Jan 27', Amount: '50.70', Type: 'toPay'},
-      {Name: 'Echo', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-      {Name: 'Newww', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-      {Name: 'AAA', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
-      {Name: 'VVVVte', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
-      {Name: 'ZCCCoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
-      {Name: 'Xavier', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
-      {Name: 'Yvette', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
-      {Name: 'Zoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
-    ];
-    //Change this to fetch from server
+    async function tempHandler() {
+      updateLoading(true);
+      // let result = await getLedger('Summary', currUser.Email, currUser.uuid);
+      let result = [
+        {Name: 'Amanda', Date: 'Apr 25', Amount: '5.50', Type: 'toPay'},
+        {Name: 'Bryne', Date: 'May 26', Amount: '6.60', Type: 'toPay'},
+        {Name: 'Colin', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
+        {Name: 'Donkey', Date: 'Jan 27', Amount: '50.70', Type: 'toPay'},
+        {Name: 'Echo', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
+        {Name: 'Newww', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
+        {Name: 'AAA', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
+        {Name: 'VVVVte', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
+        {Name: 'ZCCCoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
+        {Name: 'Xavier', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
+        {Name: 'Yvette', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
+        {Name: 'Zoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
+      ];
 
-    let toPayTemp = [];
-    let toPayAmtTemp = 0.0;
-    let toRecvTemp = [];
-    let toRecvAmtTemp = 0.0;
+      let toPayTemp = [];
+      let toPayAmtTemp = 0.0;
+      let toRecvTemp = [];
+      let toRecvAmtTemp = 0.0;
 
-    for (let i = 0; i < result.length; i++) {
-      if (result[i].Type === 'toPay') {
-        toPayAmtTemp += parseFloat(result[i].Amount);
-        toPayTemp.push(result[i]);
-      } else {
-        toRecvAmtTemp += parseFloat(result[i].Amount);
-        toRecvTemp.push(result[i]);
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].Type === 'toPay') {
+          toPayAmtTemp += parseFloat(result[i].Amount);
+          toPayTemp.push(result[i]);
+        } else {
+          toRecvAmtTemp += parseFloat(result[i].Amount);
+          toRecvTemp.push(result[i]);
+        }
       }
+
+      updateToPayAmt(toPayAmtTemp.toFixed(2));
+      updateToRecvAmt(toRecvAmtTemp.toFixed(2));
+      updateToPayArr(toPayTemp);
+      updateToRecvArr(toRecvTemp);
+
+      updateLoading(false);
     }
-
-    updateToPayAmt(toPayAmtTemp.toFixed(2));
-    updateToRecvAmt(toRecvAmtTemp.toFixed(2));
-    updateToPayArr(toPayTemp);
-    updateToRecvArr(toRecvTemp);
-
-    updateLoading(false);
+    tempHandler();
   }, []);
 
   function toPayPage() {
@@ -241,6 +249,7 @@ export default function LedgerSummary(props) {
           </View>
         </View>
       </View>
+      <FloatActionButton />
     </View>;
   } else {
     return (
@@ -296,12 +305,16 @@ export default function LedgerSummary(props) {
             </View>
           </View>
         </View>
-        <FAB
-          icon="tooltip-plus-outline"
-          style={GlobalStyles.fab}
-          onPress={() => console.log('FAB pressed!')}
-        />
+        <FloatActionButton />
       </View>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    currUser: state.currUser,
+  };
+};
+
+export default connect(mapStateToProps)(LedgerSummary);
