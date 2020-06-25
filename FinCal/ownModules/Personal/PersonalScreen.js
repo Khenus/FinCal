@@ -83,8 +83,8 @@ function PersonalScreen(props) {
       flexGrow: 1,
       marginTop: 20,
       height: currHeight * 0.431,
-      borderColor: 'white',
-      borderWidth: 1,
+      // borderColor: 'white',
+      // borderWidth: 1,
     },
   });
 
