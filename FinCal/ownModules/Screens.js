@@ -15,6 +15,7 @@ import PersonalScreen from './Personal/PersonalScreen';
 import LedgerSummary from './Ledger/LedgerSummary';
 import LedgerToPay from './Ledger/LedgerToPay';
 import LedgerToRecv from './Ledger/LedgerToRecv';
+import TransactHist from './Ledger/TransactHist';
 
 import SettingsScreen from './Settings/SettingsScreen';
 
@@ -99,6 +100,11 @@ function LedgerStack() {
       <LedgStack.Screen
         name="LedgerToRecv"
         component={LedgerToRecv}
+        options={settings.noHeader}
+      />
+      <LedgStack.Screen
+        name="TransactHist"
+        component={TransactHist}
         options={settings.noHeader}
       />
     </LedgStack.Navigator>

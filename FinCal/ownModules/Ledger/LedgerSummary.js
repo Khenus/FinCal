@@ -13,7 +13,7 @@ import FloatActionButton from '../FloatActionButton';
 import {Searchbar} from 'react-native-paper';
 import {CommonActions} from '@react-navigation/native';
 
-import getLedger from '../API';
+import {getLedger} from '../API';
 import {darkTheme, lightTheme} from '../GlobalValues';
 import LedgerCard from './LedgerCard';
 
@@ -155,35 +155,26 @@ function LedgerSummary(props) {
   useEffect(() => {
     async function tempHandler() {
       updateLoading(true);
-      // let result = await getLedger('Summary', currUser.Email, currUser.uuid);
-      let result = [
-        {Name: 'Amanda', Date: 'Apr 25', Amount: '5.50', Type: 'toPay'},
-        {Name: 'Bryne', Date: 'May 26', Amount: '6.60', Type: 'toPay'},
-        {Name: 'Colin', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-        {Name: 'Donkey', Date: 'Jan 27', Amount: '50.70', Type: 'toPay'},
-        {Name: 'Echo', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-        {Name: 'Newww', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-        {Name: 'AAA', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
-        {Name: 'VVVVte', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
-        {Name: 'ZCCCoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
-        {Name: 'Xavier', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
-        {Name: 'Yvette', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
-        {Name: 'Zoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
-      ];
+      let toPayRes = await getLedger('getToPay', currUser.Email, currUser.uuid);
+      let toRecvRes = await getLedger(
+        'getToRecv',
+        currUser.Email,
+        currUser.uuid,
+      );
 
       let toPayTemp = [];
       let toPayAmtTemp = 0.0;
       let toRecvTemp = [];
       let toRecvAmtTemp = 0.0;
 
-      for (let i = 0; i < result.length; i++) {
-        if (result[i].Type === 'toPay') {
-          toPayAmtTemp += parseFloat(result[i].Amount);
-          toPayTemp.push(result[i]);
-        } else {
-          toRecvAmtTemp += parseFloat(result[i].Amount);
-          toRecvTemp.push(result[i]);
-        }
+      for (let i = 0; i < toPayRes.length; i++) {
+        toPayAmtTemp += parseFloat(toPayRes[i].Amount);
+        toPayTemp.push(toPayRes[i]);
+      }
+
+      for (let i = 0; i < toRecvRes.length; i++) {
+        toRecvAmtTemp += parseFloat(toRecvRes[i].Amount);
+        toRecvTemp.push(toRecvRes[i]);
       }
 
       updateToPayAmt(toPayAmtTemp.toFixed(2));
@@ -194,7 +185,7 @@ function LedgerSummary(props) {
       updateLoading(false);
     }
     tempHandler();
-  }, []);
+  }, [currUser.Email, currUser.uuid]);
 
   function toPayPage() {
     navigation.dispatch(
@@ -223,34 +214,36 @@ function LedgerSummary(props) {
   }
 
   if (isLoading) {
-    <View style={styles.mainView}>
-      <View style={styles.marginView}>
-        <Text style={styles.headerText}>Ledger</Text>
-        <View style={styles.selectorBar}>
-          <TouchableOpacity style={[styles.btnWrap, styles.selectedBtn]}>
-            <Text style={[styles.btnText, styles.selectedBtnText]}>
-              Summary
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnWrap} onPress={toPayPage}>
-            <Text style={styles.btnText}>To Pay</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnWrap} onPress={toRecvPage}>
-            <Text style={styles.btnText}>To Receive</Text>
-          </TouchableOpacity>
-        </View>
+    return (
+      <View style={styles.mainView}>
+        <View style={styles.marginView}>
+          <Text style={styles.headerText}>Ledger</Text>
+          <View style={styles.selectorBar}>
+            <TouchableOpacity style={[styles.btnWrap, styles.selectedBtn]}>
+              <Text style={[styles.btnText, styles.selectedBtnText]}>
+                Summary
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnWrap} onPress={toPayPage}>
+              <Text style={styles.btnText}>To Pay</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnWrap} onPress={toRecvPage}>
+              <Text style={styles.btnText}>To Receive</Text>
+            </TouchableOpacity>
+          </View>
 
-        <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+          <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
 
-        <View style={styles.fullSummary}>
-          <View style={styles.loadingMain}>
-            <ActivityIndicator size="small" color="white" />
-            <Text style={styles.loadingText}>Loading...</Text>
+          <View style={styles.fullSummary}>
+            <View style={styles.loadingMain}>
+              <ActivityIndicator size="small" color="white" />
+              <Text style={styles.loadingText}>Loading...</Text>
+            </View>
           </View>
         </View>
+        <FloatActionButton />
       </View>
-      <FloatActionButton />
-    </View>;
+    );
   } else {
     return (
       <View style={styles.mainView}>

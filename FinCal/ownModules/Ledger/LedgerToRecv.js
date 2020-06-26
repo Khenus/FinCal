@@ -10,13 +10,14 @@ import {
 } from 'react-native';
 import {Searchbar} from 'react-native-paper';
 import {CommonActions} from '@react-navigation/native';
+import {connect} from 'react-redux';
 
 import FloatActionButton from '../FloatActionButton';
-import getLedger from '../API';
+import {getLedger} from '../API';
 import {darkTheme, lightTheme} from '../GlobalValues';
 import LedgerCard from './LedgerCard';
 
-export default function LedgerToRecv(props) {
+function LedgerToRecv(props) {
   let currWidth = useWindowDimensions().width;
   let currHeight = useWindowDimensions().height;
 
@@ -25,8 +26,8 @@ export default function LedgerToRecv(props) {
   let [colorScheme, updateColorScheme] = useState(darkTheme);
 
   let navigation = props.navigation;
-  let parentDarkTheme = true;
-  // let parentDarkTheme = props.route.params.parentDarkTheme || true;
+  let currUser = props.currUser;
+  let parentDarkTheme = currUser.themeIsDark === 'true';
 
   useEffect(() => {
     themeDark === true
@@ -148,29 +149,24 @@ export default function LedgerToRecv(props) {
   useEffect(() => {
     async function tempHandler() {
       updateLoading(true);
-      // let result = await getLedger('toPay', currUser.Email, currUser.uuid);
-      let result = [
-        {Name: 'AAA', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
-        {Name: 'VVVVte', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
-        {Name: 'ZCCCoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
-        {Name: 'Xavier', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
-        {Name: 'Yvette', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
-        {Name: 'Zoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
-      ];
-      //Change this to fetch from server
+      let toRecvRes = await getLedger(
+        'getToRecv',
+        currUser.Email,
+        currUser.uuid,
+      );
 
       let toRecvAmtTemp = 0.0;
 
-      for (let i = 0; i < result.length; i++) {
-        toRecvAmtTemp += parseFloat(result[i].Amount);
+      for (let i = 0; i < toRecvRes.length; i++) {
+        toRecvAmtTemp += parseFloat(toRecvRes[i].Amount);
       }
 
-      updateToRecvArr(result);
+      updateToRecvArr(toRecvRes);
       updateToRecvAmt(toRecvAmtTemp.toFixed(2));
       updateLoading(false);
     }
     tempHandler();
-  }, []);
+  }, [currUser.Email, currUser.uuid]);
 
   function toSummaryPage() {
     navigation.dispatch(
@@ -274,3 +270,11 @@ export default function LedgerToRecv(props) {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    currUser: state.currUser,
+  };
+};
+
+export default connect(mapStateToProps)(LedgerToRecv);

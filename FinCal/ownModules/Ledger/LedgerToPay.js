@@ -10,13 +10,14 @@ import {
 } from 'react-native';
 import {Searchbar} from 'react-native-paper';
 import {CommonActions} from '@react-navigation/native';
+import {connect} from 'react-redux';
 
 import FloatActionButton from '../FloatActionButton';
-import getLedger from '../API';
+import {getLedger} from '../API';
 import {darkTheme, lightTheme} from '../GlobalValues';
 import LedgerCard from './LedgerCard';
 
-export default function LedgerToPay(props) {
+function LedgerToPay(props) {
   let currWidth = useWindowDimensions().width;
   let currHeight = useWindowDimensions().height;
 
@@ -29,10 +30,8 @@ export default function LedgerToPay(props) {
   let [toPayArr, updateToPayArr] = useState([]);
   let [toPayAmt, updateToPayAmt] = useState(0.0);
 
-  let parentDarkTheme = true;
-  // props.route.params.parentDarkTheme === undefined
-  //   ? true
-  //   : props.route.params.parentDarkTheme;
+  let currUser = props.currUser;
+  let parentDarkTheme = currUser.themeIsDark === 'true';
 
   useEffect(() => {
     themeDark === true
@@ -144,28 +143,20 @@ export default function LedgerToPay(props) {
   useEffect(() => {
     async function tempHandler() {
       updateLoading(true);
-      // let result = await getLedger('toPay', currUser.Email, currUser.uuid);
-      let result = [
-        {Name: 'Amanda', Date: 'Apr 25', Amount: '5.50', Type: 'toPay'},
-        {Name: 'Bryne', Date: 'May 26', Amount: '6.60', Type: 'toPay'},
-        {Name: 'Colin', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-        {Name: 'Donkey', Date: 'Jan 27', Amount: '50.70', Type: 'toPay'},
-        {Name: 'Echo', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-        {Name: 'Newww', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-      ];
+      let toPayRes = await getLedger('getToPay', currUser.Email, currUser.uuid);
 
       let toPayAmtTemp = 0.0;
 
-      for (let i = 0; i < result.length; i++) {
-        toPayAmtTemp += parseFloat(result[i].Amount);
+      for (let i = 0; i < toPayRes.length; i++) {
+        toPayAmtTemp += parseFloat(toPayRes[i].Amount);
       }
 
-      updateToPayArr(result);
+      updateToPayArr(toPayRes);
       updateToPayAmt(toPayAmtTemp);
       updateLoading(false);
     }
     tempHandler();
-  }, []);
+  }, [currUser.Email, currUser.uuid]);
 
   function toSummaryPage() {
     navigation.dispatch(
@@ -194,32 +185,36 @@ export default function LedgerToPay(props) {
   }
 
   if (isLoading) {
-    <View style={styles.mainView}>
-      <View style={styles.marginView}>
-        <Text style={styles.headerText}>Ledger</Text>
-        <View style={styles.selectorBar}>
-          <TouchableOpacity style={styles.btnWrap} onPress={toSummaryPage}>
-            <Text style={styles.btnText}>Summary</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.btnWrap, styles.selectedBtn]}>
-            <Text style={[styles.btnText, styles.selectedBtnText]}>To Pay</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnWrap} onPress={toRecvPage}>
-            <Text style={styles.btnText}>To Receive</Text>
-          </TouchableOpacity>
-        </View>
+    return (
+      <View style={styles.mainView}>
+        <View style={styles.marginView}>
+          <Text style={styles.headerText}>Ledger</Text>
+          <View style={styles.selectorBar}>
+            <TouchableOpacity style={styles.btnWrap} onPress={toSummaryPage}>
+              <Text style={styles.btnText}>Summary</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.btnWrap, styles.selectedBtn]}>
+              <Text style={[styles.btnText, styles.selectedBtnText]}>
+                To Pay
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnWrap} onPress={toRecvPage}>
+              <Text style={styles.btnText}>To Receive</Text>
+            </TouchableOpacity>
+          </View>
 
-        <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+          <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
 
-        <View style={styles.fullSummary}>
-          <View style={styles.loadingMain}>
-            <ActivityIndicator size="small" color="white" />
-            <Text style={styles.loadingText}>Loading...</Text>
+          <View style={styles.fullSummary}>
+            <View style={styles.loadingMain}>
+              <ActivityIndicator size="small" color="white" />
+              <Text style={styles.loadingText}>Loading...</Text>
+            </View>
           </View>
         </View>
+        <FloatActionButton />
       </View>
-      <FloatActionButton />
-    </View>;
+    );
   } else {
     return (
       <View style={styles.mainView}>
@@ -263,3 +258,11 @@ export default function LedgerToPay(props) {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    currUser: state.currUser,
+  };
+};
+
+export default connect(mapStateToProps)(LedgerToPay);

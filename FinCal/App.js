@@ -9,6 +9,7 @@ import LedgerCard from './ownModules/Ledger/LedgerCard';
 import LedgerToPay from './ownModules/Ledger/LedgerToPay';
 import LedgerStack from './ownModules/Screens';
 import PersonalScreen from './ownModules/Personal/PersonalScreen';
+import TransactHist from './ownModules/Ledger/TransactHist';
 
 const initState = {
   currUser: {},
@@ -31,11 +32,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <AppStack />
-      {/* <PersonalScreen />
-      <LedgerStack />
-      <LedgerToPay />
-      <LedgerSummary />
-      <LedgerCard /> */}
     </Provider>
   );
+  // return <TransactHist />;
 }

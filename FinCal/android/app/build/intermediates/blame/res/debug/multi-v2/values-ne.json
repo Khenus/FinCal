@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Orion\\Desktop\\Finance\\FinCal\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ne\\values-ne.xml",
+            "outputFile": "C:\\Users\\Orion\\Desktop\\Backup\\Finance\\FinCal\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ne\\values-ne.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Orion\\.gradle\\caches\\transforms-2\\files-2.1\\2211a3db3fde98ddb76f809726186064\\jetified-play-services-basement-16.0.1\\res\\values-ne\\values.xml",

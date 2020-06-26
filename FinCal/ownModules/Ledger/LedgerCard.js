@@ -84,9 +84,14 @@ export default function LedgerCard(props) {
   });
 
   let name, date, amount;
-  name = props.currObj.Name || 'Name here';
   date = props.currObj.Date || 'Apr 25';
   amount = props.currObj.Amount || '99.99';
+
+  if (cardType === 'payment') {
+    name = props.currObj.toName || 'Name';
+  } else {
+    name = props.currObj.fromName || 'Name';
+  }
 
   let icons;
   if (paymentType === 'late') {

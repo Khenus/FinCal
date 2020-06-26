@@ -110,7 +110,7 @@ export async function addTransact(
 export async function getLedger(action, email, uuid) {
   let data = {
     Email: email,
-    UUID: uuid,
+    uuid: uuid,
     Action: action,
   };
 

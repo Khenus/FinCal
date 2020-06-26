@@ -72,7 +72,7 @@ app.post('/register/', (req, res) => {
 	var phone = postData.Phone;
 	var name = postData.Name;
 	var email = postData.Email;								//Take note your postData.Email, the .sth must be the same as what you are sending in, ie if its caps you must be caps too
-	var themeDark = true;
+	var themeDark = 'true';
 
 	con.query('SELECT * FROM users where Email=?', [email], function(err, result) {
 		if(err != null){
@@ -161,6 +161,31 @@ app.post('/addTransact/', (req, res) =>{
 		} else {
 			res.end(JSON.stringify("Transaction added"));
 			console.log(`[${email} (${uuid})]: Transaction added`);
+		}
+	});
+});
+
+app.post('/getLedger/', (req, res) =>{
+	var postData = req.body;
+
+	var email = postData.Email;
+	var uuid = postData.uuid;
+	var action = postData.Action;
+
+	let queryStr;
+	if(action === 'getToPay') {
+		queryStr = 'SELECT * FROM ledger WHERE fromUUID = ? AND Status = "Open"'
+	} else if(action === 'getToRecv') {
+		queryStr = 'SELECT * FROM ledger WHERE toUUID = ? AND Status = "Open"'
+	}
+
+	con.query(queryStr, [uuid], function (err, result, fields){
+		if(err != null){
+			console.log(`[${email} (${uuid})]: ${action} error (${err})`);
+			res.end(JSON.stringify("Get Ledger error: " + err));
+		} else {
+			console.log(`[${email} (${uuid})]: ${action} successfully`);
+			res.end(JSON.stringify(result));
 		}
 	});
 });
