@@ -5,15 +5,23 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import LoginPage from './Login/LoginPage';
+import SignupPage from './Login/SignupPage';
+
 import HomeScreen from './Home/HomeScreen';
 
 import PersonalScreen from './Personal/PersonalScreen';
+import PieBudgetDetails from './Personal/PieBudgetDetails';
+import AllTransactions from './Personal/AllTransactions';
 
 import LedgerSummary from './Ledger/LedgerSummary';
 import LedgerToPay from './Ledger/LedgerToPay';
 import LedgerToRecv from './Ledger/LedgerToRecv';
 
 import SettingsScreen from './Settings/SettingsScreen';
+
+//TEMP, REMOVE LATER
+import JioPortalScreen from "./FoodJio/JioOverviewScreen";
 
 const settings = {
   noHeader: {
@@ -74,7 +82,24 @@ function PersonalStack() {
         component={PersonalScreen}
         options={settings.noHeader}
       />
+
+      <PersonalNavStack.Screen
+        name="PieBudgetDetails"
+        component={PieBudgetDetails}
+      />
+
+      <PersonalNavStack.Screen
+        name="AllTransactions"
+        component={AllTransactions}
+      />
+
+      {/* TEMP, REMOVE LATER */}
+      <PersonalNavStack.Screen 
+        name="JioPortalScreen" 
+        component={JioPortalScreen} />
+
     </PersonalNavStack.Navigator>
+
   );
 }
 
@@ -116,60 +141,83 @@ function SettingsStack() {
   );
 }
 
-export default function AppStack() {
+function MainStack() {
   const Tab = createMaterialBottomTabNavigator();
 
   return (
+    <Tab.Navigator initialRouteName="Home">
+      <Tab.Screen
+        name="Home"
+        component={HomeStack}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Personal"
+        component={PersonalStack}
+        options={{
+          tabBarLabel: 'Personal',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="rocket" color={color} size={26} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Ledger"
+        component={LedgerStack}
+        options={{
+          tabBarLabel: 'Ledger',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons
+              name="account-group-outline"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Settings"
+        component={SettingsStack}
+        options={{
+          tabBarLabel: 'Settings',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="settings" color={color} size={26} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+export default function AppStack() {
+  const LoginStack = createStackNavigator();
+  return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="Home">
-        <Tab.Screen
-          name="Home"
-          component={HomeStack}
-          options={{
-            tabBarLabel: 'Home',
-            tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons name="home" color={color} size={26} />
-            ),
-          }}
+      <LoginStack.Navigator initialRouteName="PersonalScreen">
+        <LoginStack.Screen
+          name="LoginPage"
+          component={LoginPage}
+          options={settings.noHeader}
         />
-
-        <Tab.Screen
-          name="Personal"
-          component={PersonalStack}
-          options={{
-            tabBarLabel: 'Personal',
-            tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons name="rocket" color={color} size={26} />
-            ),
-          }}
+        <LoginStack.Screen
+          name="SignupPage"
+          component={SignupPage}
+          options={settings.noHeader}
         />
-
-        <Tab.Screen
-          name="Ledger"
-          component={LedgerStack}
-          options={{
-            tabBarLabel: 'Ledger',
-            tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons
-                name="account-group-outline"
-                color={color}
-                size={26}
-              />
-            ),
-          }}
+        <LoginStack.Screen
+          name="MainStack"
+          component={MainStack}
+          options={settings.noHeader}
         />
-
-        <Tab.Screen
-          name="Settings"
-          component={SettingsStack}
-          options={{
-            tabBarLabel: 'Settings',
-            tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons name="settings" color={color} size={26} />
-            ),
-          }}
-        />
-      </Tab.Navigator>
+      </LoginStack.Navigator>
     </NavigationContainer>
   );
 }

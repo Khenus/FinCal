@@ -5,6 +5,8 @@ import {Divider} from 'react-native-elements';
 function ListItem(props) {
   let currObj = props.currObj;
 
+  // console.log('inside list item =>>>' + JSON.stringify(currObj));
+
   const localStyle = StyleSheet.create({
     transactionListStyleL: {
       color: 'white',
@@ -39,14 +41,14 @@ function ListItem(props) {
     <View>
       <View style={localStyle.mainStyle}>
         <Text style={localStyle.transactionListStyleL}>
-          SGD {currObj.amount}
+          SGD {currObj.Amount}
           {'\n'}
-          {currObj.title}
+          {currObj.Title}
         </Text>
         <Text style={localStyle.transactionListStyleR}>
-          {currObj.date}
+          {currObj.Date}
           {'\n'}
-          {currObj.category}
+          {currObj.Category}
         </Text>
       </View>
       <Divider style={localStyle.divider} />
