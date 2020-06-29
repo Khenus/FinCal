@@ -11,7 +11,7 @@ import SignupPage from './Login/SignupPage';
 import HomeScreen from './Home/HomeScreen';
 
 import PersonalScreen from './Personal/PersonalScreen';
-import PieBudgetDetails from './Personal/PieBudgetDetails';
+import BudgetDetails from './Personal/BudgetDetails';
 import AllTransactions from './Personal/AllTransactions';
 
 import LedgerSummary from './Ledger/LedgerSummary';
@@ -84,13 +84,15 @@ function PersonalStack() {
       />
 
       <PersonalNavStack.Screen
-        name="PieBudgetDetails"
-        component={PieBudgetDetails}
+        name="BudgetDetails"
+        component={BudgetDetails}
+        options={settings.noHeader}
       />
 
       <PersonalNavStack.Screen
         name="AllTransactions"
         component={AllTransactions}
+        options={settings.noHeader}
       />
 
       {/* TEMP, REMOVE LATER */}

@@ -111,10 +111,10 @@ function PersonalScreen(props) {
       {/* Budget breakdown */}
       <View>
         <View style={localStyle.subHeader}>
-          <Text style={localStyle.subtitleStyle}>Budget</Text>
+          <Text style={localStyle.subtitleStyle}>Budget Overview</Text>
           <Text
             style={localStyle.viewDetails}
-            onPress={() => navigation.navigate("PieBudgetDetails")}>
+            onPress={() => navigation.navigate("BudgetDetails")}>
             View details
           </Text>
         </View>

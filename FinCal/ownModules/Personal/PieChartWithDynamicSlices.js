@@ -20,8 +20,8 @@ class PieChartWithDynamicSlices extends React.PureComponent {
     const {labelWidth, selectedSlice} = this.state;
     //   const { label, value } = selectedSlice;
     //   const keys = ['Food', 'Transport', 'Bills', 'Leisure', 'Misc'];
-    const values = [15, 25, 35, 45, 55];
-    const colors = ['#FF6961', '#FFB347', '#77DD77', '#87CEFA', '#B19CD9'];
+    const values = [25, 25, 12.5, 12.5, 12.5, 12.5];
+    const colors = ['#FF6961', '#FFB347', '#77DD77', '#87CEFA', '#B19CD9', 'grey'];
 
     const pieData = values
       .filter((value) => value > 0)

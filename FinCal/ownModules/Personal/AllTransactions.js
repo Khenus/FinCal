@@ -3,13 +3,13 @@ import {View, Text, StyleSheet, useWindowDimensions, Button} from 'react-native'
 import {connect} from 'react-redux';
 
 import FloatActionButton from '../FloatActionButton';
-import PieChartWithDynamicSlices from './PieChartWithDynamicSlices';
 
 import TransactionList from './TransactionList.js';
 import {fetchTransact} from '../API';
 import {darkTheme, lightTheme} from '../GlobalValues.js';
 
 import {useNavigation} from '@react-navigation/native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 function AllTransactions(props) {
@@ -63,9 +63,10 @@ function AllTransactions(props) {
       justifyContent: 'space-between',
     },
 
-    viewDetails: {
+    back: {
       color: 'aquamarine',
-      marginRight: 15,
+      marginLeft: 15,
+      fontStyle:'italic',
     },
 
     subtitleStyle: {
@@ -85,13 +86,13 @@ function AllTransactions(props) {
       marginLeft: 15,
     },
 
-    transList: {
-      flexGrow: 1,
-      marginTop: 20,
-      height: currHeight * 0.431,
-      // borderColor: 'white',
-      // borderWidth: 1,
-    },
+    // transList: {
+    //   flexGrow: 1,
+    //   marginTop: 20,
+    //   height: currHeight * 0.431,
+    //   // borderColor: 'white',
+    //   // borderWidth: 1,
+    // },
   });
 
   async function updateData() {
@@ -104,8 +105,24 @@ function AllTransactions(props) {
 
     return (
         <View style = {localStyle.mainView}>
-            <Text style={localStyle.subtitleStyle}>All Transactions</Text> 
-            <TransactionList dataArr={transactData} num="5" />
+
+            <View style={localStyle.header}>
+              <Text style={localStyle.welcomeStyle}>Your personal finances.</Text>
+            </View>
+
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={localStyle.subtitleStyle}>All Transactions</Text>
+              <Button title='drop down sort menu here'/>
+            </View>
+            
+            <ScrollView>
+            <Text style={{marginLeft:15,color:'red',}}>TODO: fix scrollview, and back to personal button being pushed to the bottom</Text>
+              <TransactionList dataArr={transactData} num={100}/>
+            </ScrollView>
+
+            <Text />
+
+            <Text onPress={() => navigation.navigate("PersonalScreen")} style={localStyle.back}>Back to Personal</Text>
         </View>
     )
 }
