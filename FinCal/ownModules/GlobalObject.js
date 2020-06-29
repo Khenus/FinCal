@@ -1,0 +1,17 @@
+export const transCategory = [
+  'Food',
+  'Transport',
+  'Bills',
+  'Education',
+  'Leisure',
+  'Medical',
+  'Insurance',
+  'Clothing',
+  'Housing',
+  'Supplies',
+  'Personal',
+  'Savings',
+  'Gifts',
+  'Income',
+  'Others',
+];

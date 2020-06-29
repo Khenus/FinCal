@@ -129,7 +129,7 @@ function PersonalScreen(props) {
           </Text>
         </View>
 
-        <TransactionList dataArr={transactData} num="5" />
+        <TransactionList dataArr={transactData} num="5" themeDark={themeDark} />
       </View>
 
       <FloatActionButton currUser={currUser} pullTransact={updateData} />

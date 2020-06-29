@@ -132,7 +132,7 @@ app.post('/fetchTransact/', (req, res) =>{
 	var email = postData.Email;
 	var uuid = postData.uuid;
 
-	con.query('SELECT * from transaction where Email = ? AND uuid = ?', [email, uuid], function(err, result){
+	con.query('SELECT * from transaction where Email = ? AND uuid = ? ORDER BY createdAt DESC', [email, uuid], function(err, result){
 		if(err != null){
 			console.log(`[${email} (${uuid})]: Transaction fetch error (${err})`);
 			res.end(JSON.stringify("Transaction fetch error: " + err));
@@ -151,10 +151,12 @@ app.post('/addTransact/', (req, res) =>{
 	var date = postData.date;
 	var title = postData.Title;
 	var amt = postData.Amount;
+	var type = postData.Type;
+	var catIdx = postData.catIdx;
 	var cato = postData.Category;
 	var desc = postData.Desc;
 
-	con.query('INSERT INTO `transaction` (`id`, `Email`, `uuid`, `Date`, `Title`, `Amount`, `Category`, `Description`) VALUES (NULL,?,?,?,?,?,?,?)', [email, uuid, date, title, amt, cato, desc], function (err, result, fields){
+	con.query('INSERT INTO `transaction` (`id`, `Email`, `uuid`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`) VALUES (NULL,?,?,?,?,?,?,?,?,?,NOW())', [email, uuid, date, title, amt, type, catIdx, cato, desc], function (err, result, fields){
 		if(err != null){
 			console.log(`[${email} (${uuid})]: Transaction insertion error (${err})`);
 			res.end(JSON.stringify("Transaction insertion error: " + err));
@@ -202,6 +204,23 @@ app.post('/getTransHist/', (req, res) =>{
 			res.end(JSON.stringify("Error getting transaction history " + err));
 		} else {
 			console.log(`[${fromUUID}]: Transaction history fetched successfully`);
+			res.end(JSON.stringify(result));
+		}
+	});
+});
+
+app.post('/getThisMonthTransact/', (req, res) =>{
+	var postData = req.body;
+
+	var email = postData.Email;
+	var uuid = postData.uuid;
+
+	con.query('SELECT * FROM transaction WHERE MONTH(createdAt) = MONTH(CURRENT_DATE()) AND YEAR(createdAt) = YEAR(CURRENT_DATE()) AND uuid = ? ORDER BY createdAt DESC', [uuid], function (err, result, fields){
+		if(err != null){
+			console.log(`[${email} (${uuid})]: Error getting month transaction history (${err})`);
+			res.end(JSON.stringify("Error getting month transaction history " + err));
+		} else {
+			console.log(`[${email} (${uuid})]: Monthly Transaction history fetched successfully`);
 			res.end(JSON.stringify(result));
 		}
 	});

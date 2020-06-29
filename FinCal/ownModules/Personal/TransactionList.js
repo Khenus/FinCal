@@ -1,22 +1,41 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Divider} from 'react-native-elements';
+import {darkTheme, lightTheme} from '../GlobalValues.js';
 
 function ListItem(props) {
   let currObj = props.currObj;
+  let themeIsDark = props.themeDark;
 
-  // console.log('inside list item =>>>' + JSON.stringify(currObj));
+  let [themeDark, updateTheme] = useState(true);
+  let [colorScheme, updateColorScheme] = useState(darkTheme);
+
+  useEffect(() => {
+    themeDark === true
+      ? updateColorScheme(darkTheme)
+      : updateColorScheme(lightTheme);
+  }, [themeDark]);
+
+  useEffect(() => {
+    updateTheme(themeIsDark);
+  }, [themeIsDark]);
 
   const localStyle = StyleSheet.create({
     transactionListStyleL: {
-      color: 'white',
+      color:
+        currObj.Type === 'Spending'
+          ? colorScheme.spendingText
+          : colorScheme.earningText,
       fontSize: 15,
       // fontStyle: 'italic',
       marginLeft: 15,
     },
 
     transactionListStyleR: {
-      color: 'white',
+      color:
+        currObj.Type === 'Spending'
+          ? colorScheme.spendingText
+          : colorScheme.earningText,
       fontSize: 15,
       fontStyle: 'italic',
       marginRight: 15,
@@ -59,6 +78,7 @@ function ListItem(props) {
 export default function TransactionList(props) {
   let dataArr = props.dataArr || [];
   var choppedArr = dataArr.slice(0, props.num);
+  let themeDark = props.themeDark;
 
   const localStyle = StyleSheet.create({
     noResultView: {
@@ -86,7 +106,7 @@ export default function TransactionList(props) {
     return (
       <View>
         {choppedArr.map((item, idx) => (
-          <ListItem currObj={item} key={idx} />
+          <ListItem currObj={item} key={idx} themeDark={themeDark} />
         ))}
       </View>
     );

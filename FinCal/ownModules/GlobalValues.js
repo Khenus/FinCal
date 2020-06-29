@@ -4,6 +4,10 @@ export const darkTheme = {
   textCol: 'white',
   placeHolderText: 'grey',
 
+  //Personal Page
+  spendingText: 'red',
+  earningText: '#69f58e',
+
   //FAB
   fabBackCol: '#333333',
 

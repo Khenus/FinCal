@@ -3,49 +3,57 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, Dimensions} from 'react-native';
 
 import {PieChart} from 'react-native-svg-charts';
+import {transCategory} from '../GlobalObject';
+import {getThisMonthTransact} from '../API';
 
 export default function PieChartWithDynamicSlices(props) {
   let deviceWidth = Dimensions.get('window').width;
 
   let currUser = props.currUser;
 
-  let [selectedSlice, updateSelectedSlice] = useState({label: '', value: 0});
+  // let [selectedSlice, updateSelectedSlice] = useState({label: '', value: 0});
   let [labelWidth, updateLabelWidth] = useState(0);
+
+  let [numTransact, updateNumTransact] = useState(0);
   let [spending, updateSpending] = useState(0.0);
   let [earning, updateEarning] = useState(0.0);
-  let [disVal, updateDisVal] = useState([]);
+  let [disVal, updateDisVal] = useState([0.0]);
 
-  const values = [15, 25, 35, 45, 55];
   const colors = ['#FF6961', '#FFB347', '#77DD77', '#87CEFA', '#B19CD9'];
 
   useEffect(() => {
     async function tempHandler() {
-      let result = await getThisMonthTransact(currUser.uuid);
+      let result = await getThisMonthTransact(currUser.Email, currUser.uuid);
 
-      let tempSpending, tempEarning;
-      let tempSliceArr = new Array(//size of types array);
-      // let percentArr;
+      let tempSpending = 0.0;
+      let tempEarning = 0.0;
+      let tempSliceArr = new Array(transCategory.length);
+
+      for (let i = 0; i < tempSliceArr.length; i++) {
+        tempSliceArr[i] = 0.0;
+      }
 
       for (let i = 0; i < result.length; i++) {
-        let currAmt = parseInt(result[i].Amount); //Check whether the .Amount is correct
-        if (currAmt < 0) {
-          //Note thay curr amt inside this scope is -ve
-          tempSpending -= currAmt;
-          tempSliceArr[result[i].typeIdx] -= currAmt;
+        let currAmt = parseFloat(result[i].Amount, 10);
+        if (result[i].Type === 'Spending') {
+          tempSpending += currAmt;
+          tempSliceArr[parseFloat(result[i].catIdx, 10)] += currAmt;
         } else {
           tempEarning += currAmt;
         }
       }
 
+      updateNumTransact(result.length);
       updateDisVal(tempSliceArr);
-    
-      //for (let i = 0; i < tempSliceArr.length; i++) {
-        
-      //}
-      
+      updateSpending(tempSpending);
+      updateEarning(tempEarning);
     }
     tempHandler();
-  }, []);
+  }, [currUser.Email, currUser.uuid]);
+
+  useEffect(() => {
+    console.log(disVal);
+  }, [disVal]);
 
   const pieData = disVal
     .filter((value) => value > 0)
@@ -79,13 +87,16 @@ export default function PieChartWithDynamicSlices(props) {
           left: deviceWidth / 2 - labelWidth / 2,
           textAlign: 'center',
         }}>
-        <Text style={{color: 'white', fontSize: 25}}>20{'\n'}</Text>
+        <Text style={{color: 'white', fontSize: 25}}>
+          {numTransact}
+          {'\n'}
+        </Text>
         <Text style={{color: 'white', fontSize: 15}}>transactions{'\n'}</Text>
         <Text style={{color: 'red', fontSize: 15, fontStyle: 'italic'}}>
-          Spent: $175{'\n'}
+          Spent: ${spending} {'\n'}
         </Text>
         <Text style={{color: 'green', fontSize: 15, fontStyle: 'italic'}}>
-          Left: $25
+          Left: ${earning - spending}
         </Text>
       </Text>
     </View>

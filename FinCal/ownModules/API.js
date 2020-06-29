@@ -153,3 +153,26 @@ export async function getTransHist(fromUUID, toUUID) {
 
   return result;
 }
+
+export async function getThisMonthTransact(email, uuid) {
+  let data = {
+    Email: email,
+    uuid: uuid,
+  };
+
+  var result = await fetch(url + '/getThisMonthTransact/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      throw err;
+    });
+
+  return result;
+}
