@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Dimensions} from 'react-native';
 
 import {PieChart} from 'react-native-svg-charts';
@@ -9,9 +9,30 @@ export default function PieChartWithDynamicSlices() {
 
   let [selectedSlice, updateSelectedSlice] = useState({label: '', value: 0});
   let [labelWidth, updateLabelWidth] = useState(0);
+  let [spending, updateSpending] = useState(0.0);
+  let [earning, updateEarning] = useState(0.0);
 
   const values = [15, 25, 35, 45, 55];
   const colors = ['#FF6961', '#FFB347', '#77DD77', '#87CEFA', '#B19CD9'];
+
+  useEffect(() => {
+    async function tempHandler() {
+      let result = await getThisMonthTransact(currUser.uuid);
+
+      let tempSpending, tempEarning;
+      let tempSliceArr = new Array(//size of types array);
+
+      for (let i = 0; i < result.length; i++) {
+        let currAmt = parseInt(result[i].Amount); //Check whether the .Amount is correct
+        if (currAmt < 0) {
+          tempSpending -= currAmt;
+          let insIdx = //hash function here to get index
+          tempSliceArr[insIdx].amt -= currAmt;
+        }
+      }
+    }
+    tempHandler();
+  }, []);
 
   const pieData = values
     .filter((value) => value > 0)
