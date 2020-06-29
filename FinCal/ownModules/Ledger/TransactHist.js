@@ -4,17 +4,29 @@ import {
   Text,
   ScrollView,
   StyleSheet,
+  ActivityIndicator,
   useWindowDimensions,
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import DetailCard from './DetailCard';
+import {getTransHist} from '../API';
+import LedgerCard from './LedgerCard';
+import FloatActionButton from '../FloatActionButton';
 import {darkTheme, lightTheme} from '../GlobalValues.js';
 
 export default function TransactHist(props) {
   let currWidth = useWindowDimensions().width;
-  let toName = props.toName;
+  let currHeight = useWindowDimensions().height;
+  let navigation = props.navigation;
+
+  console.log(props);
+
+  let currObj = props.route.params;
+  let name = currObj.Name;
+
+  let [transHist, updateTransHist] = useState([]);
+  let [isLoading, updateIsLoading] = useState(true);
 
   let [themeDark, updateTheme] = useState(true);
   let [colorScheme, updateColorScheme] = useState(darkTheme);
@@ -31,6 +43,16 @@ export default function TransactHist(props) {
     updateTheme(parentDarkTheme);
   }, [parentDarkTheme]);
 
+  useEffect(() => {
+    async function tempHandler() {
+      updateIsLoading(true);
+      let result = await getTransHist(currObj.fromUUID, currObj.toUUID);
+      updateTransHist(result);
+      updateIsLoading(false);
+    }
+    tempHandler();
+  }, [currObj.fromUUID, currObj.toUUID]);
+
   const styles = StyleSheet.create({
     mainView: {
       flex: 1,
@@ -38,6 +60,9 @@ export default function TransactHist(props) {
     },
 
     marginView: {
+      // borderWidth: 1,
+      // borderColor: 'white',
+      flexGrow: 1,
       margin: 20,
       marginTop: 0,
     },
@@ -69,16 +94,71 @@ export default function TransactHist(props) {
     headerPadding: {
       flex: 1,
     },
+
+    central: {
+      // borderColor: 'white',
+      // borderWidth: 1,
+      flexGrow: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    scroller: {
+      // borderColor: 'yellow',
+      // borderWidth: 1,
+      marginTop: 20,
+      height: currHeight * 0.55,
+    },
   });
 
   function back() {
     navigation.pop(1);
   }
 
+  let disItem;
+  if (isLoading) {
+    disItem = (
+      <View style={styles.central}>
+        <ActivityIndicator size="small" color={colorScheme.textCol} />
+      </View>
+    );
+  } else {
+    if (transHist.length === 0) {
+      console.log('transHist is empty' + transHist);
+      disItem = (
+        <View style={styles.central}>
+          <Text style={styles.text}>
+            There are no past transaction with {name}
+          </Text>
+        </View>
+      );
+    } else {
+      console.log('transHist is not empty ' + JSON.stringify(transHist));
+      console.log('length of array = ' + transHist.length);
+
+      disItem = (
+        <ScrollView style={styles.scroller}>
+          {transHist.map((currItem, currIdx) => (
+            <LedgerCard
+              key={currIdx}
+              clickable={false}
+              currObj={currItem}
+              cardType={
+                currItem.toUUID === currObj.toUUID ? 'payment' : 'receive'
+              }
+              parentThemeDark={themeDark}
+              parWidth={currWidth - 40}
+            />
+          ))}
+        </ScrollView>
+      );
+    }
+  }
+
   return (
     <View style={styles.mainView}>
       <View style={styles.headerBar}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={back}>
           <Icon name="arrow-back" size={25} style={styles.text} />
         </TouchableOpacity>
         <View style={styles.headerPadding} />
@@ -87,22 +167,13 @@ export default function TransactHist(props) {
       <View style={styles.marginView}>
         <View style={styles.middle}>
           <Text style={[styles.text, styles.header]}>
-            Transaction History with {toName}
+            Transaction History with {name}
           </Text>
         </View>
 
-        <ScrollView>
-          {/* {toRecvArr.map((currItem, currIdx) => (
-                  <DetailCard
-                    key={currIdx}
-                    currObj={currItem}
-                    cardType="receive"
-                    parentThemeDark={themeDark}
-                    parWidth={currWidth - 40}
-                  />
-                ))} */}
-        </ScrollView>
+        {disItem}
       </View>
+      <FloatActionButton />
     </View>
   );
 }

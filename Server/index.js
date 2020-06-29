@@ -189,3 +189,20 @@ app.post('/getLedger/', (req, res) =>{
 		}
 	});
 });
+
+app.post('/getTransHist/', (req, res) =>{
+	var postData = req.body;
+
+	var fromUUID = postData.fromUUID;
+	var toUUID = postData.toUUID;
+
+	con.query('SELECT * FROM ledger WHERE (fromUUID = ? AND toUUID = ? AND Status = "Close") OR (toUUID = ? AND fromUUID = ? AND Status = "Close") ORDER BY createdAt ASC', [fromUUID, toUUID, fromUUID, toUUID], function (err, result, fields){
+		if(err != null){
+			console.log(`[${fromUUID}]: Error getting transaction history (${err})`);
+			res.end(JSON.stringify("Error getting transaction history " + err));
+		} else {
+			console.log(`[${fromUUID}]: Transaction history fetched successfully`);
+			res.end(JSON.stringify(result));
+		}
+	});
+});

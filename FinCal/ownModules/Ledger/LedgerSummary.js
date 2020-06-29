@@ -236,7 +236,7 @@ function LedgerSummary(props) {
 
           <View style={styles.fullSummary}>
             <View style={styles.loadingMain}>
-              <ActivityIndicator size="small" color="white" />
+              <ActivityIndicator size="small" color={colorScheme.textCol} />
               <Text style={styles.loadingText}>Loading...</Text>
             </View>
           </View>
@@ -272,6 +272,7 @@ function LedgerSummary(props) {
                 {toPayArr.map((currItem, currIdx) => (
                   <LedgerCard
                     key={currIdx}
+                    clickable={true}
                     currObj={currItem}
                     cardType="payment"
                     parentThemeDark={themeDark}
@@ -288,6 +289,7 @@ function LedgerSummary(props) {
                 {toRecvArr.map((currItem, currIdx) => (
                   <LedgerCard
                     key={currIdx}
+                    clickable={true}
                     currObj={currItem}
                     cardType="receive"
                     parentThemeDark={themeDark}

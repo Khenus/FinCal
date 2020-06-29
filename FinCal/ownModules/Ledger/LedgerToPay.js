@@ -152,7 +152,7 @@ function LedgerToPay(props) {
       }
 
       updateToPayArr(toPayRes);
-      updateToPayAmt(toPayAmtTemp);
+      updateToPayAmt(toPayAmtTemp.toFixed(2));
       updateLoading(false);
     }
     tempHandler();
@@ -243,6 +243,7 @@ function LedgerToPay(props) {
                 {toPayArr.map((currItem, currIdx) => (
                   <LedgerCard
                     key={currIdx}
+                    clickable={true}
                     currObj={currItem}
                     cardType="payment"
                     parentThemeDark={themeDark}

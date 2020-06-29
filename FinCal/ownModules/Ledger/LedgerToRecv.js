@@ -255,6 +255,7 @@ function LedgerToRecv(props) {
                 {toRecvArr.map((currItem, currIdx) => (
                   <LedgerCard
                     key={currIdx}
+                    clickable={true}
                     currObj={currItem}
                     cardType="receive"
                     parentThemeDark={themeDark}

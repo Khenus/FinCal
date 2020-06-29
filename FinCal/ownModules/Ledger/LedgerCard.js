@@ -3,13 +3,20 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 
 import MatIcon from 'react-native-vector-icons/MaterialIcons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import {useNavigation} from '@react-navigation/native';
+
 import {darkTheme, lightTheme} from '../GlobalValues';
 
 export default function LedgerCard(props) {
+  let navigation = useNavigation();
+
   let paymentType = props.paymentType || 'normal';
   let cardType = props.cardType || 'payment';
   let parentThemeDark = props.parentThemeDark || true;
   let parWidth = props.parWidth;
+  let currObj = props.currObj;
+
+  let clickable = props.clickable || false;
 
   let [themeDark, updateTheme] = useState(true);
   let colorScheme = themeDark === true ? darkTheme : lightTheme;
@@ -81,16 +88,21 @@ export default function LedgerCard(props) {
     allWrapper: {
       flexDirection: 'row',
     },
+
+    detail: {
+      fontStyle: 'italic',
+    },
   });
 
-  let name, date, amount;
-  date = props.currObj.Date || 'Apr 25';
-  amount = props.currObj.Amount || '99.99';
+  let name, date, amount, detail;
+  date = currObj.Date || 'Apr 25';
+  amount = currObj.Amount || '99.99';
+  detail = currObj.Detail || 'NA';
 
   if (cardType === 'payment') {
-    name = props.currObj.toName || 'Name';
+    name = currObj.toName || 'Name';
   } else {
-    name = props.currObj.fromName || 'Name';
+    name = currObj.fromName || 'Name';
   }
 
   let icons;
@@ -102,43 +114,117 @@ export default function LedgerCard(props) {
     icons = <FeatherIcon name="smile" size={35} style={styles.iconCol} />;
   }
 
+  function clickHandler() {
+    if (cardType === 'payment') {
+      navigation.navigate('TransactHist', {
+        fromUUID: currObj.fromUUID,
+        toUUID: currObj.toUUID,
+        Name: currObj.toName,
+        cardType: 'payment',
+        Amount: currObj.Amount,
+      });
+    } else {
+      navigation.navigate('TransactHist', {
+        fromUUID: currObj.fromUUID,
+        toUUID: currObj.toUUID,
+        Name: currObj.fromName,
+        cardType: 'receive',
+        Amount: currObj.Amount,
+      });
+    }
+  }
+
   if (cardType === 'payment') {
-    return (
-      <View style={styles.allWrapper}>
-        <View style={styles.padding} />
-        <TouchableOpacity style={styles.wholeCompo}>
-          <View style={styles.start}>
-            <View style={styles.iconContain}>{icons}</View>
+    if (clickable) {
+      return (
+        <View style={styles.allWrapper}>
+          <View style={styles.padding} />
+          <TouchableOpacity style={styles.wholeCompo} onPress={clickHandler}>
+            <View style={styles.start}>
+              <View style={styles.iconContain}>{icons}</View>
 
-            <View style={styles.textContain}>
-              <Text style={styles.header}>{name}</Text>
-              <Text style={styles.sub}>{date}</Text>
+              <View style={styles.textContain}>
+                <Text style={styles.header}>{name}</Text>
+                <Text style={styles.sub}>{date}</Text>
+                <Text style={[styles.sub, styles.detail]}>
+                  Details: {detail}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.end}>
+              <Text style={styles.amountText}>${amount}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.allWrapper}>
+          <View style={styles.padding} />
+          <View style={styles.wholeCompo}>
+            <View style={styles.start}>
+              <View style={styles.iconContain}>{icons}</View>
+
+              <View style={styles.textContain}>
+                <Text style={styles.header}>{name}</Text>
+                <Text style={styles.sub}>{date}</Text>
+                <Text style={[styles.sub, styles.detail]}>
+                  Details: {detail}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.end}>
+              <Text style={styles.amountText}>${amount}</Text>
             </View>
           </View>
-          <View style={styles.end}>
-            <Text style={styles.amountText}>${amount}</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
+        </View>
+      );
+    }
   } else {
-    return (
-      <View style={styles.allWrapper}>
-        <TouchableOpacity style={styles.wholeCompo}>
-          <View style={styles.start}>
-            <View style={styles.iconContain}>{icons}</View>
+    if (clickable) {
+      return (
+        <View style={styles.allWrapper}>
+          <TouchableOpacity style={styles.wholeCompo} onPress={clickHandler}>
+            <View style={styles.start}>
+              <View style={styles.iconContain}>{icons}</View>
 
-            <View style={styles.textContain}>
-              <Text style={styles.header}>{name}</Text>
-              <Text style={styles.sub}>{date}</Text>
+              <View style={styles.textContain}>
+                <Text style={styles.header}>{name}</Text>
+                <Text style={styles.sub}>{date}</Text>
+                <Text style={[styles.sub, styles.detail]}>
+                  Details: {detail}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.end}>
+              <Text style={styles.amountText}>${amount}</Text>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.padding} />
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.allWrapper}>
+          <View style={styles.wholeCompo}>
+            <View style={styles.start}>
+              <View style={styles.iconContain}>{icons}</View>
+
+              <View style={styles.textContain}>
+                <Text style={styles.header}>{name}</Text>
+                <Text style={styles.sub}>{date}</Text>
+                <Text style={[styles.sub, styles.detail]}>
+                  Details: {detail}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.end}>
+              <Text style={styles.amountText}>${amount}</Text>
             </View>
           </View>
-          <View style={styles.end}>
-            <Text style={styles.amountText}>${amount}</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.padding} />
-      </View>
-    );
+          <View style={styles.padding} />
+        </View>
+      );
+    }
   }
 }
