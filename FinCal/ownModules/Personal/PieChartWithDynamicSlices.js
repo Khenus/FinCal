@@ -4,13 +4,16 @@ import {View, Text, Dimensions} from 'react-native';
 
 import {PieChart} from 'react-native-svg-charts';
 
-export default function PieChartWithDynamicSlices() {
+export default function PieChartWithDynamicSlices(props) {
   let deviceWidth = Dimensions.get('window').width;
+
+  let currUser = props.currUser;
 
   let [selectedSlice, updateSelectedSlice] = useState({label: '', value: 0});
   let [labelWidth, updateLabelWidth] = useState(0);
   let [spending, updateSpending] = useState(0.0);
   let [earning, updateEarning] = useState(0.0);
+  let [disVal, updateDisVal] = useState([]);
 
   const values = [15, 25, 35, 45, 55];
   const colors = ['#FF6961', '#FFB347', '#77DD77', '#87CEFA', '#B19CD9'];
@@ -21,20 +24,30 @@ export default function PieChartWithDynamicSlices() {
 
       let tempSpending, tempEarning;
       let tempSliceArr = new Array(//size of types array);
+      // let percentArr;
 
       for (let i = 0; i < result.length; i++) {
         let currAmt = parseInt(result[i].Amount); //Check whether the .Amount is correct
         if (currAmt < 0) {
+          //Note thay curr amt inside this scope is -ve
           tempSpending -= currAmt;
-          let insIdx = //hash function here to get index
-          tempSliceArr[insIdx].amt -= currAmt;
+          tempSliceArr[result[i].typeIdx] -= currAmt;
+        } else {
+          tempEarning += currAmt;
         }
       }
+
+      updateDisVal(tempSliceArr);
+    
+      //for (let i = 0; i < tempSliceArr.length; i++) {
+        
+      //}
+      
     }
     tempHandler();
   }, []);
 
-  const pieData = values
+  const pieData = disVal
     .filter((value) => value > 0)
     .map((value, index) => ({
       value,
