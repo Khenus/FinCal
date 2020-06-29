@@ -113,7 +113,7 @@ function PersonalScreen(props) {
           </Text>
         </View>
 
-        <PieChartWithDynamicSlices />
+        <PieChartWithDynamicSlices currUser={currUser}/>
       </View>
 
       {/* Transaction List */}
