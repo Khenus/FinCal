@@ -324,11 +324,7 @@ export default function FloatActionButton(props) {
           <Text style={cancelbuttonstyle} onPress={() => handleCancelAdd()}>
             Cancel
           </Text>
-          <Text
-            style={confirmbuttonstyle}
-            onPress={() => {
-              handleConfirmAdd();
-            }}>
+          <Text style={confirmbuttonstyle} onPress={() => {handleConfirmAdd();}}>
             Confirm
           </Text>
         </View>

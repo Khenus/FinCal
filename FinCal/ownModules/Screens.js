@@ -203,7 +203,7 @@ export default function AppStack() {
   const LoginStack = createStackNavigator();
   return (
     <NavigationContainer>
-      <LoginStack.Navigator initialRouteName="PersonalScreen">
+      <LoginStack.Navigator initialRouteName="omgwtfbbq3141@gmail.comHomeScreen">
         <LoginStack.Screen
           name="LoginPage"
           component={LoginPage}
