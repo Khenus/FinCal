@@ -1,5 +1,6 @@
-#Fri Jun 26 17:42:50 SGT 2020
+#Thu Jul 02 20:41:07 SGT 2020
 base.10=C\:\\Users\\Orion\\Desktop\\Backup\\Finance\\FinCal\\android\\app\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_15.dex
+path.37=classes_34.dex
 path.36=classes_9.dex
 path.35=classes_8.dex
 path.34=classes_7.dex
@@ -31,6 +32,7 @@ path.21=classes_25.dex
 path.7=classes_12.dex
 path.20=classes_24.dex
 path.6=classes_11.dex
+renamed.37=classes38.dex
 path.5=classes_10.dex
 renamed.36=classes37.dex
 path.4=classes_1.dex
@@ -84,6 +86,7 @@ renamed.13=classes14.dex
 renamed.12=classes13.dex
 renamed.11=classes12.dex
 renamed.10=classes11.dex
+base.37=C\:\\Users\\Orion\\Desktop\\Backup\\Finance\\FinCal\\android\\app\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_34.dex
 base.36=C\:\\Users\\Orion\\Desktop\\Backup\\Finance\\FinCal\\android\\app\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_9.dex
 base.35=C\:\\Users\\Orion\\Desktop\\Backup\\Finance\\FinCal\\android\\app\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_8.dex
 base.34=C\:\\Users\\Orion\\Desktop\\Backup\\Finance\\FinCal\\android\\app\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_7.dex

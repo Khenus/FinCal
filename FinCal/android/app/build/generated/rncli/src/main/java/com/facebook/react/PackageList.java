@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 // @react-native-community/masked-view
 import org.reactnative.maskedview.RNCMaskedViewPackage;
+// @react-native-community/picker
+import com.reactnativecommunity.picker.RNCPickerPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-reanimated
@@ -74,6 +76,7 @@ public class PackageList {
       new MainReactPackage(mConfig),
       new RNDateTimePickerPackage(),
       new RNCMaskedViewPackage(),
+      new RNCPickerPackage(),
       new RNGestureHandlerPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),

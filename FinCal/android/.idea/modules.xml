@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1860728283/@react-native-community_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/1860728283/@react-native-community_picker.iml" group="FinCal/@react-native-community_picker" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/FinCal.iml" filepath="$PROJECT_DIR$/.idea/modules/FinCal.iml" group="FinCal" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="FinCal/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-82944258/expo-constants.iml" filepath="$PROJECT_DIR$/.idea/modules/-82944258/expo-constants.iml" group="FinCal/expo-constants" />
@@ -19,6 +20,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1008573342/expo-web-browser.iml" filepath="$PROJECT_DIR$/.idea/modules/1008573342/expo-web-browser.iml" group="FinCal/expo-web-browser" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2028027626/react-native-community_datetimepicker.iml" filepath="$PROJECT_DIR$/.idea/modules/-2028027626/react-native-community_datetimepicker.iml" group="FinCal/react-native-community_datetimepicker" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1210586545/react-native-community_masked-view.iml" filepath="$PROJECT_DIR$/.idea/modules/-1210586545/react-native-community_masked-view.iml" group="FinCal/react-native-community_masked-view" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1860728283/react-native-community_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/1860728283/react-native-community_picker.iml" group="FinCal/react-native-community_picker" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-771603096/react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/-771603096/react-native-gesture-handler.iml" group="FinCal/react-native-gesture-handler" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2143905868/react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/-2143905868/react-native-reanimated.iml" group="FinCal/react-native-reanimated" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2124831791/react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/-2124831791/react-native-safe-area-context.iml" group="FinCal/react-native-safe-area-context" />

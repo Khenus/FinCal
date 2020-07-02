@@ -1,3 +1,5 @@
+export const transactType = ['Spending', 'Earning'];
+
 export const transCategory = [
   'Food',
   'Transport',

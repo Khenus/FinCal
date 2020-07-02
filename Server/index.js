@@ -156,8 +156,11 @@ app.post('/addTransact/', (req, res) =>{
 	var catIdx = postData.catIdx;
 	var cato = postData.Category;
 	var desc = postData.Desc;
+	var unixDate = postData.unixDate;
 
-	con.query('INSERT INTO `transaction` (`id`, `Email`, `uuid`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (NULL,?,?,?,?,?,?,?,?,?,NOW(), UNIX_TIMESTAMP())', [email, uuid, date, title, amt, type, catIdx, cato, desc], function (err, result, fields){
+	
+
+	con.query('INSERT INTO `transaction` (`id`, `Email`, `uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (NULL,?,?,?,?,?,?,?,?,?,FROM_UNIXTIME(?),?)', [email, uuid, date, title, amt, type, catIdx, cato, desc, unixDate, unixDate], function (err, result, fields){
 		if(err != null){
 			console.log(`[${email} (${uuid})]: Transaction insertion error (${err})`);
 			res.end(JSON.stringify("Transaction insertion error: " + err));

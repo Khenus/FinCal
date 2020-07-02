@@ -78,8 +78,11 @@ export async function addTransact(
   date,
   title,
   amt,
+  type,
+  catIdx,
   category,
   desc,
+  unixDate,
 ) {
   let data = {
     Email: email,
@@ -87,8 +90,11 @@ export async function addTransact(
     date: date,
     Title: title,
     Amount: amt,
+    Type: type,
+    catIdx: catIdx,
     Category: category,
     Desc: desc,
+    unixDate: unixDate,
   };
 
   var result = await fetch(url + '/addTransact/', {
