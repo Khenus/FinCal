@@ -48,10 +48,11 @@ export async function login(email, pass) {
   return result;
 }
 
-export async function fetchTransact(email, uuid) {
+export async function fetchTransact(email, uuid, numEntry) {
   let data = {
     Email: email,
     uuid: uuid,
+    numEntry: numEntry,
   };
 
   var result = await fetch(url + '/fetchTransact/', {
@@ -154,25 +155,25 @@ export async function getTransHist(fromUUID, toUUID) {
   return result;
 }
 
-export async function getThisMonthTransact(email, uuid) {
-  let data = {
-    Email: email,
-    uuid: uuid,
-  };
+// export async function getThisMonthTransact(email, uuid) {
+//   let data = {
+//     Email: email,
+//     uuid: uuid,
+//   };
 
-  var result = await fetch(url + '/getThisMonthTransact/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-    .then((res) => {
-      return res.json();
-    })
-    .catch((err) => {
-      throw err;
-    });
+//   var result = await fetch(url + '/getThisMonthTransact/', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(data),
+//   })
+//     .then((res) => {
+//       return res.json();
+//     })
+//     .catch((err) => {
+//       throw err;
+//     });
 
-  return result;
-}
+//   return result;
+// }

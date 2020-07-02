@@ -201,7 +201,7 @@ function LoginPage(props) {
           <View style={Styles.mainView}>
             <View style={Styles.imgWrapper}>
               <Image
-                source={require('./trollFace.png')}
+                source={require('./Coins.png')}
                 style={Styles.displayPic}
               />
             </View>

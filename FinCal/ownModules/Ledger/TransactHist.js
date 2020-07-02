@@ -124,7 +124,6 @@ export default function TransactHist(props) {
     );
   } else {
     if (transHist.length === 0) {
-      console.log('transHist is empty' + transHist);
       disItem = (
         <View style={styles.central}>
           <Text style={styles.text}>
@@ -133,9 +132,6 @@ export default function TransactHist(props) {
         </View>
       );
     } else {
-      console.log('transHist is not empty ' + JSON.stringify(transHist));
-      console.log('length of array = ' + transHist.length);
-
       disItem = (
         <ScrollView style={styles.scroller}>
           {transHist.map((currItem, currIdx) => (

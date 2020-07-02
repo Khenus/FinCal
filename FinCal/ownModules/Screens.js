@@ -11,6 +11,8 @@ import SignupPage from './Login/SignupPage';
 import HomeScreen from './Home/HomeScreen';
 
 import PersonalScreen from './Personal/PersonalScreen';
+import AllTransactions from './Personal/AllTransactions';
+import BudgetDetails from './Personal/BudgetDetails';
 
 import LedgerSummary from './Ledger/LedgerSummary';
 import LedgerToPay from './Ledger/LedgerToPay';
@@ -76,6 +78,16 @@ function PersonalStack() {
       <PersonalNavStack.Screen
         name="PersonalScreen"
         component={PersonalScreen}
+        options={settings.noHeader}
+      />
+      <PersonalNavStack.Screen
+        name="AllTransactions"
+        component={AllTransactions}
+        options={settings.noHeader}
+      />
+      <PersonalNavStack.Screen
+        name="BudgetDetails"
+        component={BudgetDetails}
         options={settings.noHeader}
       />
     </PersonalNavStack.Navigator>

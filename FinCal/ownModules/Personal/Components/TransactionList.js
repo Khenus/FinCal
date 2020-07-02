@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Divider} from 'react-native-elements';
-import {darkTheme, lightTheme} from '../GlobalValues.js';
+import {darkTheme, lightTheme} from '../../GlobalValues.js';
 
 function ListItem(props) {
   let currObj = props.currObj;

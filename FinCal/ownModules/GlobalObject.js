@@ -15,3 +15,21 @@ export const transCategory = [
   'Income',
   'Others',
 ];
+
+export const pieChartCols = [
+  '#92c6cf',
+  '#19796a',
+  '#daf0b7',
+  '#dd1922',
+  '#ce5002',
+  '#801334',
+  '#d32389',
+  '#FF6961',
+  '#FFB347',
+  '#77DD77',
+  '#87CEFA',
+  '#B19CD9',
+  '#d9bb3e',
+  '#73b362',
+  '#16151e',
+];

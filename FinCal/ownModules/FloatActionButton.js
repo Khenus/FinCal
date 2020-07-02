@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import * as React from 'react';
-import {View, Text, Platform} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, Platform, StyleSheet} from 'react-native';
 import {FAB, Portal, Provider} from 'react-native-paper';
 import {Overlay, Input} from 'react-native-elements';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,15 +11,27 @@ import Toast from 'react-native-simple-toast';
 import {addTransact} from './API';
 import {darkTheme, lightTheme} from './GlobalValues.js';
 
-function DTPicker() {
-  const [date, setDate] = React.useState(new Date());
-  const [mode, setMode] = React.useState('date');
-  const [show, setShow] = React.useState(false);
+function DTPicker(props) {
+  let parDateUpdate = props.parDateUpdate;
+  let parUnixDateUpdate = props.parUnixDateUpdate;
+
+  console.log(props);
+
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    console.log(date);
+    console.log(date.getTime() / 1000);
+  }, [date]);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
+    parDateUpdate(moment(date).format('LL'));
+    parUnixDateUpdate(date.getTime());
   };
 
   const showMode = (currentMode) => {
@@ -43,7 +55,7 @@ function DTPicker() {
         <DateTimePicker
           testID="dateTimePicker"
           value={date}
-          mode="date"
+          mode={mode}
           is24Hour={true}
           display="default"
           onChange={onChange}
@@ -54,36 +66,34 @@ function DTPicker() {
 }
 
 export default function FloatActionButton(props) {
-  const [open, setOpen] = React.useState(false); //set state
-  const [food, setFood] = React.useState(false);
-  const [add, setAdd] = React.useState(false);
+  const [open, setOpen] = useState(false); //set state
+  const [food, setFood] = useState(false);
+  const [add, setAdd] = useState(false);
 
   let currUser = props.currUser;
   let pullTransact = props.pullTransact;
 
-  let [themeDark, updateTheme] = React.useState(true);
-  let [colorScheme, updateColorScheme] = React.useState(darkTheme);
+  let [themeDark, updateTheme] = useState(true);
+  let [colorScheme, updateColorScheme] = useState(darkTheme);
 
   let parentDarkTheme = true;
 
-  React.useEffect(() => {
+  useEffect(() => {
     themeDark === true
       ? updateColorScheme(darkTheme)
       : updateColorScheme(lightTheme);
   }, [themeDark]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     updateTheme(parentDarkTheme);
   }, [parentDarkTheme]);
 
-  const [tmpDate, onChangeDate] = React.useState(
-    moment(new Date()).format('LL'),
-  );
-
-  const [tmpTitle, onChangeTitle] = React.useState('');
-  const [tmpAmt, onChangeAmt] = React.useState('');
-  const [tmpCat, onChangeCat] = React.useState('');
-  const [tmpDesc, onChangeDesc] = React.useState('');
+  const [tmpDate, onChangeDate] = useState(moment(Date()).format('LL'));
+  const [unixDate, updateUnixDate] = useState(Date.now());
+  const [tmpTitle, onChangeTitle] = useState('');
+  const [tmpAmt, onChangeAmt] = useState('');
+  const [tmpCat, onChangeCat] = useState('');
+  const [tmpDesc, onChangeDesc] = useState('');
 
   const handleOpen = () => {
     setOpen(!open);
@@ -150,40 +160,50 @@ export default function FloatActionButton(props) {
     onChangeDesc('');
   };
 
+  async function updateDate(newDate) {
+    onChangeDate(moment(newDate).format('LL'));
+    updateUnixDate(newDate);
+    console.log('in parent');
+    console.log(moment(newDate).format('LL'));
+    console.log(newDate);
+  }
+
   //Styles object
-  const inputField = {
-    color: colorScheme.textCol,
-  };
+  const styles = StyleSheet.create({
+    inputField: {
+      color: colorScheme.textCol,
+    },
 
-  const cancelbuttonstyle = {
-    textAlign: 'center',
-    color: '#FF6961',
-    fontSize: 17,
-    padding: 7,
-    borderWidth: 1,
-    borderColor: '#FF6961',
-    borderRadius: 5,
-  };
+    cancelbuttonstyle: {
+      textAlign: 'center',
+      color: '#FF6961',
+      fontSize: 17,
+      padding: 7,
+      borderWidth: 1,
+      borderColor: '#FF6961',
+      borderRadius: 5,
+    },
 
-  const confirmbuttonstyle = {
-    textAlign: 'center',
-    color: '#77DD77',
-    fontSize: 17,
-    padding: 7,
-    borderWidth: 1,
-    borderColor: '#77DD77',
-    borderRadius: 5,
-  };
+    confirmbuttonstyle: {
+      textAlign: 'center',
+      color: '#77DD77',
+      fontSize: 17,
+      padding: 7,
+      borderWidth: 1,
+      borderColor: '#77DD77',
+      borderRadius: 5,
+    },
 
-  const overlaystyle = {
-    width: 350,
-    backgroundColor: colorScheme.fabBackCol,
-  };
+    overlaystyle: {
+      width: 350,
+      backgroundColor: colorScheme.fabBackCol,
+    },
 
-  const labelstyle = {
-    color: 'white',
-    fontWeight: 'normal',
-  };
+    labelstyle: {
+      color: 'white',
+      fontWeight: 'normal',
+    },
+  });
 
   return (
     <Provider>
@@ -218,27 +238,30 @@ export default function FloatActionButton(props) {
       <Overlay
         isVisible={add}
         onBackdropPress={toggleOverlay}
-        overlayStyle={overlaystyle}>
+        overlayStyle={styles.overlaystyle}>
         <Text style={{color: 'white', fontSize: 23}}>Quick add</Text>
 
-        <Text />
-
         <Input
-          inputStyle={inputField}
+          inputStyle={styles.inputField}
           label="Date"
-          labelStyle={labelstyle}
+          labelStyle={styles.labelstyle}
           placeholder="dd/mm/yyyy"
           placeholderTextColor={colorScheme.placeHolderText}
-          rightIcon={<DTPicker />} //TODO: datepicker needs to update value in input field
+          rightIcon={
+            <DTPicker
+              parDateUpdate={(newDate) => console.log(newDate)}
+              parUnixDateUpdate={updateUnixDate}
+            />
+          } //TODO: datepicker needs to update value in input field
           onPress={() => DTPicker.setShow(true)}
           onChangeText={(text) => onChangeDate(text)}
           value={tmpDate}
         />
 
         <Input
-          inputStyle={inputField}
+          inputStyle={styles.inputField}
           label="Title"
-          labelStyle={labelstyle}
+          labelStyle={styles.labelstyle}
           placeholderTextColor={colorScheme.placeHolderText}
           placeholder="e.g. Kelly's birthday present"
           onChangeText={(text) => onChangeTitle(text)}
@@ -246,9 +269,9 @@ export default function FloatActionButton(props) {
         />
 
         <Input
-          inputStyle={inputField}
+          inputStyle={styles.inputField}
           label="Amount"
-          labelStyle={labelstyle}
+          labelStyle={styles.labelstyle}
           placeholder="e.g. $5.50"
           placeholderTextColor={colorScheme.placeHolderText}
           keyboardType="numeric"
@@ -257,9 +280,9 @@ export default function FloatActionButton(props) {
         />
 
         <Input
-          inputStyle={inputField}
+          inputStyle={styles.inputField}
           label="Category"
-          labelStyle={labelstyle}
+          labelStyle={styles.labelstyle}
           placeholder="(optional)"
           placeholderTextColor={colorScheme.placeHolderText}
           onChangeText={(text) => onChangeCat(text)}
@@ -267,9 +290,9 @@ export default function FloatActionButton(props) {
         />
 
         <Input
-          inputStyle={inputField}
+          inputStyle={styles.inputField}
           label="Description"
-          labelStyle={labelstyle}
+          labelStyle={styles.labelstyle}
           placeholder="(optional)"
           placeholderTextColor={colorScheme.placeHolderText}
           onChangeText={(text) => onChangeDesc(text)}
@@ -277,11 +300,11 @@ export default function FloatActionButton(props) {
         />
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={cancelbuttonstyle} onPress={() => handleCancel()}>
+          <Text style={styles.cancelbuttonstyle} onPress={() => handleCancel()}>
             Cancel
           </Text>
           <Text
-            style={confirmbuttonstyle}
+            style={styles.confirmbuttonstyle}
             onPress={() => {
               handleConfirm();
             }}>

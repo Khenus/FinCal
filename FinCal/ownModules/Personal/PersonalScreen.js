@@ -3,14 +3,17 @@ import {View, Text, StyleSheet, useWindowDimensions} from 'react-native';
 import {connect} from 'react-redux';
 
 import FloatActionButton from '../FloatActionButton';
-import PieChartWithDynamicSlices from './PieChartWithDynamicSlices';
+import PieChartWithDynamicSlices from './Components/PieChartWithDynamicSlices';
 
-import TransactionList from './TransactionList.js';
+import TransactionList from './Components/TransactionList.js';
 import {fetchTransact} from '../API';
 import {darkTheme, lightTheme} from '../GlobalValues.js';
 
 function PersonalScreen(props) {
   let currHeight = useWindowDimensions().height;
+
+  const numMonths = 5;
+  let navigation = props.navigation;
 
   let [transactData, updateTransactData] = useState([]);
   let [themeDark, updateTheme] = useState(true);
@@ -31,21 +34,24 @@ function PersonalScreen(props) {
 
   useEffect(() => {
     async function tempHandler() {
-      let result = await fetchTransact(currUser.Email, currUser.uuid);
+      let result = await fetchTransact(
+        currUser.Email,
+        currUser.uuid,
+        numMonths,
+      );
+      console.log(result);
       if (typeof result === 'object') {
         updateTransactData(result);
       }
     }
 
     tempHandler();
-  }, [currUser.Email, currUser.uuid]);
+  }, [currUser.Email, currUser.uuid, numMonths]);
 
   const localStyle = StyleSheet.create({
     mainView: {
       flex: 1,
       backgroundColor: colorScheme.backCol,
-      // borderColor: 'white',
-      // borderWidth: 1,
     },
 
     header: {
@@ -89,10 +95,22 @@ function PersonalScreen(props) {
   });
 
   async function updateData() {
-    let result = await fetchTransact(currUser.Email, currUser.uuid);
+    let result = await fetchTransact(currUser.Email, currUser.uuid, numMonths);
+    console.log(result);
     if (typeof result === 'object') {
       updateTransactData(result);
     }
+  }
+
+  function toBudgetDetails() {
+    navigation.navigate('BudgetDetails');
+  }
+
+  function toAllTransact() {
+    navigation.navigate('AllTransactions', {
+      transactData: transactData,
+      pullTransactRef: updateData,
+    });
   }
 
   return (
@@ -105,31 +123,26 @@ function PersonalScreen(props) {
       {/* Budget breakdown */}
       <View>
         <View style={localStyle.subHeader}>
-          <Text style={localStyle.subtitleStyle}>Budget</Text>
-          <Text
-            style={localStyle.viewDetails}
-            onPress={() => console.log('to personal > budget breakdown page')}>
-            VIEW DETAILS
+          <Text style={localStyle.subtitleStyle}>Budget Overview</Text>
+          <Text style={localStyle.viewDetails} onPress={toBudgetDetails}>
+            View Details
           </Text>
         </View>
 
-        <PieChartWithDynamicSlices currUser={currUser}/>
+        {/* Add this into pie chart component disData={sorteddata} */}
+        <PieChartWithDynamicSlices currUser={currUser} />
       </View>
 
       {/* Transaction List */}
       <View style={localStyle.transList}>
         <View style={localStyle.subHeader}>
           <Text style={localStyle.subtitleStyle}>Latest Transactions</Text>
-          <Text
-            style={localStyle.viewDetails}
-            onPress={() =>
-              console.log('to personal > full transaction list page')
-            }>
-            View all transactions
+          <Text style={localStyle.viewDetails} onPress={toAllTransact}>
+            View All
           </Text>
         </View>
 
-        <TransactionList dataArr={transactData} num="5" themeDark={themeDark} />
+        <TransactionList dataArr={transactData} num={5} themeDark={themeDark} />
       </View>
 
       <FloatActionButton currUser={currUser} pullTransact={updateData} />
