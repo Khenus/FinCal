@@ -76,9 +76,9 @@ export default function PieChartWithDynamicSlices(props) {
     tempHandler();
   }, [props.disData]);
 
-  useEffect(() => {
-    console.log(disVal);
-  }, [disVal]);
+  // useEffect(() => {
+  //   console.log(disVal);
+  // }, [disVal]);
 
   const pieData = disVal
     .filter((value) => value > 0)
@@ -125,10 +125,10 @@ export default function PieChartWithDynamicSlices(props) {
           </Text>
           <Text style={{color: 'white', fontSize: 15}}>transactions{'\n'}</Text>
           <Text style={{color: 'red', fontSize: 15, fontStyle: 'italic'}}>
-            Spent: ${spending} {'\n'}
+            Spent: ${spending.toFixed(2)} {'\n'}
           </Text>
           <Text style={{color: 'green', fontSize: 15, fontStyle: 'italic'}}>
-            Left: ${earning - spending}
+            Left: ${(earning - spending).toFixed(2)}
           </Text>
         </Text>
       </View>

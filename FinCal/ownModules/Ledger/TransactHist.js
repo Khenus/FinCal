@@ -20,8 +20,6 @@ export default function TransactHist(props) {
   let currHeight = useWindowDimensions().height;
   let navigation = props.navigation;
 
-  console.log(props);
-
   let currObj = props.route.params;
   let name = currObj.Name;
 

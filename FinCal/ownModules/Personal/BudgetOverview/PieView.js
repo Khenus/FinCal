@@ -2,63 +2,37 @@ import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
-  Button,
   StyleSheet,
-  ScrollView,
+  ActivityIndicator,
   useWindowDimensions,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {transCategory} from '../../GlobalObject';
-import {darkTheme, lightTheme} from '../../GlobalValues.js';
+// import {darkTheme, lightTheme} from '../../GlobalValues.js'; //Add this in when we need to change theme
 import PieChartWithDynamicSlices from '../Components/PieChartWithDynamicSlices';
-import FakeDataPie from '../FakeDataPie.js';
 
 export default function PieView(props) {
   let currWidth = useWindowDimensions().width;
 
   let currUser = props.currUser;
+  let iniIdx = props.iniIdx;
   let monthlyTotal = props.monthlyTotal;
-
-  console.log(props);
-
-  console.log('inside pie view ' + JSON.stringify(monthlyTotal));
-
-  let [pickOption, updatePickOption] = useState([0]);
-  let [actualData, updateActualData] = useState([0]);
+  let pickerIni = props.pickerIni;
+  let pickerOption = props.pickerOption;
+  let actualData = props.actualData;
 
   let [selOption, updateSelOption] = useState('');
   let [selIdx, updateSelIdx] = useState(0);
 
-  let [disVal, updateDisVal] = useState([0]);
+  useEffect(() => {
+    updateSelOption(pickerIni);
+  }, [pickerIni]);
 
   useEffect(() => {
-    updateDisVal(actualData[selIdx]);
-    console.log("actual data = " + actualData);
-  }, [actualData, selIdx]);
-
-  useEffect(() => {
-    updatePickOption(props.pickerOption);
-  }, [props.pickerOption]);
-
-  useEffect(() => {
-    updateActualData(props.actualData);
-    console.log("ran");
-  }, [props.actualData]);
-
-  useEffect(() => {
-    updateSelOption(props.pickerIni);
-  }, [props.pickerIni]);
-
-  useEffect(() => {
-    updateSelIdx(props.iniIdx);
-  }, [props.iniIdx]);
-
-  useEffect(() => {
-    console.log("disval");
-    console.log(disVal);
-  }, [disVal]);
+    updateSelIdx(iniIdx);
+  }, [iniIdx]);
 
   const localStyle = StyleSheet.create({
     breakdownStyle: {
@@ -108,6 +82,10 @@ export default function PieView(props) {
       // borderColor: 'yellow',
       // borderWidth: 1,
     },
+
+    padding: {
+      height: 20,
+    },
   });
 
   return (
@@ -121,7 +99,7 @@ export default function PieView(props) {
           selectedValue={selOption}
           style={localStyle.dropDown}
           mode="dropdown">
-          {pickOption.map((currItem, idx) => (
+          {pickerOption.map((currItem, idx) => (
             <Picker.Item key={idx} label={`${currItem}`} value={currItem} />
           ))}
         </Picker>
@@ -130,18 +108,24 @@ export default function PieView(props) {
         *Pie Chart only shows spending breakdown
       </Text>
 
-      <PieChartWithDynamicSlices currUser={currUser} disData={disVal} />
+      <PieChartWithDynamicSlices
+        currUser={currUser}
+        disData={actualData[selIdx]}
+      />
 
       <Text style={localStyle.breakdownStyle}>Full Breakdown</Text>
 
       <PieListHandler
         monthlyTotal={monthlyTotal[selIdx]}
-        currMonth={disVal}
+        currMonthData={actualData[selIdx]}
         type="Spending"
       />
+
+      <View style={localStyle.padding} />
+
       <PieListHandler
         monthlyTotal={monthlyTotal[selIdx]}
-        currMonth={disVal}
+        currMonthData={actualData[selIdx]}
         type="Earning"
       />
     </View>
@@ -149,89 +133,65 @@ export default function PieView(props) {
 }
 
 function PieListHandler(props) {
+  // useEffect(() => {
+  //   console.log('Curr Month Data');
+  //   console.log(props.currMonthData);
+  // }, [props.currMonthData]);
+
+  // useEffect(() => {
+  //   console.log('Curr Month Total value');
+  //   console.log(props.monthlyTotal);
+  // }, [props.monthlyTotal]);
+
+  let currData = props.currMonthData;
   let monthTotal = props.monthlyTotal;
-  let currMonth = props.currMonth;
   let type = props.type;
 
-  console.log('inside pie list handler ' + JSON.stringify(monthTotal));
-
-  let [currTotal, updateCurrTotal] = useState({Spending: 0.0, Earning: 0.0});
-  let [currData, updateCurrData] = useState([]);
-
-  let [earnArr, updateEarnArr] = useState([]);
-  let [spendArr, updateSpendArr] = useState([]);
-
-  let [spendTotal, updateSpendTotal] = useState(0.0);
-  let [earnTotal, updateEarnTotal] = useState(0.0);
+  let [currTotal, updateCurrTotal] = useState(0.0);
+  let [currDataCompressed, updateCurrDataCompressed] = useState([]);
 
   useEffect(() => {
-    updateCurrTotal(monthTotal);
-    console.log(
-      'curr total updated with month total with value ' +
-        JSON.stringify(monthTotal),
-    );
-  }, [monthTotal]);
+    if (type === 'Spending') {
+      updateCurrTotal(monthTotal.Spending);
+    } else {
+      updateCurrTotal(monthTotal.Earning);
+    }
+  }, [monthTotal, type]);
 
   useEffect(() => {
-    updateCurrData(currMonth);
-  }, [currMonth]);
-
-  useEffect(() => {
-    updateSpendTotal(currTotal.Spending.toFixed(2));
-    updateEarnTotal(currTotal.Earning.toFixed(2));
-  }, [currTotal.Earning, currTotal.Spending]);
-
-  useEffect(() => {
-    console.log(currData.length);
-    console.log(currData);
-    if (currData.length > 0) {
-      let tempSpendArr = [];
-      let tempEarnArr = [];
+    if (
+      currData !== undefined &&
+      transCategory !== undefined &&
+      monthTotal !== undefined
+    ) {
+      let tempArr = [];
+      let compressedArr = [];
 
       for (let i = 0; i < transCategory.length; i++) {
-        tempSpendArr.push({Amount: 0.0, Percent: 0.0, catoIdx: 0});
-        tempEarnArr.push({Amount: 0.0, Percent: 0.0, catoIdx: 0});
+        tempArr.push({Amount: 0.0, Percent: 0.0, catoIdx: 0});
       }
 
-      console.log("temp spend arr");
-      console.log(tempSpendArr);
-
-      let finalSpendArr = [];
-      let finalEarnArr = [];
-
       for (let i = 0; i < currData.length; i++) {
-        if (currData[i].Type === 'Spending') {
+        if (currData[i].Type === type) {
           let catoIdx = parseInt(currData[i].catIdx, 10);
-          tempSpendArr[catoIdx].Amount += parseFloat(currData[i].Amount);
-          tempSpendArr[catoIdx].catoIdx = catoIdx;
-          tempSpendArr[catoIdx].Percent =
-            (tempSpendArr[catoIdx].Amount / monthTotal[catoIdx]) * 100;
-        } else {
-          let catoIdx = parseInt(currData[i].catIdx, 10);
-          // console.log(catoIdx);
-          tempEarnArr[catoIdx].Amount += parseFloat(currData[i].Amount);
-          tempEarnArr[catoIdx].catoIdx = catoIdx;
-          tempEarnArr[catoIdx].Percent =
-            (parseFloat(tempEarnArr[catoIdx].Amount) /
-              parseFloat(monthTotal[catoIdx])) *
-            100;
+          tempArr[catoIdx].Amount += parseFloat(currData[i].Amount);
+          tempArr[catoIdx].catoIdx = catoIdx;
+          tempArr[catoIdx].Percent =
+            (parseFloat(tempArr[catoIdx].Amount) / parseFloat(currTotal)) * 100;
         }
       }
 
       for (let j = 0; j < transCategory.length; j++) {
-        if (tempSpendArr[j].Amount !== 0.0) {
-          finalSpendArr.push(tempSpendArr[j]);
-        }
-
-        if (tempEarnArr[j].Amount !== 0.0) {
-          finalEarnArr.push(tempEarnArr[j]);
+        if (tempArr[j].Amount !== 0.0) {
+          compressedArr.push(tempArr[j]);
         }
       }
 
-      updateSpendArr(finalSpendArr);
-      updateEarnArr(finalEarnArr);
+      // console.log(tempArr);
+      // console.log(compressedArr);
+      updateCurrDataCompressed(compressedArr);
     }
-  }, [currData, monthTotal]);
+  }, [currData, currTotal, monthTotal, type]);
 
   const localStyle = StyleSheet.create({
     tableHeadStyle1: {
@@ -257,35 +217,19 @@ function PieListHandler(props) {
     },
   });
 
-  if (type === 'Spending') {
-    return (
-      <View>
-        <View style={localStyle.headerBar}>
-          <Text style={localStyle.tableHeadStyle1}>Total Spending</Text>
-          <Text style={localStyle.tableHeadStyle2}>${spendTotal}</Text>
-          <Text style={localStyle.tableHeadStyle2}>100%</Text>
-        </View>
-
-        {spendArr.map((item, idx) => (
-          <PieListItem data={item} key={idx} />
-        ))}
+  return (
+    <View>
+      <View style={localStyle.headerBar}>
+        <Text style={localStyle.tableHeadStyle1}>Total {type}</Text>
+        <Text style={localStyle.tableHeadStyle2}>${currTotal.toFixed(2)}</Text>
+        <Text style={localStyle.tableHeadStyle2}>100%</Text>
       </View>
-    );
-  } else {
-    return (
-      <View>
-        <View style={localStyle.headerBar}>
-          <Text style={localStyle.tableHeadStyle1}>Total Earning</Text>
-          <Text style={localStyle.tableHeadStyle2}>${earnTotal}</Text>
-          <Text style={localStyle.tableHeadStyle2}>100%</Text>
-        </View>
 
-        {earnArr.map((item, idx) => (
-          <PieListItem data={item} key={idx} />
-        ))}
-      </View>
-    );
-  }
+      {currDataCompressed.map((item, idx) => (
+        <PieListItem data={item} key={idx} />
+      ))}
+    </View>
+  );
 }
 
 function PieListItem(props) {
@@ -317,19 +261,36 @@ function PieListItem(props) {
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
+
+    loading: {
+      justifyContent: 'center',
+      height: 200,
+    },
   });
 
-  return (
-    <View style={localStyle.itemStyle}>
-      <View style={localStyle.catContainerStyle}>
-        <MaterialCommunityIcons name="rocket" color="white" size={26} />
-        <Text style={localStyle.catTextStyle}>
-          {transCategory[data.catoIdx]}
+  if (data.Amount === undefined || data.Percent === undefined) {
+    return (
+      <View style={localStyle.loading}>
+        <ActivityIndicator size="small" color="white" />
+      </View>
+    );
+  } else {
+    return (
+      <View style={localStyle.itemStyle}>
+        <View style={localStyle.catContainerStyle}>
+          <MaterialCommunityIcons name="rocket" color="white" size={26} />
+          <Text style={localStyle.catTextStyle}>
+            {transCategory[data.catoIdx]}
+          </Text>
+        </View>
+
+        <Text style={localStyle.amtPctTextStyle}>
+          ${data.Amount.toFixed(2)}
+        </Text>
+        <Text style={localStyle.amtPctTextStyle}>
+          {data.Percent.toFixed(2)}%
         </Text>
       </View>
-
-      <Text style={localStyle.amtPctTextStyle}>${data.Amount.toFixed(2)}</Text>
-      <Text style={localStyle.amtPctTextStyle}>{data.Percent}%</Text>
-    </View>
-  );
+    );
+  }
 }

@@ -1,7 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import {connect} from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import FloatActionButton from '../FloatActionButton';
 import {darkTheme, lightTheme} from '../GlobalValues.js';
@@ -20,9 +27,9 @@ function BudgetDetails(props) {
 
   let [comMonthIdx, updateComMonthIdx] = useState(0);
   let [comMonth, updateComMonth] = useState('');
-  let [comPickerVal, updateComPickerVal] = useState([0]);
-  let [comDataArr, updateComDataArr] = useState([0]);
-  let [originalIdx, updateOriginalIdx] = useState([0]);
+  let [comPickerVal, updateComPickerVal] = useState([]);
+  let [comDataArr, updateComDataArr] = useState([]);
+  let [originalIdx, updateOriginalIdx] = useState([]);
   let [monthTotal, updateMonthTotal] = useState([
     {Spending: 0.0, Earning: 0.0},
   ]);
@@ -67,10 +74,6 @@ function BudgetDetails(props) {
     }
     tempHandler();
   }, [currMonthIdx, sortedMonthArr, yearArray]);
-
-  // useEffect(() => {
-  //   console.log(comMonthIdx);
-  // }, [comMonthIdx]);
 
   let [themeDark, updateTheme] = useState(true);
   let [colorScheme, updateColorScheme] = useState(darkTheme);
@@ -131,7 +134,6 @@ function BudgetDetails(props) {
       color: colorScheme.textCol,
       fontSize: 25,
       fontWeight: 'bold',
-      marginTop: 20,
       marginLeft: 15,
     },
 
@@ -156,6 +158,22 @@ function BudgetDetails(props) {
       padding: 2.5,
       marginLeft: 5,
     },
+
+    headerBar: {
+      flexDirection: 'row',
+      paddingLeft: 14,
+      height: 60,
+      alignItems: 'center',
+      backgroundColor: colorScheme.backCol,
+    },
+
+    headerPadding: {
+      flex: 1,
+    },
+
+    text: {
+      color: colorScheme.textCol,
+    },
   });
 
   function handlePiePress() {
@@ -168,6 +186,10 @@ function BudgetDetails(props) {
     updatePieColor('white');
     updateBarColor('yellow');
     updateView(false);
+  }
+
+  function back() {
+    navigation.pop(1);
   }
 
   let stuffToDisplay;
@@ -183,38 +205,51 @@ function BudgetDetails(props) {
       />
     );
   } else {
-    stuffToDisplay = <BarView />;
+    stuffToDisplay = <BarView oriIdx={originalIdx} monthlyTotal={monthTotal} />;
   }
 
   return (
-    <ScrollView style={localStyle.mainView}>
-      <View style={localStyle.header}>
-        <Text style={localStyle.welcomeStyle}>Your personal finances.</Text>
+    <View style={localStyle.mainView}>
+      <View style={localStyle.headerBar}>
+        <TouchableOpacity onPress={back}>
+          <Icon name="arrow-back" size={25} style={localStyle.text} />
+        </TouchableOpacity>
+        <View style={localStyle.headerPadding} />
       </View>
 
-      <View style={localStyle.subHeader}>
-        <Text style={localStyle.subtitleStyle}>Budget Overview</Text>
-        <View style={localStyle.logoView}>
-          <MaterialCommunityIcons
-            name="chart-pie"
-            color={pieColor}
-            size={25}
-            style={localStyle.pieIconStyle}
-            onPress={() => handlePiePress()}
-          />
-          <MaterialCommunityIcons
-            name="poll"
-            color={barColor}
-            size={25}
-            style={localStyle.barIconStyle}
-            onPress={() => handleBarPress()}
-          />
+      <ScrollView>
+        <View style={localStyle.header}>
+          <Text style={localStyle.welcomeStyle}>Your personal finances.</Text>
         </View>
-      </View>
 
-      {/* Cond rendering for pie/bar view */}
-      {stuffToDisplay}
-    </ScrollView>
+        <View style={localStyle.subHeader}>
+          <Text style={localStyle.subtitleStyle}>Budget Overview</Text>
+          <View style={localStyle.logoView}>
+            <MaterialCommunityIcons
+              name="chart-pie"
+              color={pieColor}
+              size={25}
+              style={localStyle.pieIconStyle}
+              onPress={() => handlePiePress()}
+            />
+            <MaterialCommunityIcons
+              name="poll"
+              color={barColor}
+              size={25}
+              style={localStyle.barIconStyle}
+              onPress={() => handleBarPress()}
+            />
+          </View>
+        </View>
+
+        {/* Cond rendering for pie/bar view */}
+        {stuffToDisplay}
+      </ScrollView>
+      <FloatActionButton
+        currUser={currUser}
+        pullTransact={props.route.params.pullTransactRef}
+      />
+    </View>
   );
 }
 

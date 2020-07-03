@@ -50,3 +50,11 @@ export const monthName = [
   'November',
   'December',
 ];
+
+export const barGraphCol = [
+  '#FF6961',
+  '#FDFD96',
+  '#77DD77',
+  '#87CEFA',
+  '#B19CD9',
+];

@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, useWindowDimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  useWindowDimensions,
+} from 'react-native';
 import {connect} from 'react-redux';
 
 import FloatActionButton from '../FloatActionButton';
@@ -124,8 +130,28 @@ function PersonalScreen(props) {
 
   async function updateData() {
     let result = await fetchTransact(currUser.Email, currUser.uuid, numMonths);
+
     if (typeof result === 'object') {
+      //Updating trasaction data for the recent trasaction
       updateTransactData(result);
+
+      //Updated trasaction data sorted by month
+      let tempArr = [];
+      let tempYearArr = [];
+      for (let j = 0; j < 12; j++) {
+        tempArr.push([]);
+        tempYearArr.push(0);
+      }
+
+      for (let i = 0; i < result.length; i++) {
+        let currUnix = parseInt(result[i].createdAtUnix, 10) * 1000;
+        let tempMonth = new Date(currUnix).getMonth();
+        tempArr[tempMonth].push(result[i]);
+        tempYearArr[tempMonth] = new Date(currUnix).getFullYear();
+      }
+
+      updateMonthlyTransactData(tempArr);
+      updateYearArr(tempYearArr);
     }
   }
 
@@ -134,6 +160,7 @@ function PersonalScreen(props) {
       currMonthIdx: currMonthIdx,
       yearArr: yearArr,
       sortedMonthArr: monthlyTransactData,
+      pullTransactRef: updateData,
     });
   }
 
@@ -147,40 +174,45 @@ function PersonalScreen(props) {
   return (
     <View style={localStyle.mainView}>
       {/* Header text */}
-      <View style={localStyle.header}>
-        <Text style={localStyle.welcomeStyle}>Your personal finances.</Text>
-      </View>
-
-      {/* Budget breakdown */}
-      <View>
-        <View style={localStyle.subHeader}>
-          <Text style={localStyle.subtitleStyle}>Budget Overview</Text>
-          <Text style={localStyle.viewDetails} onPress={toBudgetDetails}>
-            View Details
-          </Text>
+      <ScrollView>
+        <View style={localStyle.header}>
+          <Text style={localStyle.welcomeStyle}>Your personal finances.</Text>
         </View>
 
-        {/* Add this into pie chart component disData={sorteddata} */}
-        <View style={localStyle.piePadding} />
-        <PieChartWithDynamicSlices
-          currUser={currUser}
-          disData={monthlyTransactData[currMonthIdx]}
-        />
-        <View style={localStyle.piePadding} />
-      </View>
+        {/* Budget breakdown */}
+        <View>
+          <View style={localStyle.subHeader}>
+            <Text style={localStyle.subtitleStyle}>Budget Overview</Text>
+            <Text style={localStyle.viewDetails} onPress={toBudgetDetails}>
+              View Details
+            </Text>
+          </View>
 
-      {/* Transaction List */}
-      <View style={localStyle.transList}>
-        <View style={localStyle.subHeader}>
-          <Text style={localStyle.subtitleStyle}>Latest Transactions</Text>
-          <Text style={localStyle.viewDetails} onPress={toAllTransact}>
-            View All
-          </Text>
+          {/* Add this into pie chart component disData={sorteddata} */}
+          <View style={localStyle.piePadding} />
+          <PieChartWithDynamicSlices
+            currUser={currUser}
+            disData={monthlyTransactData[currMonthIdx]}
+          />
+          <View style={localStyle.piePadding} />
         </View>
 
-        <TransactionList dataArr={transactData} num={5} themeDark={themeDark} />
-      </View>
+        {/* Transaction List */}
+        <View style={localStyle.transList}>
+          <View style={localStyle.subHeader}>
+            <Text style={localStyle.subtitleStyle}>Latest Transactions</Text>
+            <Text style={localStyle.viewDetails} onPress={toAllTransact}>
+              View All
+            </Text>
+          </View>
 
+          <TransactionList
+            dataArr={transactData}
+            num={5}
+            themeDark={themeDark}
+          />
+        </View>
+      </ScrollView>
       <FloatActionButton currUser={currUser} pullTransact={updateData} />
     </View>
   );

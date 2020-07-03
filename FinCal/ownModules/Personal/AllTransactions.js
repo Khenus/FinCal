@@ -20,7 +20,7 @@ import {darkTheme, lightTheme} from '../GlobalValues.js';
 function AllTransactions(props) {
   let currHeight = useWindowDimensions().height;
 
-  console.log(props);
+  // console.log(props);
 
   let navigation = props.navigation;
   let parTransactData = props.route.params.transactData;
