@@ -15,7 +15,10 @@ function PersonalScreen(props) {
   const numMonths = 5;
   let navigation = props.navigation;
 
+  let [yearArr, updateYearArr] = useState(new Array(12).fill(0));
+  let [currMonthIdx, updateCurrMonthIdx] = useState(0);
   let [transactData, updateTransactData] = useState([]);
+  let [monthlyTransactData, updateMonthlyTransactData] = useState([]);
   let [themeDark, updateTheme] = useState(true);
   let [colorScheme, updateColorScheme] = useState(darkTheme);
 
@@ -39,13 +42,34 @@ function PersonalScreen(props) {
         currUser.uuid,
         numMonths,
       );
-      console.log(result);
+
       if (typeof result === 'object') {
+        //Updating trasaction data for the recent trasaction
         updateTransactData(result);
+
+        //Updated trasaction data sorted by month
+        let tempArr = [];
+        let tempYearArr = [];
+        for (let j = 0; j < 12; j++) {
+          tempArr.push([]);
+          tempYearArr.push(0);
+        }
+
+        for (let i = 0; i < result.length; i++) {
+          let currUnix = parseInt(result[i].createdAtUnix, 10) * 1000;
+          let tempMonth = new Date(currUnix).getMonth();
+          tempArr[tempMonth].push(result[i]);
+          tempYearArr[tempMonth] = new Date(currUnix).getFullYear();
+        }
+
+        updateMonthlyTransactData(tempArr);
+        updateYearArr(tempYearArr);
       }
     }
-
     tempHandler();
+
+    //Updating current date index
+    updateCurrMonthIdx(new Date().getMonth());
   }, [currUser.Email, currUser.uuid, numMonths]);
 
   const localStyle = StyleSheet.create({
@@ -92,18 +116,25 @@ function PersonalScreen(props) {
       // borderColor: 'white',
       // borderWidth: 1,
     },
+
+    piePadding: {
+      height: 10,
+    },
   });
 
   async function updateData() {
     let result = await fetchTransact(currUser.Email, currUser.uuid, numMonths);
-    console.log(result);
     if (typeof result === 'object') {
       updateTransactData(result);
     }
   }
 
   function toBudgetDetails() {
-    navigation.navigate('BudgetDetails');
+    navigation.navigate('BudgetDetails', {
+      currMonthIdx: currMonthIdx,
+      yearArr: yearArr,
+      sortedMonthArr: monthlyTransactData,
+    });
   }
 
   function toAllTransact() {
@@ -130,7 +161,12 @@ function PersonalScreen(props) {
         </View>
 
         {/* Add this into pie chart component disData={sorteddata} */}
-        <PieChartWithDynamicSlices currUser={currUser} />
+        <View style={localStyle.piePadding} />
+        <PieChartWithDynamicSlices
+          currUser={currUser}
+          disData={monthlyTransactData[currMonthIdx]}
+        />
+        <View style={localStyle.piePadding} />
       </View>
 
       {/* Transaction List */}

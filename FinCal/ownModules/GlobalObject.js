@@ -35,3 +35,18 @@ export const pieChartCols = [
   '#73b362',
   '#16151e',
 ];
+
+export const monthName = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];

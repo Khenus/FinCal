@@ -162,25 +162,27 @@ function LedgerSummary(props) {
         currUser.uuid,
       );
 
-      let toPayTemp = [];
-      let toPayAmtTemp = 0.0;
-      let toRecvTemp = [];
-      let toRecvAmtTemp = 0.0;
+      if (typeof toRecvRes === 'object' && typeof toPayRes === 'object') {
+        let toPayTemp = [];
+        let toPayAmtTemp = 0.0;
+        let toRecvTemp = [];
+        let toRecvAmtTemp = 0.0;
 
-      for (let i = 0; i < toPayRes.length; i++) {
-        toPayAmtTemp += parseFloat(toPayRes[i].Amount);
-        toPayTemp.push(toPayRes[i]);
+        for (let i = 0; i < toPayRes.length; i++) {
+          toPayAmtTemp += parseFloat(toPayRes[i].Amount);
+          toPayTemp.push(toPayRes[i]);
+        }
+
+        for (let i = 0; i < toRecvRes.length; i++) {
+          toRecvAmtTemp += parseFloat(toRecvRes[i].Amount);
+          toRecvTemp.push(toRecvRes[i]);
+        }
+
+        updateToPayAmt(toPayAmtTemp.toFixed(2));
+        updateToRecvAmt(toRecvAmtTemp.toFixed(2));
+        updateToPayArr(toPayTemp);
+        updateToRecvArr(toRecvTemp);
       }
-
-      for (let i = 0; i < toRecvRes.length; i++) {
-        toRecvAmtTemp += parseFloat(toRecvRes[i].Amount);
-        toRecvTemp.push(toRecvRes[i]);
-      }
-
-      updateToPayAmt(toPayAmtTemp.toFixed(2));
-      updateToRecvAmt(toRecvAmtTemp.toFixed(2));
-      updateToPayArr(toPayTemp);
-      updateToRecvArr(toRecvTemp);
 
       updateLoading(false);
     }

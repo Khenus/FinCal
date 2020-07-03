@@ -45,30 +45,32 @@ export default function PieChartWithDynamicSlices(props) {
       updateIsLoading(true);
       // let result = await getThisMonthTransact(currUser.Email, currUser.uuid);
       let result = props.disData;
-      console.log(result);
 
-      let tempSpending = 0.0;
-      let tempEarning = 0.0;
-      let tempSliceArr = new Array(transCategory.length);
+      if (typeof result === 'object') {
+        let tempSpending = 0.0;
+        let tempEarning = 0.0;
+        let tempSliceArr = new Array(transCategory.length);
 
-      for (let i = 0; i < tempSliceArr.length; i++) {
-        tempSliceArr[i] = 0.0;
-      }
-
-      for (let i = 0; i < result.length; i++) {
-        let currAmt = parseFloat(result[i].Amount, 10);
-        if (result[i].Type === 'Spending') {
-          tempSpending += currAmt;
-          tempSliceArr[parseFloat(result[i].catIdx, 10)] += currAmt;
-        } else {
-          tempEarning += currAmt;
+        for (let i = 0; i < transCategory.length; i++) {
+          tempSliceArr[i] = 0.0;
         }
+
+        for (let i = 0; i < result.length; i++) {
+          let currAmt = parseFloat(result[i].Amount, 10);
+          if (result[i].Type === 'Spending') {
+            tempSpending += currAmt;
+            tempSliceArr[parseFloat(result[i].catIdx, 10)] += currAmt;
+          } else {
+            tempEarning += currAmt;
+          }
+        }
+
+        updateNumTransact(result.length);
+        updateDisVal(tempSliceArr);
+        updateSpending(tempSpending);
+        updateEarning(tempEarning);
       }
 
-      updateNumTransact(result.length);
-      updateDisVal(tempSliceArr);
-      updateSpending(tempSpending);
-      updateEarning(tempEarning);
       updateIsLoading(false);
     }
     tempHandler();
@@ -97,10 +99,10 @@ export default function PieChartWithDynamicSlices(props) {
     );
   } else {
     return (
-      <View style={{justifyContent: 'center'}}>
+      <View style={{alignItem: 'center', justifyContent: 'center'}}>
         <PieChart
-          style={{height: 200}}
-          outerRadius={'100%'}
+          style={{height: 250}}
+          outerRadius={'90%'}
           innerRadius={'60%'}
           data={pieData}
         />

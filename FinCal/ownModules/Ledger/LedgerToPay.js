@@ -145,14 +145,17 @@ function LedgerToPay(props) {
       updateLoading(true);
       let toPayRes = await getLedger('getToPay', currUser.Email, currUser.uuid);
 
-      let toPayAmtTemp = 0.0;
+      if (typeof toPayRes === 'object') {
+        let toPayAmtTemp = 0.0;
 
-      for (let i = 0; i < toPayRes.length; i++) {
-        toPayAmtTemp += parseFloat(toPayRes[i].Amount);
+        for (let i = 0; i < toPayRes.length; i++) {
+          toPayAmtTemp += parseFloat(toPayRes[i].Amount);
+        }
+
+        updateToPayArr(toPayRes);
+        updateToPayAmt(toPayAmtTemp.toFixed(2));
       }
 
-      updateToPayArr(toPayRes);
-      updateToPayAmt(toPayAmtTemp.toFixed(2));
       updateLoading(false);
     }
     tempHandler();

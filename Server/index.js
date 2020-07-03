@@ -133,7 +133,7 @@ app.post('/fetchTransact/', (req, res) =>{
 	var uuid = postData.uuid;
 	var numEntry = postData.numEntry;
 
-	con.query('SELECT * from transaction where Email = ? AND uuid = ? AND createdAt > DATE_SUB(now(), INTERVAL ? MONTH) ORDER BY createdAt DESC', [email, uuid, numEntry], function(err, result){
+	con.query('SELECT * from transaction where Email = ? AND uuidBy = ? AND createdAt > DATE_SUB(now(), INTERVAL ? MONTH) ORDER BY createdAt DESC', [email, uuid, numEntry], function(err, result){
 		if(err != null){
 			console.log(`[${email} (${uuid})]: Transaction fetch error (${err})`);
 			res.end(JSON.stringify("Transaction fetch error: " + err));

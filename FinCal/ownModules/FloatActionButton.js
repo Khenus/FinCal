@@ -153,10 +153,6 @@ function QuickAdd(props) {
       height: 60,
       paddingLeft: 10,
     },
-
-    pickerDrop: {
-      // backgroundColor: colorScheme.backCol,
-    },
   });
 
   useEffect(() => {
@@ -270,7 +266,6 @@ function QuickAdd(props) {
             onValueChange={(newType) => updateType(newType)}
             selectedValue={tmpCat}
             style={styles.dropDown}
-            itemStyle={styles.pickerDrop}
             mode="dropdown">
             {transactType.map((currItem, idx) => (
               <Picker.Item key={idx} label={`${currItem}`} value={currItem} />

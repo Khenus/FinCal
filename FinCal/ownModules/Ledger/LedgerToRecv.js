@@ -155,14 +155,17 @@ function LedgerToRecv(props) {
         currUser.uuid,
       );
 
-      let toRecvAmtTemp = 0.0;
+      if (typeof toRecvRes === 'object') {
+        let toRecvAmtTemp = 0.0;
 
-      for (let i = 0; i < toRecvRes.length; i++) {
-        toRecvAmtTemp += parseFloat(toRecvRes[i].Amount);
+        for (let i = 0; i < toRecvRes.length; i++) {
+          toRecvAmtTemp += parseFloat(toRecvRes[i].Amount);
+        }
+
+        updateToRecvArr(toRecvRes);
+        updateToRecvAmt(toRecvAmtTemp.toFixed(2));
       }
 
-      updateToRecvArr(toRecvRes);
-      updateToRecvAmt(toRecvAmtTemp.toFixed(2));
       updateLoading(false);
     }
     tempHandler();
