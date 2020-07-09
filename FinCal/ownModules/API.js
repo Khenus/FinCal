@@ -161,6 +161,28 @@ export async function getTransHist(fromUUID, toUUID) {
   return result;
 }
 
+export async function searchNum(phone) {
+  let data = {
+    Phone: phone,
+  };
+
+  var result = await fetch(url + '/searchNum/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      throw err;
+    });
+
+  return result;
+}
+
 // export async function getThisMonthTransact(email, uuid) {
 //   let data = {
 //     Email: email,

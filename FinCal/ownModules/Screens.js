@@ -9,6 +9,7 @@ import LoginPage from './Login/LoginPage';
 import SignupPage from './Login/SignupPage';
 
 import HomeScreen from './Home/HomeScreen';
+import FoodJioDetails from './FoodJio/FoodJioDetails';
 
 import PersonalScreen from './Personal/PersonalScreen';
 import AllTransactions from './Personal/AllTransactions';
@@ -64,6 +65,11 @@ function HomeStack() {
       <HomeNavStack.Screen
         name="HomeScreen"
         component={HomeScreen}
+        options={settings.noHeader}
+      />
+      <HomeNavStack.Screen
+        name="FoodJioDetails"
+        component={FoodJioDetails}
         options={settings.noHeader}
       />
     </HomeNavStack.Navigator>

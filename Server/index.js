@@ -60,6 +60,95 @@ con.connect(function (err){
 	}
 });
 
+app.post('/genUUID/', (req, res) =>{
+	var postData = req.body;
+
+	var numtogen = postData.numtogen;
+
+	for(let i = 0; i < parseInt(numtogen); i++) {
+		console.log(uuid.v4());
+	}
+	
+	res.end('done gening');
+});
+
+app.post('/addRestaurant/', (req, res) =>{
+	var postData = req.body;
+
+	console.log(postData);
+
+	var name = postData.Name;
+	var uuniqueID = uuid.v4();
+	var address = postData.Address;
+	var closingTime = postData.closingTime;
+	var openingTime = postData.openingTime;
+	var openDays = postData.openDays;
+
+	con.query('INSERT INTO `restaurantlist` (`id`, `name`, `uuid`, `Address`, `closingTime`, `openingTime`, `openDays`) VALUES (NULL,?,?,?,?,?,?)', [name, uuniqueID, address, closingTime, openingTime, openDays], function (err, result, fields){
+		if(err != null){
+			console.log(`Menu insertion error (${err})`);
+			res.end(JSON.stringify("Menu insertion error: " + err));
+		} else {
+			res.end(JSON.stringify("Menu added with uuid " + uuniqueID));
+			console.log("Menu added with uuid " + uuniqueID);
+		}
+	});
+});
+
+app.post('/addMenuItem/', (req, res) =>{
+	var postData = req.body;
+
+	var resName = postData.resName;
+	var resUUID = postData.resUUID;
+	var serialNum = postData.serialNum;
+	var itemName = postData.itemName;
+	var itemPrice = postData.itemPrice;
+	var itemCategory = postData.itemCategory;
+	var itemSubCategory = postData.itemSubCategory;
+
+	con.query('INSERT INTO `menuitems` (`id`, `resName`, `resUUID`, `serialNum`, `itemName`, `itemPrice`, `itemCategory`, `itemSubCategory`) VALUES (NULL,?,?,?,?,?,?,?)', [resName, resUUID, serialNum, itemName, itemPrice, itemCategory, itemSubCategory], function (err, result, fields){
+		if(err != null){
+			console.log(`Menu item insertion error (${err})`);
+			res.end(JSON.stringify("Menu item insertion error: " + err));
+		} else {
+			res.end(JSON.stringify("Menu item added with name " + resName));
+			console.log("Menu item added with name " + resName);
+		}
+	});
+});
+
+app.post('/getResData/', (req, res) => {
+	var postData = req.body;								//Getting the POST parameters
+	
+	var queryUUID = postData.queryUUID;
+
+	con.query('SELECT * FROM `restaurantlist` WHERE uuid = ?', [queryUUID], function(err, result) {
+		if(err != null){
+			console.log('getResData Error', err);
+			res.end(JSON.stringify("getResData Error"));
+		} else {
+			console.log(`getResData successful`);
+			res.end(JSON.stringify(result));
+		}
+	});
+});
+
+app.post('/getResItem/', (req, res) => {
+	var postData = req.body;								//Getting the POST parameters
+	
+	var queryUUID = postData.queryUUID;
+
+	con.query('SELECT * FROM `menuitems` WHERE resUUID = ?', [queryUUID], function(err, result) {
+		if(err != null){
+			console.log('getResItem Error', err);
+			res.end(JSON.stringify("getResItem Error"));
+		} else {
+			console.log(`getResItem successful`);
+			res.end(JSON.stringify(result));
+		}
+	});
+});
+
 app.post('/register/', (req, res) => {
 	var postData = req.body;								//Getting the POST parameters
 	
@@ -77,6 +166,7 @@ app.post('/register/', (req, res) => {
 	con.query('SELECT * FROM users where Email=?', [email], function(err, result) {
 		if(err != null){
 			console.log('[Register error]: ', err);
+			res.end(JSON.stringify("Register error"));
 		} else {
 			if(result && result.length){
 				console.log(`[${email}]: User already exists`);
@@ -158,8 +248,6 @@ app.post('/addTransact/', (req, res) =>{
 	var desc = postData.Desc;
 	var unixDate = postData.unixDate;
 
-	
-
 	con.query('INSERT INTO `transaction` (`id`, `Email`, `uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (NULL,?,?,?,?,?,?,?,?,?,FROM_UNIXTIME(?),?)', [email, uuid, date, title, amt, type, catIdx, cato, desc, unixDate, unixDate], function (err, result, fields){
 		if(err != null){
 			console.log(`[${email} (${uuid})]: Transaction insertion error (${err})`);
@@ -208,6 +296,22 @@ app.post('/getTransHist/', (req, res) =>{
 			res.end(JSON.stringify("Error getting transaction history " + err));
 		} else {
 			console.log(`[${fromUUID}]: Transaction history fetched successfully`);
+			res.end(JSON.stringify(result));
+		}
+	});
+});
+
+app.post('/searchNum/', (req, res) =>{
+	var postData = req.body;
+
+	var phone = postData.Phone;
+
+	con.query('SELECT uuid, Name FROM users WHERE Phone = ?', [phone], function (err, result, fields){
+		if(err != null){
+			console.log(`Error getting user details for number (${err})`);
+			res.end(JSON.stringify("Error getting user details for number" + err));
+		} else {
+			console.log(`User details successfully fetched for number`);
 			res.end(JSON.stringify(result));
 		}
 	});
