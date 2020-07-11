@@ -46,7 +46,6 @@ export default function FoodJio(props) {
 
   const resetFoodInput = () => {
     onChangeTitle2('');
-    // onChangeTime(''); //change this to prefill time
     onChangeComm('');
   };
 
@@ -64,14 +63,14 @@ export default function FoodJio(props) {
 
       Toast.show('Fields not filled in: ' + JSON.stringify(tmp).slice(1, -1));
     } else {
-      //TODO: some backend stuff here?
-
       setFood(false);
       resetFoodInput();
 
-      navigation.navigate('FoodJioDetails', {
+      navigation.navigate('FoodJioPeople', {
         currUser: currUser,
         menuIdx: menuIdx,
+        title: tmpTitle2,
+        comments: tmpComm,
       });
     }
   }

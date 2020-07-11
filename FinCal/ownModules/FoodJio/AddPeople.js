@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  ScrollView,
   StyleSheet,
   TextInput,
+  ScrollView,
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
@@ -17,9 +17,10 @@ import Toast from 'react-native-simple-toast';
 import {searchNum} from '../API';
 
 export default function AddPeople(props) {
-  let currWidth = useWindowDimensions().width;
+  let currHeight = useWindowDimensions().height;
 
   let currUser = props.currUser;
+  let parAddedPeeps = props.parAddedPeeps;
   let parentDarkTheme = currUser.themeIsDark === 'true';
 
   let [themeDark, updateTheme] = useState(true);
@@ -46,14 +47,12 @@ export default function AddPeople(props) {
 
   const styles = StyleSheet.create({
     mainView: {
-      marginTop: marginVal,
       marginLeft: marginVal,
       marginRight: marginVal,
     },
 
     touchable: {
-      position: 'absolute',
-      right: 0,
+      justifyContent: 'flex-end',
       marginRight: 10,
     },
 
@@ -61,12 +60,9 @@ export default function AddPeople(props) {
       flex: 1,
       marginRight: 40,
       color: colorScheme.textCol,
-      // borderWidth: 2,
-      // borderColor: colorScheme.inputTextWrapper,
     },
 
     searchBar: {
-      width: currWidth - marginVal * 2,
       borderWidth: 2,
       borderColor: colorScheme.inputTextWrapper,
       borderRadius: 10,
@@ -89,14 +85,19 @@ export default function AddPeople(props) {
 
     noResWrap: {
       flexGrow: 1,
+      height: 55,
       alignItems: 'center',
       justifyContent: 'center',
     },
 
     searchResWrap: {
       marginTop: 10,
-      // borderColor: 'white',
-      // borderWidth: 1,
+    },
+
+    peopleWrap: {
+      marginTop: 10,
+      height: currHeight * 0.38,
+      paddingBottom: 10,
     },
 
     searchText: {
@@ -122,6 +123,7 @@ export default function AddPeople(props) {
     },
 
     peopleAdded: {
+      flex: 1,
       color: colorScheme.textCol,
       fontSize: 17,
     },
@@ -129,13 +131,13 @@ export default function AddPeople(props) {
 
   async function searchBackEnd() {
     updateIsLoading(true);
-    if (searchVal.length === 8) {
+    if (searchVal.length === 8 && searchVal !== currUser.Phone) {
       let result = await searchNum(searchVal);
 
       if (typeof result === 'object') {
-        // console.log(result);
         updateSearchRes(result[0]);
       } else {
+        updateSearchRes({});
         Toast.show('Error searching for number: ' + result);
       }
     } else {
@@ -145,11 +147,9 @@ export default function AddPeople(props) {
   }
 
   function addToPeeps() {
-    //Check whether searchRes is an array or just an object
     let exist = false;
 
     for (let i = 0; i < peepAdded.length; i++) {
-      // if (peepAdded[i].uuid === searchRes[0].uuid) {
       if (peepAdded[i].uuid === searchRes.uuid) {
         exist = true;
         break;
@@ -159,9 +159,9 @@ export default function AddPeople(props) {
     if (exist !== true) {
       let tempArr = [...peepAdded];
 
-      // tempArr.push(searchRes[0]);
       tempArr.push(searchRes);
       updatePeepAdded(tempArr);
+      parAddedPeeps(tempArr);
     } else {
       Toast.show('User already added to Jio list');
     }
@@ -171,6 +171,7 @@ export default function AddPeople(props) {
     let tempArr = [...peepAdded];
     tempArr.splice(idx, 1);
     updatePeepAdded(tempArr);
+    parAddedPeeps(tempArr);
   }
 
   let searchLogo;
@@ -189,7 +190,10 @@ export default function AddPeople(props) {
   }
 
   let searchDis;
-  if (Object.keys(searchRes).length === 0 && searchRes.constructor === Object) {
+  if (
+    searchRes === undefined ||
+    (Object.keys(searchRes).length === 0 && searchRes.constructor === Object)
+  ) {
     searchDis = (
       <View style={styles.noResWrap}>
         <Text style={styles.text}>There are no search results yet.</Text>
@@ -241,9 +245,9 @@ export default function AddPeople(props) {
         <Text style={styles.searchText}>Search result:</Text>
         {searchDis}
       </View>
-      <View style={styles.searchResWrap}>
+      <View style={styles.peopleWrap}>
         <Text style={styles.searchText}>People Added to Jio: </Text>
-        {addedPeeps}
+        <ScrollView nestedScrollEnabled={true}>{addedPeeps}</ScrollView>
       </View>
     </View>
   );

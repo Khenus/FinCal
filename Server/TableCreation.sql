@@ -42,40 +42,47 @@ CREATE TABLE users (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE restaurantlist (
+-- CREATE TABLE restaurantlist (
+--   id int(11) NOT NULL AUTO_INCREMENT,
+--   name text,
+--   uuid text,
+--   Address text,
+--   closingTime text,
+--   openingTime text,
+--   openDays text,
+--   PRIMARY KEY (id)
+-- );
+
+-- CREATE TABLE menuitems (
+--   id int(11) NOT NULL AUTO_INCREMENT,
+--   resName text,
+--   resUUID text,
+--   serialNum text,
+--   itemName text,
+--   itemPrice text,
+--   itemCategory text,
+--   itemSubCategory text,
+--   PRIMARY KEY (id)
+-- );
+
+create TABLE jiodetails (
   id int(11) NOT NULL AUTO_INCREMENT,
-  name text,
-  uuid text,
-  Address text,
-  closingTime text,
-  openingTime text,
-  openDays text,
+  jioUUID text,
+  creatorUUID text,
+  creatorName text,
+  jioTitle text,
+  jioComments text,
+  jioStatus text,
+  unixCreatedAt text,
   PRIMARY KEY (id)
 );
 
-CREATE TABLE menuitems (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  resName text,
-  resUUID text,
-  serialNum text,
-  itemName text,
-  itemPrice text,
-  itemCategory text,
-  itemSubCategory text,
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE jiotable (
+CREATE TABLE jiousers (
   id int(11) NOT NULL AUTO_INCREMENT,
   jioUUID text,
   peepsUUID text,
-  creatorUUID text,
-  creatorName text,
   orderObj text,
   resIdx text,
-  jioStatus text,
   orderPlaced text,
-  resIdx text,
-  jioStatus text,
   PRIMARY KEY (id)
 );

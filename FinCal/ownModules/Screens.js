@@ -9,7 +9,9 @@ import LoginPage from './Login/LoginPage';
 import SignupPage from './Login/SignupPage';
 
 import HomeScreen from './Home/HomeScreen';
-import FoodJioDetails from './FoodJio/FoodJioDetails';
+import FoodJioPeople from './FoodJio/FoodJioPeople';
+import FoodJioOrder from './FoodJio/FoodJioOrder';
+import FoodJioSummary from './FoodJio/FoodJioSummary';
 
 import PersonalScreen from './Personal/PersonalScreen';
 import AllTransactions from './Personal/AllTransactions';
@@ -68,8 +70,18 @@ function HomeStack() {
         options={settings.noHeader}
       />
       <HomeNavStack.Screen
-        name="FoodJioDetails"
-        component={FoodJioDetails}
+        name="FoodJioPeople"
+        component={FoodJioPeople}
+        options={settings.noHeader}
+      />
+      <HomeNavStack.Screen
+        name="FoodJioOrder"
+        component={FoodJioOrder}
+        options={settings.noHeader}
+      />
+      <HomeNavStack.Screen
+        name="FoodJioSummary"
+        component={FoodJioSummary}
         options={settings.noHeader}
       />
     </HomeNavStack.Navigator>

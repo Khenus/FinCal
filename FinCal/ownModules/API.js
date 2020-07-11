@@ -183,6 +183,42 @@ export async function searchNum(phone) {
   return result;
 }
 
+export async function addJio(
+  peepsArr,
+  creatorUUID,
+  creatorName,
+  orderObj,
+  resIdx,
+  jioTitle,
+  jioComments,
+) {
+  let data = {
+    peepsArr: peepsArr,
+    creatorUUID: creatorUUID,
+    creatorName: creatorName,
+    orderObj: orderObj,
+    resIdx: resIdx,
+    jioTitle: jioTitle,
+    jioComments: jioComments,
+  };
+
+  var result = await fetch(url + '/addJio/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      throw err;
+    });
+
+  return result;
+}
+
 // export async function getThisMonthTransact(email, uuid) {
 //   let data = {
 //     Email: email,

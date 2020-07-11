@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, Text, StyleSheet, ActivityIndicator, useWindowDimensions} from 'react-native';
 import NumericInput from 'react-native-numeric-input';
 import SectionList from 'react-native-tabs-section-list';
 
@@ -8,8 +8,11 @@ import {menuData, resData} from '../MenuData';
 import {darkTheme, lightTheme} from '../GlobalValues.js';
 
 export default function MenuDisplay(props) {
+  let currHeight = useWindowDimensions().height;
+
   let menuIdx = props.menuIdx;
   let currUser = props.currUser;
+  let parOrderList = props.parOrderList;
   let parentDarkTheme = currUser.themeIsDark === 'true';
 
   let [themeDark, updateTheme] = useState(true);
@@ -47,6 +50,7 @@ export default function MenuDisplay(props) {
 
     newNumItem[x][y] = newVal;
     updateNumItem(newNumItem);
+    parOrderList(newNumItem);
   }
 
   const localStyle = StyleSheet.create({
@@ -106,7 +110,7 @@ export default function MenuDisplay(props) {
       color: colorScheme.textCol,
     },
     marginView: {
-      height: 400,
+      height: currHeight * 0.5725,
     },
     resView: {
       marginBottom: 10,

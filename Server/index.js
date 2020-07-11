@@ -60,94 +60,94 @@ con.connect(function (err){
 	}
 });
 
-app.post('/genUUID/', (req, res) =>{
-	var postData = req.body;
+// app.post('/genUUID/', (req, res) =>{
+// 	var postData = req.body;
 
-	var numtogen = postData.numtogen;
+// 	var numtogen = postData.numtogen;
 
-	for(let i = 0; i < parseInt(numtogen); i++) {
-		console.log(uuid.v4());
-	}
+// 	for(let i = 0; i < parseInt(numtogen); i++) {
+// 		console.log(uuid.v4());
+// 	}
 	
-	res.end('done gening');
-});
+// 	res.end('done gening');
+// });
 
-app.post('/addRestaurant/', (req, res) =>{
-	var postData = req.body;
+// app.post('/addRestaurant/', (req, res) =>{
+// 	var postData = req.body;
 
-	console.log(postData);
+// 	console.log(postData);
 
-	var name = postData.Name;
-	var uuniqueID = uuid.v4();
-	var address = postData.Address;
-	var closingTime = postData.closingTime;
-	var openingTime = postData.openingTime;
-	var openDays = postData.openDays;
+// 	var name = postData.Name;
+// 	var uuniqueID = uuid.v4();
+// 	var address = postData.Address;
+// 	var closingTime = postData.closingTime;
+// 	var openingTime = postData.openingTime;
+// 	var openDays = postData.openDays;
 
-	con.query('INSERT INTO `restaurantlist` (`id`, `name`, `uuid`, `Address`, `closingTime`, `openingTime`, `openDays`) VALUES (NULL,?,?,?,?,?,?)', [name, uuniqueID, address, closingTime, openingTime, openDays], function (err, result, fields){
-		if(err != null){
-			console.log(`Menu insertion error (${err})`);
-			res.end(JSON.stringify("Menu insertion error: " + err));
-		} else {
-			res.end(JSON.stringify("Menu added with uuid " + uuniqueID));
-			console.log("Menu added with uuid " + uuniqueID);
-		}
-	});
-});
+// 	con.query('INSERT INTO `restaurantlist` (`id`, `name`, `uuid`, `Address`, `closingTime`, `openingTime`, `openDays`) VALUES (NULL,?,?,?,?,?,?)', [name, uuniqueID, address, closingTime, openingTime, openDays], function (err, result, fields){
+// 		if(err != null){
+// 			console.log(`Menu insertion error (${err})`);
+// 			res.end(JSON.stringify("Menu insertion error: " + err));
+// 		} else {
+// 			res.end(JSON.stringify("Menu added with uuid " + uuniqueID));
+// 			console.log("Menu added with uuid " + uuniqueID);
+// 		}
+// 	});
+// });
 
-app.post('/addMenuItem/', (req, res) =>{
-	var postData = req.body;
+// app.post('/addMenuItem/', (req, res) =>{
+// 	var postData = req.body;
 
-	var resName = postData.resName;
-	var resUUID = postData.resUUID;
-	var serialNum = postData.serialNum;
-	var itemName = postData.itemName;
-	var itemPrice = postData.itemPrice;
-	var itemCategory = postData.itemCategory;
-	var itemSubCategory = postData.itemSubCategory;
+// 	var resName = postData.resName;
+// 	var resUUID = postData.resUUID;
+// 	var serialNum = postData.serialNum;
+// 	var itemName = postData.itemName;
+// 	var itemPrice = postData.itemPrice;
+// 	var itemCategory = postData.itemCategory;
+// 	var itemSubCategory = postData.itemSubCategory;
 
-	con.query('INSERT INTO `menuitems` (`id`, `resName`, `resUUID`, `serialNum`, `itemName`, `itemPrice`, `itemCategory`, `itemSubCategory`) VALUES (NULL,?,?,?,?,?,?,?)', [resName, resUUID, serialNum, itemName, itemPrice, itemCategory, itemSubCategory], function (err, result, fields){
-		if(err != null){
-			console.log(`Menu item insertion error (${err})`);
-			res.end(JSON.stringify("Menu item insertion error: " + err));
-		} else {
-			res.end(JSON.stringify("Menu item added with name " + resName));
-			console.log("Menu item added with name " + resName);
-		}
-	});
-});
+// 	con.query('INSERT INTO `menuitems` (`id`, `resName`, `resUUID`, `serialNum`, `itemName`, `itemPrice`, `itemCategory`, `itemSubCategory`) VALUES (NULL,?,?,?,?,?,?,?)', [resName, resUUID, serialNum, itemName, itemPrice, itemCategory, itemSubCategory], function (err, result, fields){
+// 		if(err != null){
+// 			console.log(`Menu item insertion error (${err})`);
+// 			res.end(JSON.stringify("Menu item insertion error: " + err));
+// 		} else {
+// 			res.end(JSON.stringify("Menu item added with name " + resName));
+// 			console.log("Menu item added with name " + resName);
+// 		}
+// 	});
+// });
 
-app.post('/getResData/', (req, res) => {
-	var postData = req.body;								//Getting the POST parameters
+// app.post('/getResData/', (req, res) => {
+// 	var postData = req.body;								//Getting the POST parameters
 	
-	var queryUUID = postData.queryUUID;
+// 	var queryUUID = postData.queryUUID;
 
-	con.query('SELECT * FROM `restaurantlist` WHERE uuid = ?', [queryUUID], function(err, result) {
-		if(err != null){
-			console.log('getResData Error', err);
-			res.end(JSON.stringify("getResData Error"));
-		} else {
-			console.log(`getResData successful`);
-			res.end(JSON.stringify(result));
-		}
-	});
-});
+// 	con.query('SELECT * FROM `restaurantlist` WHERE uuid = ?', [queryUUID], function(err, result) {
+// 		if(err != null){
+// 			console.log('getResData Error', err);
+// 			res.end(JSON.stringify("getResData Error"));
+// 		} else {
+// 			console.log(`getResData successful`);
+// 			res.end(JSON.stringify(result));
+// 		}
+// 	});
+// });
 
-app.post('/getResItem/', (req, res) => {
-	var postData = req.body;								//Getting the POST parameters
+// app.post('/getResItem/', (req, res) => {
+// 	var postData = req.body;								//Getting the POST parameters
 	
-	var queryUUID = postData.queryUUID;
+// 	var queryUUID = postData.queryUUID;
 
-	con.query('SELECT * FROM `menuitems` WHERE resUUID = ?', [queryUUID], function(err, result) {
-		if(err != null){
-			console.log('getResItem Error', err);
-			res.end(JSON.stringify("getResItem Error"));
-		} else {
-			console.log(`getResItem successful`);
-			res.end(JSON.stringify(result));
-		}
-	});
-});
+// 	con.query('SELECT * FROM `menuitems` WHERE resUUID = ?', [queryUUID], function(err, result) {
+// 		if(err != null){
+// 			console.log('getResItem Error', err);
+// 			res.end(JSON.stringify("getResItem Error"));
+// 		} else {
+// 			console.log(`getResItem successful`);
+// 			res.end(JSON.stringify(result));
+// 		}
+// 	});
+// });
 
 app.post('/register/', (req, res) => {
 	var postData = req.body;								//Getting the POST parameters
@@ -316,6 +316,47 @@ app.post('/searchNum/', (req, res) =>{
 		}
 	});
 });
+
+app.post('/addJio/', (req, res) => {
+	var postData = req.body;								//Getting the POST parameters
+
+	var jioUUID = uuid.v4();
+	var peepsArr = postData.peepsArr;
+	var creatorUUID = postData.creatorUUID;
+	var creatorName = postData.creatorName;
+	var orderObj = postData.orderObj;
+	var resIdx = postData.resIdx;
+	var jioTitle = postData.jioTitle;
+	var jioComments = postData.jioComments;
+
+	con.query('INSERT INTO `jiodetails` (`id`, `jioUUID`, `creatorUUID`, `creatorName`, `jioTitle`, `jioComments`, `jioStatus`, `unixCreatedAt`) VALUES (NULL,?,?,?,?,?,?,UNIX_TIMESTAMP())', [jioUUID, creatorUUID, creatorName, jioTitle, jioComments, 'Open'], function (err, result, fields){
+		if(err != null){
+			console.log(`[${creatorName}]: Jio insertion (Part 1) error (${err})`);
+			res.end(JSON.stringify("Jio insertion (Part 1) error: " + err));
+		} else {
+			con.query('INSERT INTO `jiousers` (`id`, `jioUUID`, `peepsUUID`, `orderObj`, `resIdx`, `orderPlaced`) VALUES (NULL,?,?,?,?,?)', [jioUUID, creatorUUID, JSON.stringify(orderObj), resIdx, "Ordered"], function (errOuter, result, fields){
+				if(errOuter != null){
+					console.log(`[${creatorName}]: Jio insertion (Part 2) error (${errOuter})`);
+					res.end(JSON.stringify("Jio insertion (Part 2) error: " + errOuter));
+				} else {
+					peepsArr.forEach(function(currUser) {
+						console.log(currUser);
+						con.query('INSERT INTO `jiousers` (`id`, `jioUUID`, `peepsUUID`, `orderObj`, `resIdx`, `orderPlaced`) VALUES (NULL,?,?,?,?,?)', [jioUUID, currUser.uuid, JSON.stringify([]), resIdx, "Pending"], function (errInner, result, fields){
+							if(errInner != null){
+								console.log(`[${creatorName}]: Jio insertion (Part 3) error (${errInner})`);
+								res.end(JSON.stringify("Jio insertion (Part 3) error: " + errInner));
+							}
+						});
+					});
+		
+					console.log(`[${creatorName}]: Jio added successful`);
+					res.end(JSON.stringify("Jio added successful"));
+				}
+			});
+		}
+	});
+});
+
 
 // app.post('/getThisMonthTransact/', (req, res) =>{
 // 	var postData = req.body;
