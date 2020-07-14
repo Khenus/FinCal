@@ -219,6 +219,96 @@ export async function addJio(
   return result;
 }
 
+export async function getJio(queryUUID) {
+  let data = {
+    queryUUID: queryUUID,
+  };
+
+  var result = await fetch(url + '/fetchJio/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      throw err;
+    });
+
+  return result;
+}
+
+export async function updateOrder(currUUID, orderObj, orderStatus) {
+  let data = {
+    currUUID: currUUID,
+    orderObj: orderObj,
+    orderStatus: orderStatus,
+  };
+
+  var result = await fetch(url + '/updateOrder/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      throw err;
+    });
+
+  return result;
+}
+
+export async function fetchFullMyJio(jobUUID) {
+  let data = {
+    jobUUID: jobUUID,
+  };
+
+  var result = await fetch(url + '/fetchFullMyJio/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      throw err;
+    });
+
+  return result;
+}
+
+export async function closeJio(jobUUID) {
+  let data = {
+    jobUUID: jobUUID,
+  };
+
+  var result = await fetch(url + '/closeJio/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      throw err;
+    });
+
+  return result;
+}
+
 // export async function getThisMonthTransact(email, uuid) {
 //   let data = {
 //     Email: email,

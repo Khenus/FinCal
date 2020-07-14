@@ -2,8 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import Toast from 'react-native-simple-toast';
 
-// import MenuDisplay from './MenuDisplay.js';
-import AddPeople from './AddPeople.js';
+import AddPeople from './Components/AddPeople.js';
 
 import {darkTheme, lightTheme} from '../GlobalValues';
 

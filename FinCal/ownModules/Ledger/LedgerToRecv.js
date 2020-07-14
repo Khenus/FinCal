@@ -225,7 +225,7 @@ function LedgerToRecv(props) {
             </View>
           </View>
         </View>
-        <FloatActionButton />
+        <FloatActionButton currUser={currUser} />
       </View>
     );
   } else {
@@ -269,7 +269,7 @@ function LedgerToRecv(props) {
             </View>
           </View>
         </View>
-        <FloatActionButton />
+        <FloatActionButton currUser={currUser} />
       </View>
     );
   }

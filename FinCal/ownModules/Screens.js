@@ -9,6 +9,9 @@ import LoginPage from './Login/LoginPage';
 import SignupPage from './Login/SignupPage';
 
 import HomeScreen from './Home/HomeScreen';
+import MyJioSummary from './Home/MyJioSummary';
+import EditMenu from './Home/EditMenu';
+import HomeMenuSummary from './Home/HomeMenuSummary';
 import FoodJioPeople from './FoodJio/FoodJioPeople';
 import FoodJioOrder from './FoodJio/FoodJioOrder';
 import FoodJioSummary from './FoodJio/FoodJioSummary';
@@ -67,6 +70,21 @@ function HomeStack() {
       <HomeNavStack.Screen
         name="HomeScreen"
         component={HomeScreen}
+        options={settings.noHeader}
+      />
+      <HomeNavStack.Screen
+        name="MyJioSummary"
+        component={MyJioSummary}
+        options={settings.noHeader}
+      />
+      <HomeNavStack.Screen
+        name="EditMenu"
+        component={EditMenu}
+        options={settings.noHeader}
+      />
+      <HomeNavStack.Screen
+        name="HomeMenuSummary"
+        component={HomeMenuSummary}
         options={settings.noHeader}
       />
       <HomeNavStack.Screen

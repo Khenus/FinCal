@@ -1,15 +1,22 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, ActivityIndicator, useWindowDimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  useWindowDimensions,
+} from 'react-native';
 import NumericInput from 'react-native-numeric-input';
 import SectionList from 'react-native-tabs-section-list';
 
-import {menuData, resData} from '../MenuData';
-import {darkTheme, lightTheme} from '../GlobalValues.js';
+import {menuData, resData} from '../../MenuData.js';
+import {darkTheme, lightTheme} from '../../GlobalValues.js';
 
 export default function MenuDisplay(props) {
   let currHeight = useWindowDimensions().height;
 
+  let currItem = props.currItem;
   let menuIdx = props.menuIdx;
   let currUser = props.currUser;
   let parOrderList = props.parOrderList;
@@ -35,13 +42,22 @@ export default function MenuDisplay(props) {
 
     for (let i = 0; i < menuData[menuIdx].length; i++) {
       tempArr.push([]);
-      // console.log(menuData[menuIdx][i].data.length);
       for (let j = 0; j < menuData[menuIdx][i].data.length; j++) {
         tempArr[i].push(0);
       }
     }
+
+    if (currItem !== undefined && currItem !== '[]') {
+      let orderArr = JSON.parse(currItem.orderObj);
+
+      for (let i = 0; i < orderArr.length; i++) {
+        tempArr[orderArr[i].x][orderArr[i].y] = orderArr[i].val;
+      }
+    }
+
     updateNumItem(tempArr);
-  }, [menuIdx]);
+    parOrderList(tempArr);
+  }, [currItem, menuIdx, parOrderList]);
 
   function changeOrder(x, y, newVal) {
     let newNumItem = [...numItem];

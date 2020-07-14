@@ -81,6 +81,7 @@ CREATE TABLE jiousers (
   id int(11) NOT NULL AUTO_INCREMENT,
   jioUUID text,
   peepsUUID text,
+  peepsName text,
   orderObj text,
   resIdx text,
   orderPlaced text,

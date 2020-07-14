@@ -334,14 +334,13 @@ app.post('/addJio/', (req, res) => {
 			console.log(`[${creatorName}]: Jio insertion (Part 1) error (${err})`);
 			res.end(JSON.stringify("Jio insertion (Part 1) error: " + err));
 		} else {
-			con.query('INSERT INTO `jiousers` (`id`, `jioUUID`, `peepsUUID`, `orderObj`, `resIdx`, `orderPlaced`) VALUES (NULL,?,?,?,?,?)', [jioUUID, creatorUUID, JSON.stringify(orderObj), resIdx, "Ordered"], function (errOuter, result, fields){
+			con.query('INSERT INTO `jiousers` (`id`, `jioUUID`, `peepsUUID`, `peepsName`, `orderObj`, `resIdx`, `orderPlaced`) VALUES (NULL,?,?,?,?,?,?)', [jioUUID, creatorUUID, creatorName, JSON.stringify(orderObj), resIdx, "Ordered"], function (errOuter, result, fields){
 				if(errOuter != null){
 					console.log(`[${creatorName}]: Jio insertion (Part 2) error (${errOuter})`);
 					res.end(JSON.stringify("Jio insertion (Part 2) error: " + errOuter));
 				} else {
 					peepsArr.forEach(function(currUser) {
-						console.log(currUser);
-						con.query('INSERT INTO `jiousers` (`id`, `jioUUID`, `peepsUUID`, `orderObj`, `resIdx`, `orderPlaced`) VALUES (NULL,?,?,?,?,?)', [jioUUID, currUser.uuid, JSON.stringify([]), resIdx, "Pending"], function (errInner, result, fields){
+						con.query('INSERT INTO `jiousers` (`id`, `jioUUID`, `peepsUUID`, `peepsName`, `orderObj`, `resIdx`, `orderPlaced`) VALUES (NULL,?,?,?,?,?,?)', [jioUUID, currUser.uuid, currUser.Name, JSON.stringify([]), resIdx, "Pending"], function (errInner, result, fields){
 							if(errInner != null){
 								console.log(`[${creatorName}]: Jio insertion (Part 3) error (${errInner})`);
 								res.end(JSON.stringify("Jio insertion (Part 3) error: " + errInner));
@@ -357,6 +356,71 @@ app.post('/addJio/', (req, res) => {
 	});
 });
 
+app.post('/fetchJio/', (req, res) => {
+	var postData = req.body;								//Getting the POST parameters
+
+	var queryUUID = postData.queryUUID;
+
+	con.query('SELECT * FROM jiousers INNER JOIN jiodetails ON jiousers.jioUUID = jiodetails.jioUUID WHERE jiousers.peepsUUID = ? AND jiodetails.jioStatus = "Open"', [queryUUID], function (err, result, fields){
+		if(err != null){
+			console.log(`[${queryUUID}]: Fetch Jio error (${err})`);
+			res.end(JSON.stringify("Fetch Jio error: " + err));
+		} else {
+			console.log(`[${queryUUID}]: Jio fetched successful`);
+			res.end(JSON.stringify(result));
+		}
+	});
+});
+
+app.post('/updateOrder/', (req, res) => {
+	var postData = req.body;								//Getting the POST parameters
+
+	var currUUID = postData.currUUID;
+	var orderObj = postData.orderObj;
+	var orderStatus = postData.orderStatus;
+
+	con.query('UPDATE jiousers SET orderObj = ?, orderPlaced = ? WHERE peepsUUID = ?', [JSON.stringify(orderObj), orderStatus, currUUID], function (err, result, fields){
+		if(err != null){
+			console.log(`[${currUUID}]: Jio Order update error (${err})`);
+			res.end(JSON.stringify("Jio Order update error: " + err));
+		} else {
+			console.log(`[${currUUID}]: Jio Order Updated Successfully`);
+			res.end(JSON.stringify('Jio Order Updated Successfully'));
+		}
+	});
+});
+
+app.post('/fetchFullMyJio/', (req, res) => {
+	var postData = req.body;								//Getting the POST parameters
+
+	var jobUUID = postData.jobUUID;
+
+	con.query('SELECT * FROM jiousers WHERE jioUUID = ?', [jobUUID], function (err, result, fields){
+		if(err != null){
+			console.log(`[jobUUID: ${jobUUID}]: fetchFullMyJio error (${err})`);
+			res.end(JSON.stringify("fetchFullMyJio error: " + err));
+		} else {
+			console.log(`[jobUUID: ${jobUUID}]: fetchFullMyJio Successfully`);
+			res.end(JSON.stringify(result));
+		}
+	});
+});
+
+app.post('/closeJio/', (req, res) => {
+	var postData = req.body;								//Getting the POST parameters
+
+	var jobUUID = postData.jobUUID;
+
+	con.query('UPDATE jiodetails SET jioStatus = "Closed" WHERE jioUUID = ?', [jobUUID], function (err, result, fields){
+		if(err != null){
+			console.log(`[jobUUID: ${jobUUID}]: Closing MyJio error (${err})`);
+			res.end(JSON.stringify("Closing MyJio error: " + err));
+		} else {
+			console.log(`[jobUUID: ${jobUUID}]: MyJio closed Successfully`);
+			res.end(JSON.stringify('MyJio closed Successfully'));
+		}
+	});
+});
 
 // app.post('/getThisMonthTransact/', (req, res) =>{
 // 	var postData = req.body;

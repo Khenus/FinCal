@@ -9,17 +9,19 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {connect} from 'react-redux';
 
 import {getTransHist} from '../API';
 import LedgerCard from './LedgerCard';
 import FloatActionButton from '../FloatActionButton';
 import {darkTheme, lightTheme} from '../GlobalValues.js';
 
-export default function TransactHist(props) {
+function TransactHist(props) {
   let currWidth = useWindowDimensions().width;
   let currHeight = useWindowDimensions().height;
   let navigation = props.navigation;
 
+  let currUser = props.currUser;
   let currObj = props.route.params;
   let name = currObj.Name;
 
@@ -167,7 +169,15 @@ export default function TransactHist(props) {
 
         {disItem}
       </View>
-      <FloatActionButton />
+      <FloatActionButton currUser={currUser} />
     </View>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    currUser: state.currUser,
+  };
+};
+
+export default connect(mapStateToProps)(TransactHist);

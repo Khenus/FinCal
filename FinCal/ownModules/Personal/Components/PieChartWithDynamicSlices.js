@@ -4,7 +4,6 @@ import {View, Text, Dimensions, ActivityIndicator} from 'react-native';
 
 import {PieChart} from 'react-native-svg-charts';
 import {transCategory, pieChartCols} from '../../GlobalObject';
-import {getThisMonthTransact} from '../../API';
 
 import {darkTheme, lightTheme} from '../../GlobalValues.js';
 
@@ -30,7 +29,6 @@ export default function PieChartWithDynamicSlices(props) {
     updateTheme(parentDarkTheme);
   }, [parentDarkTheme]);
 
-  // let [selectedSlice, updateSelectedSlice] = useState({label: '', value: 0});
   let [labelWidth, updateLabelWidth] = useState(0);
 
   let [numTransact, updateNumTransact] = useState(0);
@@ -38,12 +36,9 @@ export default function PieChartWithDynamicSlices(props) {
   let [earning, updateEarning] = useState(0.0);
   let [disVal, updateDisVal] = useState([0.0]);
 
-  // const colors = ['#FF6961', '#FFB347', '#77DD77', '#87CEFA', '#B19CD9'];
-
   useEffect(() => {
     async function tempHandler() {
       updateIsLoading(true);
-      // let result = await getThisMonthTransact(currUser.Email, currUser.uuid);
       let result = props.disData;
 
       if (typeof result === 'object') {
@@ -75,10 +70,6 @@ export default function PieChartWithDynamicSlices(props) {
     }
     tempHandler();
   }, [props.disData]);
-
-  // useEffect(() => {
-  //   console.log(disVal);
-  // }, [disVal]);
 
   const pieData = disVal
     .filter((value) => value > 0)

@@ -1,18 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import Toast from 'react-native-simple-toast';
+import {connect} from 'react-redux';
 
-import MenuDisplay from './Components/MenuDisplay.js';
+import MenuDisplay from '../FoodJio/Components/MenuDisplay';
 
 import {darkTheme, lightTheme} from '../GlobalValues';
 
-export default function FoodJioOrder(props) {
+function EditMenu(props) {
+  let currUser = props.currUser;
+  let currItem = props.route.params.currItem;
   let navigation = props.navigation;
-  let currUser = props.route.params.currUser;
-  let menuIdx = props.route.params.menuIdx;
-  let addedPeeps = props.route.params.addedPeeps;
-  let title = props.route.params.title;
-  let comments = props.route.params.comments;
+
+  console.log(props.route.params.fetchJioAgain);
 
   let parentDarkTheme = currUser.themeIsDark === 'true';
 
@@ -76,14 +76,11 @@ export default function FoodJioOrder(props) {
   }
 
   function toSummaryPage() {
-    if (orderList.length !== 0 && addedPeeps.length !== 0) {
-      navigation.navigate('FoodJioSummary', {
+    if (orderList.length !== 0) {
+      navigation.navigate('HomeMenuSummary', {
         currUser: currUser,
-        menuIdx: menuIdx,
-        addedPeeps: addedPeeps,
+        currItem: currItem,
         orderList: orderList,
-        title: title,
-        comments: comments,
       });
     } else {
       Toast.show('Orders are not added');
@@ -96,7 +93,8 @@ export default function FoodJioOrder(props) {
         <Text style={localStyle.title}>Add Orders</Text>
         <MenuDisplay
           currUser={currUser}
-          menuIdx={menuIdx}
+          currItem={currItem}
+          menuIdx={currItem.resIdx}
           parOrderList={updateOrderList}
         />
       </View>
@@ -111,3 +109,11 @@ export default function FoodJioOrder(props) {
     </ScrollView>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    currUser: state.currUser,
+  };
+};
+
+export default connect(mapStateToProps)(EditMenu);

@@ -9,12 +9,12 @@ import {
   useWindowDimensions,
 } from 'react-native';
 
-import {darkTheme, lightTheme} from '../GlobalValues';
+import {darkTheme, lightTheme} from '../../GlobalValues';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {ActivityIndicator} from 'react-native-paper';
 import Toast from 'react-native-simple-toast';
-import {searchNum} from '../API';
+import {searchNum} from '../../API';
 
 export default function AddPeople(props) {
   let currHeight = useWindowDimensions().height;

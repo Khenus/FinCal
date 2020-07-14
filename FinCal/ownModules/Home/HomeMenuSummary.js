@@ -3,6 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
+  ScrollView,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
@@ -12,16 +13,13 @@ import Toast from 'react-native-simple-toast';
 
 import {darkTheme, lightTheme} from '../GlobalValues';
 import {menuData} from '../MenuData';
-import {addJio} from '../API';
+import {updateOrder} from '../API';
 
-export default function FoodJioSummary(props) {
+export default function HomeMenuSummary(props) {
   let navigation = props.navigation;
   let currUser = props.route.params.currUser;
-  let menuIdx = props.route.params.menuIdx;
   let orderList = props.route.params.orderList;
-  let addedPeeps = props.route.params.addedPeeps;
-  let title = props.route.params.title;
-  let comments = props.route.params.comments;
+  let currItem = props.route.params.currItem;
 
   let parentDarkTheme = currUser.themeIsDark === 'true';
 
@@ -46,17 +44,16 @@ export default function FoodJioSummary(props) {
   useEffect(() => {
     updateIsLoading(true);
 
-    if (orderList.length !== 0) {
+    if (orderList.length !== 0 && currItem !== undefined) {
       let tempArr = [];
       let tempOrderArr = [];
       let total = 0.0;
 
-      for (let i = 0; i < menuData[menuIdx].length; i++) {
-        for (let j = 0; j < menuData[menuIdx][i].data.length; j++) {
+      for (let i = 0; i < menuData[currItem.resIdx].length; i++) {
+        for (let j = 0; j < menuData[currItem.resIdx][i].data.length; j++) {
           if (orderList[i][j] !== 0) {
-            // console.log(menuData[menuIdx][i].data[j]);
             let tempObj = {
-              actualItem: menuData[menuIdx][i].data[j],
+              actualItem: menuData[currItem.resIdx][i].data[j],
               Amount: orderList[i][j],
             };
 
@@ -65,7 +62,7 @@ export default function FoodJioSummary(props) {
             tempOrderArr.push(tempIdxObj);
             tempArr.push(tempObj);
             total +=
-              parseFloat(menuData[menuIdx][i].data[j].itemPrice) *
+              parseFloat(menuData[currItem.resIdx][i].data[j].itemPrice) *
               parseFloat(orderList[i][j]);
           }
         }
@@ -77,23 +74,23 @@ export default function FoodJioSummary(props) {
     }
 
     updateIsLoading(false);
-  }, [menuIdx, orderList]);
+  }, [currItem, currItem.resIdx, orderList]);
 
-  async function newJio() {
-    let result = await addJio(
-      addedPeeps,
-      currUser.uuid,
-      currUser.Name,
-      finalOrderIdx,
-      menuIdx,
-      title,
-      comments,
-    );
+  async function updateMyOrder() {
+    let orderPlaced = '';
+    if (finalOrderIdx.length === 0) {
+      console.log('inside final order idx');
+      orderPlaced = 'Pending';
+    } else {
+      orderPlaced = 'Ordered';
+    }
+
+    let result = await updateOrder(currUser.uuid, finalOrderIdx, orderPlaced);
 
     Toast.show(result);
 
-    if (result === 'Jio added successful') {
-      navigation.pop(3);
+    if (result === 'Jio Order Updated Successfully') {
+      navigation.pop(2);
     }
   }
 
@@ -155,7 +152,7 @@ export default function FoodJioSummary(props) {
     navigation.pop(1);
   }
 
-  if (isLoading) {
+  if (isLoading || currItem === undefined) {
     return (
       <View style={localStyle.mainView}>
         <View style={localStyle.headerBar}>
@@ -176,62 +173,41 @@ export default function FoodJioSummary(props) {
           </TouchableOpacity>
           <View style={localStyle.headerPadding} />
         </View>
-        <View style={localStyle.marginView}>
-          <Text style={localStyle.header}>Jio Summary</Text>
+        <ScrollView>
+          <View style={localStyle.marginView}>
+            <Text style={localStyle.header}>Jio Summary</Text>
 
-          <Text style={localStyle.subheader}>Title: </Text>
-          <Text style={localStyle.text}>{title}</Text>
+            <Text style={localStyle.subheader}>Title: </Text>
+            <Text style={localStyle.text}>{currItem.jioTitle}</Text>
 
-          <Text style={localStyle.subheader}>Details: </Text>
-          <Text style={localStyle.text}>{comments || 'NA'}</Text>
+            <Text style={localStyle.subheader}>Details: </Text>
+            <Text style={localStyle.text}>{currItem.jioComments || 'NA'}</Text>
 
-          <Text style={localStyle.subheader}>Users to be added Jio: </Text>
-          {addedPeeps.map((currItem, currIdx) => (
-            <UserItem colorScheme={colorScheme} item={currItem} key={currIdx} />
-          ))}
+            <Text style={localStyle.subheader}>Jio created by: </Text>
+            <Text style={localStyle.text}>{currItem.creatorName || ''}</Text>
 
-          <Text style={localStyle.subheader}>Orders to be added Jio: </Text>
-          {finalOrder.map((currItem, currIdx) => (
-            <OrderItem
-              colorScheme={colorScheme}
-              item={currItem}
-              key={currIdx}
-            />
-          ))}
+            <Text style={localStyle.subheader}>My Orders: </Text>
+            {finalOrder.map((innerItem, currIdx) => (
+              <OrderItem
+                colorScheme={colorScheme}
+                item={innerItem}
+                key={currIdx}
+              />
+            ))}
 
-          <Text style={localStyle.subheader}>Total Amount: </Text>
-          <Text style={localStyle.text}>${totalAmt.toFixed(2)}</Text>
-        </View>
+            <Text style={localStyle.subheader}>
+              Total Amount for My Orders:{' '}
+            </Text>
+            <Text style={localStyle.text}>${totalAmt.toFixed(2)}</Text>
+          </View>
 
-        <TouchableOpacity style={localStyle.btn} onPress={newJio}>
-          <Text style={localStyle.btnText}>Create Jio</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={localStyle.btn} onPress={updateMyOrder}>
+            <Text style={localStyle.btnText}>Add Order</Text>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
     );
   }
-}
-
-function UserItem(props) {
-  let colorScheme = props.colorScheme;
-  let item = props.item;
-
-  const localStyle = StyleSheet.create({
-    text: {
-      color: colorScheme.textCol,
-    },
-
-    itemBar: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-  });
-
-  return (
-    <View style={localStyle.itemBar}>
-      <EIcon name="dot-single" size={25} style={localStyle.text} />
-      <Text style={localStyle.text}>{item.Name}</Text>
-    </View>
-  );
 }
 
 function OrderItem(props) {
