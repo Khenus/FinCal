@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, useWindowDimensions} from 'react-native';
 import Toast from 'react-native-simple-toast';
 
 import MenuDisplay from './Components/MenuDisplay.js';
@@ -7,6 +7,8 @@ import MenuDisplay from './Components/MenuDisplay.js';
 import {darkTheme, lightTheme} from '../GlobalValues';
 
 export default function FoodJioOrder(props) {
+  let currHeight = useWindowDimensions().height;
+
   let navigation = props.navigation;
   let currUser = props.route.params.currUser;
   let menuIdx = props.route.params.menuIdx;
@@ -91,7 +93,7 @@ export default function FoodJioOrder(props) {
   }
 
   return (
-    <ScrollView style={localStyle.mainView}>
+    <View style={localStyle.mainView}>
       <View>
         <Text style={localStyle.title}>Add Orders</Text>
         <MenuDisplay
@@ -108,6 +110,6 @@ export default function FoodJioOrder(props) {
           Confirm
         </Text>
       </View>
-    </ScrollView>
+    </View>
   );
 }

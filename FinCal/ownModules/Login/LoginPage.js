@@ -54,17 +54,13 @@ function LoginPage(props) {
     navigation.navigate('SignupPage');
   }
 
-  //let currUser = props.currUser;
-  // console.log(currUser);
-
   async function loginAction() {
     changeIsLoading(true);
     var result = await login(userEmail, userPass);
 
     if (typeof result === 'object') {
-      // console.log(result);
-      props.updateUser(result[0]);
       changeIsLoading(false);
+      props.updateUser(result[0]); //This is the redux part, add this in to the website
       navigation.dispatch(
         CommonActions.reset({
           index: 0,

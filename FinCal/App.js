@@ -4,12 +4,6 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 
 import AppStack from './ownModules/Screens';
-import LedgerSummary from './ownModules/Ledger/LedgerSummary';
-import LedgerCard from './ownModules/Ledger/LedgerCard';
-import LedgerToPay from './ownModules/Ledger/LedgerToPay';
-import LedgerStack from './ownModules/Screens';
-import PersonalScreen from './ownModules/Personal/PersonalScreen';
-import TransactHist from './ownModules/Ledger/TransactHist';
 
 const initState = {
   currUser: {},
@@ -34,5 +28,4 @@ export default function App() {
       <AppStack />
     </Provider>
   );
-  // return <TransactHist />;
 }

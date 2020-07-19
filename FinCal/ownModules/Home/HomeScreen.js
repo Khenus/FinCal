@@ -291,7 +291,7 @@ function HomeScreen(props) {
 
   let jioInviteShow;
   if (jioInvite.length !== 0) {
-    jioInviteShow = jioInvite.map((currItem) => {
+    jioInviteShow = jioInvite.map((currItem, currIdx) => {
       let td = new Date(currItem.unixCreatedAt * 1000);
 
       let status =
@@ -301,19 +301,23 @@ function HomeScreen(props) {
             : 'Jio Rejected'
           : 'Order Placed';
       return (
-        <TouchableOpacity
-          style={localStyle.card}
-          onPress={() => toEditMenu(currItem)}>
-          <Text style={localStyle.jioRes}>{resData[currItem.resIdx].name}</Text>
-          <Text style={localStyle.jioNormal}>
-            created at{' '}
-            {`${td.getHours()}:${td.getMinutes()}, ${td.getDate()} ${
-              monthName[td.getMonth()]
-            } ${td.getFullYear()}`}{' '}
-            by {currItem.creatorName}
-          </Text>
-          <Text style={localStyle.jioNormal}>{status}</Text>
-        </TouchableOpacity>
+        <View key={currIdx}>
+          <TouchableOpacity
+            style={localStyle.card}
+            onPress={() => toEditMenu(currItem)}>
+            <Text style={localStyle.jioRes}>
+              {resData[currItem.resIdx].name}
+            </Text>
+            <Text style={localStyle.jioNormal}>
+              created at{' '}
+              {`${td.getHours()}:${td.getMinutes()}, ${td.getDate()} ${
+                monthName[td.getMonth()]
+              } ${td.getFullYear()}`}{' '}
+              by {currItem.creatorName}
+            </Text>
+            <Text style={localStyle.jioNormal}>{status}</Text>
+          </TouchableOpacity>
+        </View>
       );
     });
   } else {
@@ -326,20 +330,24 @@ function HomeScreen(props) {
 
   let myJioShow;
   if (myJio.length !== 0) {
-    myJioShow = myJio.map((currItem) => {
+    myJioShow = myJio.map((currItem, currIdx) => {
       let td = new Date(currItem.unixCreatedAt * 1000);
       return (
-        <TouchableOpacity
-          style={localStyle.card}
-          onPress={() => toMyJioSummary(currItem)}>
-          <Text style={localStyle.jioRes}>{resData[currItem.resIdx].name}</Text>
-          <Text style={localStyle.jioNormal}>
-            created at{' '}
-            {`${td.getHours()}:${td.getMinutes()}, ${td.getDate()} ${
-              monthName[td.getMonth()]
-            } ${td.getFullYear()}`}
-          </Text>
-        </TouchableOpacity>
+        <View key={currIdx}>
+          <TouchableOpacity
+            style={localStyle.card}
+            onPress={() => toMyJioSummary(currItem)}>
+            <Text style={localStyle.jioRes}>
+              {resData[currItem.resIdx].name}
+            </Text>
+            <Text style={localStyle.jioNormal}>
+              created at{' '}
+              {`${td.getHours()}:${td.getMinutes()}, ${td.getDate()} ${
+                monthName[td.getMonth()]
+              } ${td.getFullYear()}`}
+            </Text>
+          </TouchableOpacity>
+        </View>
       );
     });
   } else {
@@ -392,7 +400,7 @@ function HomeScreen(props) {
             <Text />
           </View>
 
-          {/* RECENT TRANSACTIONS */}
+          {/* JIOS */}
           <View style={localStyle.jioWrap}>
             <View style={localStyle.subHeader}>
               <Text style={[localStyle.subtitleStyle, {marginLeft: 0}]}>

@@ -35,7 +35,7 @@
     <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-07-06T09:54:23.411Z" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Tuition/Brekh/android" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -127,13 +127,17 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="214" y="165" key="#app/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1593164379632" />
-    <state x="275" y="274" key="FileChooserDialogImpl" timestamp="1594488031653">
+    <state x="275" y="274" key="FileChooserDialogImpl" timestamp="1594825895142">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="275" y="274" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1594488031653" />
+    <state x="275" y="274" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1594825895142" />
     <state x="100" y="100" width="790" height="840" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1594649865660">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="100" y="100" width="790" height="840" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1594649865660" />
+    <state x="143" y="230" key="search.everywhere.popup" timestamp="1594825882416">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="143" y="230" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1594825882416" />
   </component>
 </project>

@@ -1,17 +1,17 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   StyleSheet,
+  ScrollView,
   ActivityIndicator,
   useWindowDimensions,
 } from 'react-native';
-import NumericInput from 'react-native-numeric-input';
-import SectionList from 'react-native-tabs-section-list';
 
 import {menuData, resData} from '../../MenuData.js';
 import {darkTheme, lightTheme} from '../../GlobalValues.js';
+import IndividualMenu from './IndividualMenu.js';
+import {TouchableOpacity, FlatList} from 'react-native-gesture-handler';
 
 export default function MenuDisplay(props) {
   let currHeight = useWindowDimensions().height;
@@ -36,12 +36,21 @@ export default function MenuDisplay(props) {
   }, [parentDarkTheme]);
 
   let [numItem, updateNumItem] = useState([]);
+  let [menuTitle, updateMenuTitle] = useState([]);
+
+  let [selectedIdx, updateSelectedIdx] = useState(0);
+  let [selectedData, updateSelectedData] = useState([]);
+
+  let [prevFirstItem, updatePrevFirst] = useState('');
+  let [isLoading, updateIsLoading] = useState(false);
 
   useEffect(() => {
     let tempArr = [];
+    let tempTitle = [];
 
     for (let i = 0; i < menuData[menuIdx].length; i++) {
       tempArr.push([]);
+      tempTitle.push(menuData[menuIdx][i].title);
       for (let j = 0; j < menuData[menuIdx][i].data.length; j++) {
         tempArr[i].push(0);
       }
@@ -57,16 +66,29 @@ export default function MenuDisplay(props) {
 
     updateNumItem(tempArr);
     parOrderList(tempArr);
+
+    updateMenuTitle(tempTitle);
   }, [currItem, menuIdx, parOrderList]);
 
+  useEffect(() => {
+    updateSelectedData(menuData[menuIdx][selectedIdx].data);
+  }, [menuIdx, selectedIdx]);
+
   function changeOrder(x, y, newVal) {
+    updateIsLoading(true);
     let newNumItem = [...numItem];
-    // let newNumItem = numItem;
-    // let newNumItem = JSON.parse(JSON.stringify(numItem));
 
     newNumItem[x][y] = newVal;
     updateNumItem(newNumItem);
     parOrderList(newNumItem);
+    updateIsLoading(false);
+  }
+
+  function updateFirstItem(itemStr) {
+    if (prevFirstItem !== itemStr) {
+      updateIsLoading(false);
+      updatePrevFirst(itemStr);
+    }
   }
 
   const localStyle = StyleSheet.create({
@@ -96,40 +118,12 @@ export default function MenuDisplay(props) {
       paddingTop: 20,
       paddingHorizontal: 15,
     },
-    itemContainer: {
-      paddingVertical: 10,
-      paddingHorizontal: 15,
-      backgroundColor: '#333333',
-    },
-    itemTitle: {
-      flex: 1,
-      fontSize: 15,
-      marginRight: 20,
-      color: colorScheme.textCol,
-    },
-    itemPrice: {
-      fontSize: 15,
-      color: colorScheme.textCol,
-    },
-    itemRow: {
-      flexDirection: 'row',
-    },
-    numericWrap: {
-      marginLeft: 15,
-      marginTop: -5,
-      marginBottom: -5,
-    },
-    itemCode: {
-      flexShrink: 1,
-      fontSize: 15,
-      marginRight: 20,
-      color: colorScheme.textCol,
-    },
     marginView: {
-      height: currHeight * 0.5725,
+      height: currHeight * 0.5,
     },
     resView: {
       marginBottom: 10,
+      flexDirection: 'row',
     },
     outletName: {
       color: colorScheme.textCol,
@@ -150,81 +144,84 @@ export default function MenuDisplay(props) {
       alignItems: 'center',
       justifyContent: 'center',
     },
+    tabClicker: {
+      backgroundColor: 'grey',
+    },
+    tabWrapper: {
+      marginLeft: 15,
+      marginRight: 15,
+      marginTop: 10,
+      marginBottom: 10,
+    },
+    tabHeader: {
+      color: colorScheme.textCol,
+      fontSize: 17,
+    },
+    central: {
+      flexGrow: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
   });
 
   if (numItem.length !== 0) {
     return (
       <View>
         <View style={localStyle.resView}>
-          <Text style={localStyle.outletName}>{resData[menuIdx].name}</Text>
-          <Text style={localStyle.outletSub}>{resData[menuIdx].address}</Text>
-          <Text style={localStyle.outletSub}>
-            Opening hours: {resData[menuIdx].openingTime} -{' '}
-            {resData[menuIdx].closingTime} ({resData[menuIdx].openDays})
-          </Text>
+          <View>
+            <Text style={localStyle.outletName}>{resData[menuIdx].name}</Text>
+            <Text style={localStyle.outletSub}>{resData[menuIdx].address}</Text>
+            <Text style={localStyle.outletSub}>
+              Opening hours: {resData[menuIdx].openingTime} -{' '}
+              {resData[menuIdx].closingTime} ({resData[menuIdx].openDays})
+            </Text>
+          </View>
+          <View style={localStyle.central}>
+            <ActivityIndicator
+              animating={isLoading}
+              size="small"
+              color={colorScheme.inputTextWrapper}
+            />
+          </View>
         </View>
         <View style={localStyle.marginView}>
-          <SectionList
-            sections={menuData[menuIdx]}
-            keyExtractor={(menu) => menu}
-            stickySectionHeadersEnabled={false}
-            scrollToLocationOffset={50}
-            tabBarStyle={localStyle.tabBar}
-            renderTab={({title, isActive}) => (
-              <View
-                style={[
-                  localStyle.tabContainer,
-                  {borderBottomWidth: isActive ? 1 : 0},
-                ]}>
-                <Text
-                  style={[
-                    localStyle.tabText,
-                    {color: isActive ? '#B19CD9' : 'grey'},
-                  ]}>
-                  {title}
-                </Text>
-              </View>
-            )}
-            renderSectionHeader={({section}) => (
-              <View key={section.idx}>
-                <Text style={localStyle.sectionHeaderText}>
-                  {section.title}
-                </Text>
-              </View>
-            )}
-            renderItem={({item, index}) => (
-              <View style={localStyle.itemContainer} key={index + item.x}>
-                <View style={localStyle.itemRow}>
-                  <Text style={localStyle.itemCode}>{item.serialNum}</Text>
-                  <Text style={localStyle.itemTitle}>{item.itemName}</Text>
-                  <Text style={localStyle.itemPrice}>${item.itemPrice}</Text>
-                  <NumericInput
-                    type="plus-minus"
-                    minValue={0}
-                    value={numItem[item.x][index]}
-                    onChange={(val) => changeOrder(item.x, index, val)}
-                    rounded
-                    rightButtonBackgroundColor="transparent"
-                    leftButtonBackgroundColor="transparent"
-                    textColor={colorScheme.textCol}
-                    borderColor="transparent"
-                    iconStyle={{color: colorScheme.textCol}}
-                    totalWidth={100}
-                    totalHeight={35}
-                    separatorWidth={0}
-                    containerStyle={[
-                      localStyle.numericWrap,
-                      {
-                        backgroundColor:
-                          numItem[item.x][index] === 0
-                            ? 'transparent'
-                            : '#5FA052',
-                      },
-                    ]}
-                  />
-                </View>
-              </View>
-            )}
+          <ScrollView horizontal={true}>
+            {menuTitle.map((item, currIdx) => {
+              return (
+                <TouchableOpacity
+                  key={currIdx}
+                  style={localStyle.tabClicker}
+                  onPress={() => {
+                    if (currIdx !== selectedIdx) {
+                      updateSelectedIdx(currIdx);
+                      updateIsLoading(true);
+                    }
+                  }}>
+                  <View style={localStyle.tabWrapper}>
+                    <Text style={localStyle.tabHeader}>{item}</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+          <FlatList
+            // style={localStyle.listView}
+            data={selectedData}
+            keyExtractor={(item) => item.serialNum}
+            renderItem={({index, item}) => {
+              return (
+                <IndividualMenu
+                  currItem={item}
+                  key={index}
+                  idx={index}
+                  currX={selectedIdx}
+                  val={numItem[selectedIdx][index]}
+                  colorScheme={colorScheme}
+                  changeFunction={changeOrder}
+                  updateFirst={updateFirstItem}
+                />
+              );
+            }}
           />
         </View>
       </View>
