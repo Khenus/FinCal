@@ -219,17 +219,16 @@ app.post('/login/', (req, res) =>{
 app.post('/fetchTransact/', (req, res) =>{
 	var postData = req.body;
 
-	var email = postData.Email;
 	var uuid = postData.uuid;
 	var numEntry = postData.numEntry;
 
-	con.query('SELECT * from transaction where Email = ? AND uuidBy = ? AND createdAt > DATE_SUB(now(), INTERVAL ? MONTH) ORDER BY createdAt DESC', [email, uuid, numEntry], function(err, result){
+	con.query('SELECT * from transaction where uuidBy = ? AND createdAt > DATE_SUB(now(), INTERVAL ? MONTH) ORDER BY createdAt DESC', [uuid, numEntry], function(err, result){
 		if(err != null){
-			console.log(`[${email} (${uuid})]: Transaction fetch error (${err})`);
+			console.log(`[${uuid}]: Transaction fetch error (${err})`);
 			res.end(JSON.stringify("Transaction fetch error: " + err));
 		} else {
 			res.end(JSON.stringify(result));
-			console.log(`[${email} (${uuid})]: Transaction fetched successfully`);
+			console.log(`[${uuid}]: Transaction fetched successfully`);
 		}
 	});
 });
@@ -237,7 +236,6 @@ app.post('/fetchTransact/', (req, res) =>{
 app.post('/addTransact/', (req, res) =>{
 	var postData = req.body;
 
-	var email = postData.Email;
 	var uuid = postData.uuid;
 	var date = postData.date;
 	var title = postData.Title;
@@ -248,13 +246,13 @@ app.post('/addTransact/', (req, res) =>{
 	var desc = postData.Desc;
 	var unixDate = postData.unixDate;
 
-	con.query('INSERT INTO `transaction` (`id`, `Email`, `uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (NULL,?,?,?,?,?,?,?,?,?,FROM_UNIXTIME(?),?)', [email, uuid, date, title, amt, type, catIdx, cato, desc, unixDate, unixDate], function (err, result, fields){
+	con.query('INSERT INTO `transaction` (`id`, `uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (NULL,?,?,?,?,?,?,?,?,FROM_UNIXTIME(?),?)', [uuid, date, title, amt, type, catIdx, cato, desc, unixDate, unixDate], function (err, result, fields){
 		if(err != null){
-			console.log(`[${email} (${uuid})]: Transaction insertion error (${err})`);
+			console.log(`[${uuid}]: Transaction insertion error (${err})`);
 			res.end(JSON.stringify("Transaction insertion error: " + err));
 		} else {
 			res.end(JSON.stringify("Transaction added"));
-			console.log(`[${email} (${uuid})]: Transaction added`);
+			console.log(`[${uuid}]: Transaction added`);
 		}
 	});
 });
@@ -284,13 +282,13 @@ app.post('/getLedger/', (req, res) =>{
 	});
 });
 
-app.post('/getTransHist/', (req, res) =>{
+app.post('/getAllTrans/', (req, res) =>{
 	var postData = req.body;
 
 	var fromUUID = postData.fromUUID;
 	var toUUID = postData.toUUID;
 
-	con.query('SELECT * FROM ledger WHERE (fromUUID = ? AND toUUID = ? AND Status = "Close") OR (toUUID = ? AND fromUUID = ? AND Status = "Close") ORDER BY createdAt ASC', [fromUUID, toUUID, fromUUID, toUUID], function (err, result, fields){
+	con.query('SELECT * FROM ledger WHERE (fromUUID = ? AND toUUID = ?) OR (toUUID = ? AND fromUUID = ?) ORDER BY createdAt ASC', [fromUUID, toUUID, fromUUID, toUUID], function (err, result, fields){
 		if(err != null){
 			console.log(`[${fromUUID}]: Error getting transaction history (${err})`);
 			res.end(JSON.stringify("Error getting transaction history " + err));
@@ -377,9 +375,10 @@ app.post('/updateOrder/', (req, res) => {
 
 	var currUUID = postData.currUUID;
 	var orderObj = postData.orderObj;
+	var jioUUID = postData.jioUUID;
 	var orderStatus = postData.orderStatus;
 
-	con.query('UPDATE jiousers SET orderObj = ?, orderPlaced = ? WHERE peepsUUID = ?', [JSON.stringify(orderObj), orderStatus, currUUID], function (err, result, fields){
+	con.query('UPDATE jiousers SET orderObj = ?, orderPlaced = ? WHERE peepsUUID = ? AND jioUUID = ?', [JSON.stringify(orderObj), orderStatus, currUUID, jioUUID], function (err, result, fields){
 		if(err != null){
 			console.log(`[${currUUID}]: Jio Order update error (${err})`);
 			res.end(JSON.stringify("Jio Order update error: " + err));
@@ -409,13 +408,57 @@ app.post('/fetchFullMyJio/', (req, res) => {
 app.post('/closeJio/', (req, res) => {
 	var postData = req.body;								//Getting the POST parameters
 
+	const monthName = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December',
+	];
+
+	var currDate = new Date();
+	var dateStr = `${currDate.getDate()} ${monthName[currDate.getMonth()]} ${currDate.getFullYear()}`
+	var dateStrTrans = `${monthName[currDate.getMonth()]} ${currDate.getDate()}, ${currDate.getFullYear()}`
+	var unixTime = Math.round(currDate.getTime() / 1000);
+
 	var jobUUID = postData.jobUUID;
+	var currName = postData.currName;
+	var currUUID = postData.currUUID;
+	var detailsArr = postData.detailsArr;
+	var jioTitle = postData.jioTitle;
 
 	con.query('UPDATE jiodetails SET jioStatus = "Closed" WHERE jioUUID = ?', [jobUUID], function (err, result, fields){
 		if(err != null){
 			console.log(`[jobUUID: ${jobUUID}]: Closing MyJio error (${err})`);
 			res.end(JSON.stringify("Closing MyJio error: " + err));
 		} else {
+			detailsArr.forEach(function(currItem) {
+				if (currItem.totalAmt !== 0) {
+					if (currItem.userUUID !== currUUID) {
+						con.query('INSERT INTO `ledger` (`id`, `fromUUID`, `fromName`, `toUUID`, `toName`, `Amount`, `Detail`, `Status`, `Date`, `createdAt`) VALUES (NULL,?,?,?,?,?,?,?,?,NOW())', [currItem.userUUID, currItem.userName, currUUID, currName, currItem.totalAmt, `FoodJio (${jioTitle})`, 'Open', dateStr], function (errInner, result, fields){
+							if(errInner != null){
+								console.log(`[${currName}]: MyJio closing error (Part 2) (${errInner})`);
+								res.end(JSON.stringify("MyJio closing error (Part 2)  " + errInner));
+							}
+						});
+					} else {
+						con.query('INSERT INTO `transaction` (`id`, `uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (NULL,?,?,?,?,?,?,?,?,NOW(),?)', [currUUID, dateStrTrans, `FoodJio (${jioTitle})`, currItem.totalAmt, 'Spending', 0, 'Food', '', unixTime], function (errInInner, result, fields){
+							if(errInInner != null){
+								console.log(`[${currName}]: MyJio closing error (Part 3) (${errInInner})`);
+								res.end(JSON.stringify("MyJio closing error (Part 3)  " + errInInner));
+							}
+						});
+					}
+				}
+			});
+
 			console.log(`[jobUUID: ${jobUUID}]: MyJio closed Successfully`);
 			res.end(JSON.stringify('MyJio closed Successfully'));
 		}

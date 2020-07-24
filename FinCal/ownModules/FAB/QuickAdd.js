@@ -197,7 +197,6 @@ export default function QuickAdd(props) {
       Toast.show('Fields not filled in: ' + JSON.stringify(tmp).slice(1, -1));
     } else {
       let result = await addTransact(
-        currUser.Email,
         currUser.uuid,
         tmpDate,
         tmpTitle,

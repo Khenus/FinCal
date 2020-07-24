@@ -159,19 +159,19 @@ function LedgerStack() {
   );
 }
 
-function SettingsStack() {
-  const SettingsNavStack = createStackNavigator();
+// function SettingsStack() {
+//   const SettingsNavStack = createStackNavigator();
 
-  return (
-    <SettingsNavStack.Navigator initialRouteName="SettingsScreen">
-      <SettingsNavStack.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
-        options={settings.noHeader}
-      />
-    </SettingsNavStack.Navigator>
-  );
-}
+//   return (
+//     <SettingsNavStack.Navigator initialRouteName="SettingsScreen">
+//       <SettingsNavStack.Screen
+//         name="SettingsScreen"
+//         component={SettingsScreen}
+//         options={settings.noHeader}
+//       />
+//     </SettingsNavStack.Navigator>
+//   );
+// }
 
 function MainStack() {
   const Tab = createMaterialBottomTabNavigator();
@@ -215,7 +215,7 @@ function MainStack() {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Settings"
         component={SettingsStack}
         options={{
@@ -224,7 +224,7 @@ function MainStack() {
             <MaterialCommunityIcons name="settings" color={color} size={26} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

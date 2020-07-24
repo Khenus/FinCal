@@ -80,9 +80,9 @@ function LoginPage(props) {
   const Styles = StyleSheet.create({
     mainView: {
       flex: 1,
-      //paddingBottom: 0,
       backgroundColor: colorScheme.backCol,
-      //height: currHeight - getStatusBarHeight(),
+      alignItems: 'center',
+      justifyContent: 'center',
     },
 
     inputFields: {
@@ -195,44 +195,46 @@ function LoginPage(props) {
       <SafeAreaView style={Styles.container}>
         <ScrollView contentContainerStyle={Styles.scroller}>
           <View style={Styles.mainView}>
-            <View style={Styles.imgWrapper}>
-              <Image
-                source={require('./Coins.png')}
-                style={Styles.displayPic}
-              />
-            </View>
-            <Text style={[Styles.welcomeHeader, Styles.text]}>Welcome</Text>
-            <Text style={[Styles.welcomeSub, Styles.text]}>
-              Log in to keep track of your finances
-            </Text>
-            <TextInput
-              value={userEmail}
-              autoCompleteType="email"
-              placeholder="Email"
-              placeholderTextColor={colorScheme.placeHolderText}
-              style={Styles.inputFields}
-              onChangeText={(newEmail) => changeUserEmail(newEmail)}
-            />
-            <TextInput
-              value={userPass}
-              autoCompleteType="password"
-              secureTextEntry={true}
-              placeholder="Password"
-              placeholderTextColor={colorScheme.placeHolderText}
-              style={Styles.inputFields}
-              onChangeText={(newPass) => changeUserPass(newPass)}
-            />
-            <TouchableOpacity style={Styles.logBtn} onPress={loginAction}>
-              <Text style={[Styles.logText, Styles.text]}>Log in</Text>
-            </TouchableOpacity>
-            <Text style={Styles.btmText}>
-              <Text style={Styles.text}>Don't Have an account?{'  '}</Text>
-              <Text
-                style={[Styles.signUp, Styles.text]}
-                onPress={redirSelector}>
-                Sign up
+            <View>
+              <View style={Styles.imgWrapper}>
+                <Image
+                  source={require('./Coins.png')}
+                  style={Styles.displayPic}
+                />
+              </View>
+              <Text style={[Styles.welcomeHeader, Styles.text]}>Welcome</Text>
+              <Text style={[Styles.welcomeSub, Styles.text]}>
+                Log in to keep track of your finances
               </Text>
-            </Text>
+              <TextInput
+                value={userEmail}
+                autoCompleteType="email"
+                placeholder="Email"
+                placeholderTextColor={colorScheme.placeHolderText}
+                style={Styles.inputFields}
+                onChangeText={(newEmail) => changeUserEmail(newEmail)}
+              />
+              <TextInput
+                value={userPass}
+                autoCompleteType="password"
+                secureTextEntry={true}
+                placeholder="Password"
+                placeholderTextColor={colorScheme.placeHolderText}
+                style={Styles.inputFields}
+                onChangeText={(newPass) => changeUserPass(newPass)}
+              />
+              <TouchableOpacity style={Styles.logBtn} onPress={loginAction}>
+                <Text style={[Styles.logText, Styles.text]}>Log in</Text>
+              </TouchableOpacity>
+              <Text style={Styles.btmText}>
+                <Text style={Styles.text}>Don't Have an account?{'  '}</Text>
+                <Text
+                  style={[Styles.signUp, Styles.text]}
+                  onPress={redirSelector}>
+                  Sign up
+                </Text>
+              </Text>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>

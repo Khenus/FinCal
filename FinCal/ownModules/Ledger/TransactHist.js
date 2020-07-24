@@ -11,7 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {connect} from 'react-redux';
 
-import {getTransHist} from '../API';
+import {getAllTrans} from '../API';
 import LedgerCard from './LedgerCard';
 import FloatActionButton from '../FloatActionButton';
 import {darkTheme, lightTheme} from '../GlobalValues.js';
@@ -25,6 +25,7 @@ function TransactHist(props) {
   let currObj = props.route.params;
   let name = currObj.Name;
 
+  let [ledgerTotal, updateLedgerTotal] = useState(0.0);
   let [transHist, updateTransHist] = useState([]);
   let [isLoading, updateIsLoading] = useState(true);
 
@@ -46,12 +47,32 @@ function TransactHist(props) {
   useEffect(() => {
     async function tempHandler() {
       updateIsLoading(true);
-      let result = await getTransHist(currObj.fromUUID, currObj.toUUID);
-      updateTransHist(result);
+      let result = await getAllTrans(currObj.fromUUID, currObj.toUUID);
+
+      if (typeof result === 'object') {
+        let ledgerTotalTemp = 0.0;
+        let ledgerClosedTemp = [];
+
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].Status === 'Open') {
+            if (result[i].toUUID !== currUser.uuid) {
+              ledgerTotalTemp -= parseFloat(result[i].Amount);
+            } else {
+              ledgerTotalTemp += parseFloat(result[i].Amount);
+            }
+          } else {
+            ledgerClosedTemp.push(result[i]);
+          }
+        }
+
+        updateLedgerTotal(ledgerTotalTemp);
+        updateTransHist(ledgerClosedTemp);
+      }
+
       updateIsLoading(false);
     }
     tempHandler();
-  }, [currObj.fromUUID, currObj.toUUID]);
+  }, [currObj.fromUUID, currObj.toUUID, currUser.uuid]);
 
   const styles = StyleSheet.create({
     mainView: {
@@ -109,10 +130,41 @@ function TransactHist(props) {
       marginTop: 20,
       height: currHeight * 0.55,
     },
+
+    oweText: {
+      color: 'red',
+      fontSize: 18,
+      fontStyle: 'italic',
+    },
+
+    recvText: {
+      color: 'lightgreen',
+      fontSize: 18,
+      fontStyle: 'italic',
+    },
+
+    padding: {
+      height: 50,
+    },
   });
 
   function back() {
     navigation.pop(1);
+  }
+
+  let ledgerText;
+  if (ledgerTotal < 0.0) {
+    ledgerText = (
+      <Text style={styles.oweText}>
+        You owe {name} ${Math.abs(ledgerTotal).toFixed(2)}
+      </Text>
+    );
+  } else {
+    ledgerText = (
+      <Text style={styles.recvText}>
+        {name} owes you ${ledgerTotal.toFixed(2)}
+      </Text>
+    );
   }
 
   let disItem;
@@ -129,24 +181,29 @@ function TransactHist(props) {
           <Text style={styles.text}>
             There are no past transaction with {name}
           </Text>
+          <View style={styles.padding} />
+          {ledgerText}
         </View>
       );
     } else {
       disItem = (
-        <ScrollView style={styles.scroller}>
-          {transHist.map((currItem, currIdx) => (
-            <LedgerCard
-              key={currIdx}
-              clickable={false}
-              currObj={currItem}
-              cardType={
-                currItem.toUUID === currObj.toUUID ? 'payment' : 'receive'
-              }
-              parentThemeDark={themeDark}
-              parWidth={currWidth - 40}
-            />
-          ))}
-        </ScrollView>
+        <View style={styles.central}>
+          <ScrollView style={styles.scroller}>
+            {transHist.map((currItem, currIdx) => (
+              <LedgerCard
+                key={currIdx}
+                clickable={false}
+                currObj={currItem}
+                cardType={
+                  currItem.toUUID === currObj.toUUID ? 'payment' : 'receive'
+                }
+                parentThemeDark={themeDark}
+                parWidth={currWidth - 40}
+              />
+            ))}
+          </ScrollView>
+          {ledgerText}
+        </View>
       );
     }
   }

@@ -39,6 +39,9 @@ function LedgerSummary(props) {
     updateTheme(parentDarkTheme);
   }, [parentDarkTheme]);
 
+  let [toPayFull, updateToPayFull] = useState([]);
+  let [toRecvFull, updateToRecvFull] = useState([]);
+
   let [toPayArr, updateToPayArr] = useState([]);
   let [toRecvArr, updateToRecvArr] = useState([]);
   let [toPayAmt, updateToPayAmt] = useState(0.0);
@@ -182,12 +185,20 @@ function LedgerSummary(props) {
         updateToRecvAmt(toRecvAmtTemp.toFixed(2));
         updateToPayArr(toPayTemp);
         updateToRecvArr(toRecvTemp);
+
+        updateToPayFull(toPayTemp);
+        updateToRecvFull(toRecvTemp);
       }
 
       updateLoading(false);
     }
-    tempHandler();
-  }, [currUser.Email, currUser.uuid]);
+
+    const reload = navigation.addListener('focus', () => {
+      tempHandler();
+    });
+
+    return reload;
+  }, [currUser.Email, currUser.uuid, navigation]);
 
   function toPayPage() {
     navigation.dispatch(
@@ -215,6 +226,49 @@ function LedgerSummary(props) {
     );
   }
 
+  function search(incomingWord) {
+    if (incomingWord === '') {
+      updateToPayArr(toPayFull);
+      updateToRecvArr(toRecvFull);
+    } else {
+      let newWord = incomingWord.toLowerCase();
+
+      let toPayTemp = [];
+      let toRecvTemp = [];
+
+      for (let i = 0; i < toPayFull.length; i++) {
+        let currItem = toPayFull[i];
+
+        if (
+          currItem.fromName.toLowerCase().includes(newWord) ||
+          currItem.toName.toLowerCase().includes(newWord) ||
+          currItem.Amount.toLowerCase().includes(newWord) ||
+          currItem.Detail.toLowerCase().includes(newWord) ||
+          currItem.Date.toLowerCase().includes(newWord)
+        ) {
+          toPayTemp.push(currItem);
+        }
+      }
+
+      for (let i = 0; i < toRecvFull.length; i++) {
+        let currItem = toRecvFull[i];
+
+        if (
+          currItem.fromName.toLowerCase().includes(newWord) ||
+          currItem.toName.toLowerCase().includes(newWord) ||
+          currItem.Amount.toLowerCase().includes(newWord) ||
+          currItem.Detail.toLowerCase().includes(newWord) ||
+          currItem.Date.toLowerCase().includes(newWord)
+        ) {
+          toRecvTemp.push(currItem);
+        }
+      }
+
+      updateToPayArr(toPayTemp);
+      updateToRecvArr(toRecvTemp);
+    }
+  }
+
   if (isLoading) {
     return (
       <View style={styles.mainView}>
@@ -234,7 +288,10 @@ function LedgerSummary(props) {
             </TouchableOpacity>
           </View>
 
-          <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+          <Searchbar
+            style={styles.searchBar}
+            placeholder="Seach for an entry"
+          />
 
           <View style={styles.fullSummary}>
             <View style={styles.loadingMain}>
@@ -265,7 +322,11 @@ function LedgerSummary(props) {
             </TouchableOpacity>
           </View>
 
-          <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+          <Searchbar
+            style={styles.searchBar}
+            placeholder="Seach for an entry"
+            onChangeText={(newWord) => search(newWord)}
+          />
 
           <View style={styles.fullSummary}>
             <View style={styles.mainContainers}>

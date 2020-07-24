@@ -34,6 +34,8 @@ export default function FoodJioPeople(props) {
     mainView: {
       flex: 1,
       backgroundColor: '#121212',
+      // borderColor: 'white',
+      // borderWidth: 1,
     },
 
     cancelbutton: {
@@ -67,6 +69,8 @@ export default function FoodJioPeople(props) {
       paddingBottom: 25,
       marginLeft: 10,
       marginRight: 10,
+      marginTop: 10,
+      // flexGrow: 2,
       // borderBottomWidth: 4,
       // borderBottomColor: 'lightgrey',
     },
@@ -77,6 +81,17 @@ export default function FoodJioPeople(props) {
       fontSize: 20,
       margin: 15,
     },
+
+    // allWrapper: {
+    //   borderWidth: 1,
+    //   borderColor: 'yellow',
+    // },
+
+    // bottom: {
+    //   // position: 'absolute',
+    //   // bottom: 0,
+    //   alignItems: 'flex-end',
+    // },
   });
 
   function back() {

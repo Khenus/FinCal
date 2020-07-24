@@ -95,6 +95,7 @@ export default function AddPeople(props) {
     },
 
     peopleWrap: {
+      // flex: 1,
       marginTop: 10,
       height: currHeight * 0.38,
       paddingBottom: 10,

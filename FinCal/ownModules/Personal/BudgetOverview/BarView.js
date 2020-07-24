@@ -157,19 +157,23 @@ export default function BarView(props) {
     },
   });
 
-  function toggleView() {
-    updateSpendingSelected(!spendingSelected);
+  function spendingClicked() {
+    updateSpendingSelected(true);
+  }
+
+  function earningClicked() {
+    updateSpendingSelected(false);
   }
 
   return (
     <View>
       <View style={localStyle.selectorBar}>
-        <TouchableOpacity style={localStyle.spending} onPress={toggleView}>
+        <TouchableOpacity style={localStyle.spending} onPress={spendingClicked}>
           <Text style={localStyle.spendingText}>Spending</Text>
         </TouchableOpacity>
 
         <View style={localStyle.middleGap} />
-        <TouchableOpacity style={localStyle.earning} onPress={toggleView}>
+        <TouchableOpacity style={localStyle.earning} onPress={earningClicked}>
           <Text style={localStyle.earningText}>Earning</Text>
         </TouchableOpacity>
       </View>
@@ -197,7 +201,7 @@ function BarListItem(props) {
 
   const localStyle = StyleSheet.create({
     monthContainerStyle: {
-      flex: 3.5,
+      flex: 3,
       flexDirection: 'row',
       justifyContent: 'flex-start',
       marginLeft: 15,

@@ -48,9 +48,8 @@ export async function login(email, pass) {
   return result;
 }
 
-export async function fetchTransact(email, uuid, numEntry) {
+export async function fetchTransact(uuid, numEntry) {
   let data = {
-    Email: email,
     uuid: uuid,
     numEntry: numEntry,
   };
@@ -73,7 +72,6 @@ export async function fetchTransact(email, uuid, numEntry) {
 }
 
 export async function addTransact(
-  email,
   uuid,
   date,
   title,
@@ -85,7 +83,6 @@ export async function addTransact(
   unixDate,
 ) {
   let data = {
-    Email: email,
     uuid: uuid,
     date: date,
     Title: title,
@@ -138,13 +135,13 @@ export async function getLedger(action, email, uuid) {
   return result;
 }
 
-export async function getTransHist(fromUUID, toUUID) {
+export async function getAllTrans(fromUUID, toUUID) {
   let data = {
     fromUUID: fromUUID,
     toUUID: toUUID,
   };
 
-  var result = await fetch(url + '/getTransHist/', {
+  var result = await fetch(url + '/getAllTrans/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -241,9 +238,10 @@ export async function getJio(queryUUID) {
   return result;
 }
 
-export async function updateOrder(currUUID, orderObj, orderStatus) {
+export async function updateOrder(currUUID, jioUUID, orderObj, orderStatus) {
   let data = {
     currUUID: currUUID,
+    jioUUID: jioUUID,
     orderObj: orderObj,
     orderStatus: orderStatus,
   };
@@ -287,9 +285,19 @@ export async function fetchFullMyJio(jobUUID) {
   return result;
 }
 
-export async function closeJio(jobUUID) {
+export async function closeJio(
+  jobUUID,
+  currName,
+  currUUID,
+  detailsArr,
+  jioTitle,
+) {
   let data = {
     jobUUID: jobUUID,
+    currName: currName,
+    currUUID: currUUID,
+    detailsArr: detailsArr,
+    jioTitle: jioTitle,
   };
 
   var result = await fetch(url + '/closeJio/', {

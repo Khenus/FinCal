@@ -27,6 +27,7 @@ function LedgerToPay(props) {
 
   let navigation = props.navigation;
 
+  let [toPayFull, updateToPayFull] = useState([]);
   let [toPayArr, updateToPayArr] = useState([]);
   let [toPayAmt, updateToPayAmt] = useState(0.0);
 
@@ -154,12 +155,18 @@ function LedgerToPay(props) {
 
         updateToPayArr(toPayRes);
         updateToPayAmt(toPayAmtTemp.toFixed(2));
+        updateToPayFull(toPayRes);
       }
 
       updateLoading(false);
     }
-    tempHandler();
-  }, [currUser.Email, currUser.uuid]);
+
+    const reload = navigation.addListener('focus', () => {
+      tempHandler();
+    });
+
+    return reload;
+  }, [currUser.Email, currUser.uuid, navigation]);
 
   function toSummaryPage() {
     navigation.dispatch(
@@ -185,6 +192,32 @@ function LedgerToPay(props) {
         ],
       }),
     );
+  }
+
+  function search(incomingWord) {
+    if (incomingWord === '') {
+      updateToPayArr(toPayFull);
+    } else {
+      let newWord = incomingWord.toLowerCase();
+
+      let toPayTemp = [];
+
+      for (let i = 0; i < toPayFull.length; i++) {
+        let currItem = toPayFull[i];
+
+        if (
+          currItem.fromName.toLowerCase().includes(newWord) ||
+          currItem.toName.toLowerCase().includes(newWord) ||
+          currItem.Amount.toLowerCase().includes(newWord) ||
+          currItem.Detail.toLowerCase().includes(newWord) ||
+          currItem.Date.toLowerCase().includes(newWord)
+        ) {
+          toPayTemp.push(currItem);
+        }
+      }
+
+      updateToPayArr(toPayTemp);
+    }
   }
 
   if (isLoading) {
@@ -237,7 +270,11 @@ function LedgerToPay(props) {
             </TouchableOpacity>
           </View>
 
-          <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+          <Searchbar
+            style={styles.searchBar}
+            placeholder="Seach for a debt"
+            onChangeText={(newWord) => search(newWord)}
+          />
 
           <View style={styles.fullSummary}>
             <View style={styles.mainContainers}>

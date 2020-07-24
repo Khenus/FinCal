@@ -85,7 +85,12 @@ export default function HomeMenuSummary(props) {
       orderPlaced = 'Ordered';
     }
 
-    let result = await updateOrder(currUser.uuid, finalOrderIdx, orderPlaced);
+    let result = await updateOrder(
+      currUser.uuid,
+      currItem.jioUUID,
+      finalOrderIdx,
+      orderPlaced,
+    );
 
     Toast.show(result);
 

@@ -32,8 +32,9 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_2_API_25" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-07-06T09:54:23.411Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-07-24T16:49:07.692Z" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SelectDeploymentTargetsDialog.selectedDevices" value="Pixel_2_API_25" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Tuition/Brekh/android" />
   </component>
@@ -131,10 +132,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="275" y="274" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1594825895142" />
-    <state x="100" y="100" width="790" height="840" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1594649865660">
+    <state width="972" height="281" key="GridCell.Tab.0.bottom" timestamp="1595613679648">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="100" y="100" width="790" height="840" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1594649865660" />
+    <state width="972" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595613679648" />
+    <state width="972" height="281" key="GridCell.Tab.0.center" timestamp="1595613679648">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="972" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595613679648" />
+    <state width="972" height="281" key="GridCell.Tab.0.left" timestamp="1595613679648">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="972" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595613679648" />
+    <state width="972" height="281" key="GridCell.Tab.0.right" timestamp="1595613679648">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="972" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595613679648" />
+    <state x="100" y="100" width="790" height="840" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1595609377865">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="100" y="100" width="790" height="840" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595609377865" />
     <state x="143" y="230" key="search.everywhere.popup" timestamp="1594825882416">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

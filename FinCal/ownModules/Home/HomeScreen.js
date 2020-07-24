@@ -152,30 +152,7 @@ function HomeScreen(props) {
   let [myJio, updateMyJio] = useState([]);
 
   useEffect(() => {
-    async function tempGetTrans() {
-      let result = await fetchTransact(currUser.Email, currUser.uuid, 1);
-
-      if (typeof result === 'object') {
-        //Updating trasaction data for the recent trasaction
-        // updateTransactData(result);
-
-        //Updated trasaction data sorted by month
-        let tempArr = [];
-        for (let j = 0; j < 12; j++) {
-          tempArr.push([]);
-        }
-
-        for (let i = 0; i < result.length; i++) {
-          let currUnix = parseInt(result[i].createdAtUnix, 10) * 1000;
-          let tempMonth = new Date(currUnix).getMonth();
-          tempArr[tempMonth].push(result[i]);
-        }
-
-        updateMonthlyTransactData(tempArr);
-      }
-    }
-
-    async function tempGetLedger() {
+    async function fetchLedger() {
       let toPayRes = await getLedger('getToPay', currUser.Email, currUser.uuid);
       let toRecvRes = await getLedger(
         'getToRecv',
@@ -200,34 +177,7 @@ function HomeScreen(props) {
       }
     }
 
-    async function tempGetJio() {
-      let result = await getJio(currUser.uuid);
-
-      if (typeof result === 'object') {
-        let myTemp = [];
-        let inviteTemp = [];
-
-        for (let i = 0; i < result.length; i++) {
-          if (result[i].peepsUUID === result[i].creatorUUID) {
-            myTemp.push(result[i]);
-          } else {
-            inviteTemp.push(result[i]);
-          }
-        }
-        updateMyJio(myTemp);
-        updateJioInvite(inviteTemp);
-      }
-    }
-
-    updateIsLoading(true);
-    tempGetTrans();
-    tempGetLedger();
-    tempGetJio();
-    updateIsLoading(false);
-  }, [currUser.Email, currUser.uuid]);
-
-  useEffect(() => {
-    async function fetchJioAgain() {
+    async function fetchJio() {
       let result = await getJio(currUser.uuid);
 
       if (typeof result === 'object') {
@@ -247,7 +197,7 @@ function HomeScreen(props) {
     }
 
     async function fetchTransactAgain() {
-      let result = await fetchTransact(currUser.Email, currUser.uuid, 1);
+      let result = await fetchTransact(currUser.uuid, 1);
 
       if (typeof result === 'object') {
         //Updating trasaction data for the recent trasaction
@@ -270,8 +220,11 @@ function HomeScreen(props) {
     }
 
     const reload = navigation.addListener('focus', () => {
-      fetchJioAgain();
+      updateIsLoading(true);
+      fetchJio();
       fetchTransactAgain();
+      fetchLedger();
+      updateIsLoading(false);
     });
 
     return reload;

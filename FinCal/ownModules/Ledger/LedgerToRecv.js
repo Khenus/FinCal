@@ -39,6 +39,7 @@ function LedgerToRecv(props) {
     updateTheme(parentDarkTheme);
   }, [parentDarkTheme]);
 
+  let [toRecvFull, updateToRecvFull] = useState([]);
   let [toRecvArr, updateToRecvArr] = useState([]);
   let [toRecvAmt, updateToRecvAmt] = useState(0.0);
 
@@ -164,12 +165,19 @@ function LedgerToRecv(props) {
 
         updateToRecvArr(toRecvRes);
         updateToRecvAmt(toRecvAmtTemp.toFixed(2));
+        updateToRecvFull(toRecvRes);
       }
 
       updateLoading(false);
     }
     tempHandler();
-  }, [currUser.Email, currUser.uuid]);
+
+    const reload = navigation.addListener('focus', () => {
+      tempHandler();
+    });
+
+    return reload;
+  }, [currUser.Email, currUser.uuid, navigation]);
 
   function toSummaryPage() {
     navigation.dispatch(
@@ -197,6 +205,31 @@ function LedgerToRecv(props) {
     );
   }
 
+  function search(incomingWord) {
+    if (incomingWord === '') {
+      updateToRecvArr(toRecvFull);
+    } else {
+      let newWord = incomingWord.toLowerCase();
+      let toRecvTemp = [];
+
+      for (let i = 0; i < toRecvFull.length; i++) {
+        let currItem = toRecvFull[i];
+
+        if (
+          currItem.fromName.toLowerCase().includes(newWord) ||
+          currItem.toName.toLowerCase().includes(newWord) ||
+          currItem.Amount.toLowerCase().includes(newWord) ||
+          currItem.Detail.toLowerCase().includes(newWord) ||
+          currItem.Date.toLowerCase().includes(newWord)
+        ) {
+          toRecvTemp.push(currItem);
+        }
+      }
+
+      updateToRecvArr(toRecvTemp);
+    }
+  }
+
   if (isLoading) {
     return (
       <View style={styles.mainView}>
@@ -216,7 +249,10 @@ function LedgerToRecv(props) {
             </TouchableOpacity>
           </View>
 
-          <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+          <Searchbar
+            style={styles.searchBar}
+            placeholder="Seach for a payment"
+          />
 
           <View style={styles.fullSummary}>
             <View style={styles.loadingMain}>
@@ -247,7 +283,11 @@ function LedgerToRecv(props) {
             </TouchableOpacity>
           </View>
 
-          <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+          <Searchbar
+            style={styles.searchBar}
+            placeholder="Seach for a payment"
+            onChangeText={(newWord) => search(newWord)}
+          />
 
           <View style={styles.fullSummary}>
             <View style={styles.mainContainers}>

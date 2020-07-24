@@ -125,8 +125,8 @@ export default function LedgerCard(props) {
       });
     } else {
       navigation.navigate('TransactHist', {
-        fromUUID: currObj.fromUUID,
-        toUUID: currObj.toUUID,
+        fromUUID: currObj.toUUID,
+        toUUID: currObj.fromUUID,
         Name: currObj.fromName,
         cardType: 'receive',
         Amount: currObj.Amount,

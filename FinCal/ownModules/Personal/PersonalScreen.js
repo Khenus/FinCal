@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   useWindowDimensions,
+  ActivityIndicator,
 } from 'react-native';
 import {connect} from 'react-redux';
 
@@ -25,6 +26,7 @@ function PersonalScreen(props) {
   let [currMonthIdx, updateCurrMonthIdx] = useState(0);
   let [transactData, updateTransactData] = useState([]);
   let [monthlyTransactData, updateMonthlyTransactData] = useState([]);
+  let [isLoading, updateIsLoading] = useState(false);
   let [themeDark, updateTheme] = useState(true);
   let [colorScheme, updateColorScheme] = useState(darkTheme);
 
@@ -43,11 +45,7 @@ function PersonalScreen(props) {
 
   useEffect(() => {
     async function tempHandler() {
-      let result = await fetchTransact(
-        currUser.Email,
-        currUser.uuid,
-        numMonths,
-      );
+      let result = await fetchTransact(currUser.uuid, numMonths);
 
       if (typeof result === 'object') {
         //Updating trasaction data for the recent trasaction
@@ -72,11 +70,16 @@ function PersonalScreen(props) {
         updateYearArr(tempYearArr);
       }
     }
-    tempHandler();
 
-    //Updating current date index
-    updateCurrMonthIdx(new Date().getMonth());
-  }, [currUser.Email, currUser.uuid, numMonths]);
+    const reload = navigation.addListener('focus', () => {
+      updateIsLoading(true);
+      tempHandler();
+      updateCurrMonthIdx(new Date().getMonth());
+      updateIsLoading(false);
+    });
+
+    return reload;
+  }, [currUser.Email, currUser.uuid, navigation, numMonths]);
 
   const localStyle = StyleSheet.create({
     mainView: {
@@ -171,51 +174,90 @@ function PersonalScreen(props) {
     });
   }
 
-  return (
-    <View style={localStyle.mainView}>
-      {/* Header text */}
-      <ScrollView>
-        <View style={localStyle.header}>
-          <Text style={localStyle.welcomeStyle}>Your personal finances.</Text>
-        </View>
-
-        {/* Budget breakdown */}
-        <View>
-          <View style={localStyle.subHeader}>
-            <Text style={localStyle.subtitleStyle}>Budget Overview</Text>
-            <Text style={localStyle.viewDetails} onPress={toBudgetDetails}>
-              View Details
-            </Text>
+  if (isLoading) {
+    return (
+      <View style={localStyle.mainView}>
+        {/* Header text */}
+        <ScrollView>
+          <View style={localStyle.header}>
+            <Text style={localStyle.welcomeStyle}>Your personal finances.</Text>
           </View>
 
-          {/* Add this into pie chart component disData={sorteddata} */}
-          <View style={localStyle.piePadding} />
-          <PieChartWithDynamicSlices
-            currUser={currUser}
-            disData={monthlyTransactData[currMonthIdx]}
-          />
-          <View style={localStyle.piePadding} />
-        </View>
+          {/* Budget breakdown */}
+          <View>
+            <View style={localStyle.subHeader}>
+              <Text style={localStyle.subtitleStyle}>Budget Overview</Text>
+              <Text style={localStyle.viewDetails} onPress={toBudgetDetails}>
+                View Details
+              </Text>
+            </View>
 
-        {/* Transaction List */}
-        <View style={localStyle.transList}>
-          <View style={localStyle.subHeader}>
-            <Text style={localStyle.subtitleStyle}>Latest Transactions</Text>
-            <Text style={localStyle.viewDetails} onPress={toAllTransact}>
-              View All
-            </Text>
+            {/* Add this into pie chart component disData={sorteddata} */}
+            <ActivityIndicator size="small" color={colorScheme.textCol} />
           </View>
 
-          <TransactionList
-            dataArr={transactData}
-            num={5}
-            themeDark={themeDark}
-          />
-        </View>
-      </ScrollView>
-      <FloatActionButton currUser={currUser} pullTransact={updateData} />
-    </View>
-  );
+          {/* Transaction List */}
+          <View style={localStyle.transList}>
+            <View style={localStyle.subHeader}>
+              <Text style={localStyle.subtitleStyle}>Latest Transactions</Text>
+              <Text style={localStyle.viewDetails} onPress={toAllTransact}>
+                View All
+              </Text>
+            </View>
+
+            <ActivityIndicator size="small" color={colorScheme.textCol} />
+          </View>
+        </ScrollView>
+        <FloatActionButton currUser={currUser} pullTransact={updateData} />
+      </View>
+    );
+  } else {
+    return (
+      <View style={localStyle.mainView}>
+        {/* Header text */}
+        <ScrollView>
+          <View style={localStyle.header}>
+            <Text style={localStyle.welcomeStyle}>Your personal finances.</Text>
+          </View>
+
+          {/* Budget breakdown */}
+          <View>
+            <View style={localStyle.subHeader}>
+              <Text style={localStyle.subtitleStyle}>Budget Overview</Text>
+              <Text style={localStyle.viewDetails} onPress={toBudgetDetails}>
+                View Details
+              </Text>
+            </View>
+
+            {/* Add this into pie chart component disData={sorteddata} */}
+            <View style={localStyle.piePadding} />
+            <PieChartWithDynamicSlices
+              currUser={currUser}
+              disData={monthlyTransactData[currMonthIdx]}
+            />
+            <View style={localStyle.piePadding} />
+          </View>
+
+          {/* Transaction List */}
+          <View style={localStyle.transList}>
+            <View style={localStyle.subHeader}>
+              <Text style={localStyle.subtitleStyle}>Latest Transactions</Text>
+              <Text style={localStyle.viewDetails} onPress={toAllTransact}>
+                View All
+              </Text>
+            </View>
+
+            <TransactionList
+              dataArr={transactData}
+              num={5}
+              themeDark={themeDark}
+            />
+          </View>
+        </ScrollView>
+        <FloatActionButton currUser={currUser} pullTransact={updateData} />
+      </View>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {

@@ -15,6 +15,7 @@ import Toast from 'react-native-simple-toast';
 import {darkTheme, lightTheme} from '../GlobalValues';
 import {menuData} from '../MenuData';
 import {fetchFullMyJio, closeJio} from '../API';
+import {updateParenthesizedType} from 'typescript';
 
 function MyJioSummary(props) {
   let navigation = props.navigation;
@@ -38,6 +39,7 @@ function MyJioSummary(props) {
 
   let [isLoading, updateIsLoading] = useState(false);
 
+  let [allLedgerDetail, updateAllLedgerDetail] = useState([]);
   let [allPersonalDetail, updateAllPersonalDetail] = useState([]);
   let [allTotalFin, updateAllTotalFin] = useState(0.0);
   let [allDetailFin, updateAllDetailFin] = useState([]);
@@ -77,6 +79,7 @@ function MyJioSummary(props) {
 
           //To show the personal details to be displayed
           let finalDetailsAll = [];
+          let finalLedgerAll = [];
           for (let i = 0; i < result.length; i++) {
             let currPerson = result[i];
             let currOrder = JSON.parse(currPerson.orderObj);
@@ -118,7 +121,15 @@ function MyJioSummary(props) {
               totalAmt: personTotal,
               userName: currPerson.peepsName,
             };
+
+            let tempLedgerDetail = {
+              totalAmt: personTotal,
+              userUUID: currPerson.peepsUUID,
+              userName: currPerson.peepsName,
+            };
+
             finalDetailsAll.push(tempDetail);
+            finalLedgerAll.push(tempLedgerDetail);
           }
 
           //To calculate the needed total and all details to be displayed
@@ -150,6 +161,7 @@ function MyJioSummary(props) {
           }
 
           updateAllPersonalDetail(finalDetailsAll);
+          updateAllLedgerDetail(finalLedgerAll);
           updateAllTotalFin(allTotal);
           updateAllDetailFin(allDetails);
         }
@@ -160,6 +172,14 @@ function MyJioSummary(props) {
     tempHandler();
     updateIsLoading(false);
   }, [currItem, currItem.resIdx]);
+
+  useEffect(() => {
+    console.log(allPersonalDetail);
+  }, [allPersonalDetail]);
+
+  useEffect(() => {
+    console.log(allLedgerDetail);
+  }, [allLedgerDetail]);
 
   const localStyle = StyleSheet.create({
     mainView: {
@@ -251,7 +271,13 @@ function MyJioSummary(props) {
   }
 
   async function closeMyJio() {
-    let result = await closeJio(currItem.jioUUID);
+    let result = await closeJio(
+      currItem.jioUUID,
+      currUser.Name,
+      currUser.uuid,
+      allLedgerDetail,
+      currItem.jioTitle,
+    );
     Toast.show(result);
 
     if (result === 'MyJio closed Successfully') {
