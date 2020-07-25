@@ -423,6 +423,8 @@ app.post('/closeJio/', (req, res) => {
 		'December',
 	];
 
+	var ledgerUUID = uuid.v4();
+
 	var currDate = new Date();
 	var dateStr = `${currDate.getDate()} ${monthName[currDate.getMonth()]} ${currDate.getFullYear()}`
 	var dateStrTrans = `${monthName[currDate.getMonth()]} ${currDate.getDate()}, ${currDate.getFullYear()}`
@@ -442,7 +444,7 @@ app.post('/closeJio/', (req, res) => {
 			detailsArr.forEach(function(currItem) {
 				if (currItem.totalAmt !== 0) {
 					if (currItem.userUUID !== currUUID) {
-						con.query('INSERT INTO `ledger` (`id`, `fromUUID`, `fromName`, `toUUID`, `toName`, `Amount`, `Detail`, `Status`, `Date`, `createdAt`) VALUES (NULL,?,?,?,?,?,?,?,?,NOW())', [currItem.userUUID, currItem.userName, currUUID, currName, currItem.totalAmt, `FoodJio (${jioTitle})`, 'Open', dateStr], function (errInner, result, fields){
+						con.query('INSERT INTO `ledger` (`id`, `ledgerUUID`, `fromUUID`, `fromName`, `toUUID`, `toName`, `Amount`, `Detail`, `Status`, `Date`, `createdAt`) VALUES (NULL,?,?,?,?,?,?,?,?,?,NOW())', [ledgerUUID, currItem.userUUID, currItem.userName, currUUID, currName, currItem.totalAmt, `FoodJio (${jioTitle})`, 'Open', dateStr], function (errInner, result, fields){
 							if(errInner != null){
 								console.log(`[${currName}]: MyJio closing error (Part 2) (${errInner})`);
 								res.end(JSON.stringify("MyJio closing error (Part 2)  " + errInner));
@@ -461,6 +463,38 @@ app.post('/closeJio/', (req, res) => {
 
 			console.log(`[jobUUID: ${jobUUID}]: MyJio closed Successfully`);
 			res.end(JSON.stringify('MyJio closed Successfully'));
+		}
+	});
+});
+
+app.post('/deleteLedger/', (req, res) => {
+	var postData = req.body;								//Getting the POST parameters
+	
+	var ledgerUUID = postData.ledgerUUID;
+
+	con.query('DELETE FROM ledger WHERE ledgerUUID = ?', [ledgerUUID], function(err, result) {
+		if(err != null){
+			console.log('Ledger Deletion Error', err);
+			res.end(JSON.stringify("Ledger Deletion Error"));
+		} else {
+			console.log(`Ledger Deleted`);
+			res.end(JSON.stringify(`Ledger Deleted`));
+		}
+	});
+});
+
+app.post('/paidLedger/', (req, res) => {
+	var postData = req.body;								//Getting the POST parameters
+	
+	var ledgerUUID = postData.ledgerUUID;
+
+	con.query('UPDATE ledger SET Status = "Closed" WHERE ledgerUUID = ?', [ledgerUUID], function(err, result) {
+		if(err != null){
+			console.log('Paying Ledger Error', err);
+			res.end(JSON.stringify("Paying Ledger Error"));
+		} else {
+			console.log(`Ledger Paid`);
+			res.end(JSON.stringify(`Ledger Paid`));
 		}
 	});
 });

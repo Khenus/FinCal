@@ -317,6 +317,50 @@ export async function closeJio(
   return result;
 }
 
+export async function deleteLedger(ledgerUUID) {
+  let data = {
+    ledgerUUID: ledgerUUID,
+  };
+
+  var result = await fetch(url + '/deleteLedger/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      throw err;
+    });
+
+  return result;
+}
+
+export async function paidLedger(ledgerUUID) {
+  let data = {
+    ledgerUUID: ledgerUUID,
+  };
+
+  var result = await fetch(url + '/paidLedger/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      throw err;
+    });
+
+  return result;
+}
+
 // export async function getThisMonthTransact(email, uuid) {
 //   let data = {
 //     Email: email,

@@ -269,6 +269,39 @@ function LedgerSummary(props) {
     }
   }
 
+  async function reloadPage() {
+    updateLoading(true);
+    let toPayRes = await getLedger('getToPay', currUser.Email, currUser.uuid);
+    let toRecvRes = await getLedger('getToRecv', currUser.Email, currUser.uuid);
+
+    if (typeof toRecvRes === 'object' && typeof toPayRes === 'object') {
+      let toPayTemp = [];
+      let toPayAmtTemp = 0.0;
+      let toRecvTemp = [];
+      let toRecvAmtTemp = 0.0;
+
+      for (let i = 0; i < toPayRes.length; i++) {
+        toPayAmtTemp += parseFloat(toPayRes[i].Amount);
+        toPayTemp.push(toPayRes[i]);
+      }
+
+      for (let i = 0; i < toRecvRes.length; i++) {
+        toRecvAmtTemp += parseFloat(toRecvRes[i].Amount);
+        toRecvTemp.push(toRecvRes[i]);
+      }
+
+      updateToPayAmt(toPayAmtTemp.toFixed(2));
+      updateToRecvAmt(toRecvAmtTemp.toFixed(2));
+      updateToPayArr(toPayTemp);
+      updateToRecvArr(toRecvTemp);
+
+      updateToPayFull(toPayTemp);
+      updateToRecvFull(toRecvTemp);
+    }
+
+    updateLoading(false);
+  }
+
   if (isLoading) {
     return (
       <View style={styles.mainView}>
@@ -340,6 +373,7 @@ function LedgerSummary(props) {
                     cardType="payment"
                     parentThemeDark={themeDark}
                     parWidth={currWidth - 40}
+                    reloadPage={reloadPage}
                   />
                 ))}
               </ScrollView>
@@ -357,6 +391,7 @@ function LedgerSummary(props) {
                     cardType="receive"
                     parentThemeDark={themeDark}
                     parWidth={currWidth - 40}
+                    reloadPage={reloadPage}
                   />
                 ))}
               </ScrollView>

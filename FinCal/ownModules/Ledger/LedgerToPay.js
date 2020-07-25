@@ -220,6 +220,25 @@ function LedgerToPay(props) {
     }
   }
 
+  async function reloadPage() {
+    updateLoading(true);
+    let toPayRes = await getLedger('getToPay', currUser.Email, currUser.uuid);
+
+    if (typeof toPayRes === 'object') {
+      let toPayAmtTemp = 0.0;
+
+      for (let i = 0; i < toPayRes.length; i++) {
+        toPayAmtTemp += parseFloat(toPayRes[i].Amount);
+      }
+
+      updateToPayArr(toPayRes);
+      updateToPayAmt(toPayAmtTemp.toFixed(2));
+      updateToPayFull(toPayRes);
+    }
+
+    updateLoading(false);
+  }
+
   if (isLoading) {
     return (
       <View style={styles.mainView}>
@@ -288,6 +307,7 @@ function LedgerToPay(props) {
                     cardType="payment"
                     parentThemeDark={themeDark}
                     parWidth={currWidth - 40}
+                    reloadPage={reloadPage}
                   />
                 ))}
               </ScrollView>

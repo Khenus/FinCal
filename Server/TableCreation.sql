@@ -1,5 +1,6 @@
 CREATE TABLE ledger (
   id int(11) NOT NULL AUTO_INCREMENT,
+  ledgerUUID text,
   fromUUID text,
   fromName text,
   toUUID text,
@@ -14,7 +15,6 @@ CREATE TABLE ledger (
 
 CREATE TABLE transaction (
   id int(11) NOT NULL AUTO_INCREMENT,
-  Email text,
   uuidBy text,
   Date text,
   Title text,

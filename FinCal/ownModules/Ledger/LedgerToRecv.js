@@ -230,6 +230,25 @@ function LedgerToRecv(props) {
     }
   }
 
+  async function reloadPage() {
+    updateLoading(true);
+    let toRecvRes = await getLedger('getToRecv', currUser.Email, currUser.uuid);
+
+    if (typeof toRecvRes === 'object') {
+      let toRecvAmtTemp = 0.0;
+
+      for (let i = 0; i < toRecvRes.length; i++) {
+        toRecvAmtTemp += parseFloat(toRecvRes[i].Amount);
+      }
+
+      updateToRecvArr(toRecvRes);
+      updateToRecvAmt(toRecvAmtTemp.toFixed(2));
+      updateToRecvFull(toRecvRes);
+    }
+
+    updateLoading(false);
+  }
+
   if (isLoading) {
     return (
       <View style={styles.mainView}>
@@ -303,6 +322,7 @@ function LedgerToRecv(props) {
                     cardType="receive"
                     parentThemeDark={themeDark}
                     parWidth={currWidth - 40}
+                    reloadPage={reloadPage}
                   />
                 ))}
               </ScrollView>
