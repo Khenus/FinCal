@@ -1,5 +1,7 @@
 export const transactType = ['Spending', 'Earning'];
 
+export const ledgerType = ['To Pay', 'To Receiving'];
+
 export const transCategory = [
   'Food',
   'Transport',

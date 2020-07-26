@@ -6,6 +6,8 @@ CREATE TABLE ledger (
   toUUID text,
   toName text,
   Amount text,
+  catIdx text,
+  Category text,
   Detail text,
   Status text,
   Date text,
@@ -41,29 +43,6 @@ CREATE TABLE users (
   updatedAt date,
   PRIMARY KEY (id)
 );
-
--- CREATE TABLE restaurantlist (
---   id int(11) NOT NULL AUTO_INCREMENT,
---   name text,
---   uuid text,
---   Address text,
---   closingTime text,
---   openingTime text,
---   openDays text,
---   PRIMARY KEY (id)
--- );
-
--- CREATE TABLE menuitems (
---   id int(11) NOT NULL AUTO_INCREMENT,
---   resName text,
---   resUUID text,
---   serialNum text,
---   itemName text,
---   itemPrice text,
---   itemCategory text,
---   itemSubCategory text,
---   PRIMARY KEY (id)
--- );
 
 create TABLE jiodetails (
   id int(11) NOT NULL AUTO_INCREMENT,

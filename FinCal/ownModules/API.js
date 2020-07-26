@@ -1,3 +1,5 @@
+import {date} from 'faker';
+
 var url = 'http://10.0.2.2:3000'; //This must be without the last slash
 
 export async function register(email, pass, name, phone) {
@@ -345,6 +347,44 @@ export async function paidLedger(ledgerUUID) {
   };
 
   var result = await fetch(url + '/paidLedger/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      throw err;
+    });
+
+  return result;
+}
+
+export async function newLedger(
+  fromObj,
+  toArr,
+  amt,
+  type,
+  catIdx,
+  category,
+  detail,
+  currDate,
+) {
+  let data = {
+    fromObj: fromObj,
+    toArr: toArr,
+    Amount: amt,
+    Type: type,
+    catIdx: catIdx,
+    Category: category,
+    Detail: detail,
+    currDate: currDate,
+  };
+
+  var result = await fetch(url + '/newLedger/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

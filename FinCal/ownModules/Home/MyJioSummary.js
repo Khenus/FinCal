@@ -44,22 +44,6 @@ function MyJioSummary(props) {
   let [allTotalFin, updateAllTotalFin] = useState(0.0);
   let [allDetailFin, updateAllDetailFin] = useState([]);
 
-  // useEffect(() => {
-  //   // console.log('All personal detail ' + JSON.stringify(allPersonalDetail));
-  //   console.log('All personal detail ');
-  //   console.log(allPersonalDetail);
-  // }, [allPersonalDetail]);
-
-  // useEffect(() => {
-  //   console.log('All allTotalFin ' + allTotalFin);
-  // }, [allTotalFin]);
-
-  // useEffect(() => {
-  //   // console.log('All final detail ' + JSON.stringify(allDetailFin));
-  //   console.log('All final detail ');
-  //   console.log(allDetailFin);
-  // }, [allDetailFin]);
-
   useEffect(() => {
     async function tempHandler() {
       if (currItem !== undefined) {
@@ -172,14 +156,6 @@ function MyJioSummary(props) {
     tempHandler();
     updateIsLoading(false);
   }, [currItem, currItem.resIdx]);
-
-  useEffect(() => {
-    console.log(allPersonalDetail);
-  }, [allPersonalDetail]);
-
-  useEffect(() => {
-    console.log(allLedgerDetail);
-  }, [allLedgerDetail]);
 
   const localStyle = StyleSheet.create({
     mainView: {

@@ -329,7 +329,7 @@ function LedgerToRecv(props) {
             </View>
           </View>
         </View>
-        <FloatActionButton currUser={currUser} />
+        <FloatActionButton currUser={currUser} pullLedger={reloadPage} />
       </View>
     );
   }

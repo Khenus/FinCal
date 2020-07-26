@@ -71,140 +71,231 @@
 31    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 31-->[:expo-location] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-77
 31-->[:expo-location] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:22-74
-32    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-32-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\d67e4b2ed4c1a45f6be580b0c2282961\jetified-library-3.2.11\AndroidManifest.xml:15:5-98
-32-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\d67e4b2ed4c1a45f6be580b0c2282961\jetified-library-3.2.11\AndroidManifest.xml:15:22-95
-33    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
-33-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\d67e4b2ed4c1a45f6be580b0c2282961\jetified-library-3.2.11\AndroidManifest.xml:16:5-94
-33-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\d67e4b2ed4c1a45f6be580b0c2282961\jetified-library-3.2.11\AndroidManifest.xml:16:22-91
-34
-35    <application
-35-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:23:3-47:17
-36        android:name="com.fincal.MainApplication"
-36-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:24:5-36
-37        android:allowBackup="false"
-37-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:28:5-32
-38        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-38-->[androidx.core:core:1.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\7dfdda3e9b1f3eac70960d59b5d8c75a\core-1.1.0\AndroidManifest.xml:24:18-86
-39        android:debuggable="true"
-40        android:icon="@mipmap/ic_launcher"
-40-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:26:5-39
-41        android:label="@string/app_name"
-41-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:25:5-37
-42        android:roundIcon="@mipmap/ic_launcher_round"
-42-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:27:5-50
-43        android:testOnly="true"
-44        android:theme="@style/AppTheme"
-44-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:29:5-36
-45        android:usesCleartextTraffic="true" >
-45-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\debug\AndroidManifest.xml:6:18-53
-46        <meta-data
-46-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:31:5-103
-47            android:name="expo.modules.updates.EXPO_UPDATE_URL"
-47-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:31:16-67
-48            android:value="YOUR-APP-URL-HERE" />
-48-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:31:68-101
-49        <meta-data
-49-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:32:5-112
-50            android:name="expo.modules.updates.EXPO_SDK_VERSION"
-50-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:32:16-68
-51            android:value="YOUR-APP-SDK-VERSION-HERE" />
-51-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:32:69-110
-52
-53        <activity
-53-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:33:5-45:16
-54            android:name="com.fincal.MainActivity"
-54-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:34:7-35
-55            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-55-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:36:7-77
-56            android:label="@string/app_name"
-56-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:35:7-39
-57            android:launchMode="singleTask"
-57-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:37:7-38
-58            android:theme="@style/Theme.App.SplashScreen"
-58-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:39:7-52
-59            android:windowSoftInputMode="adjustResize" >
-59-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:38:7-49
-60            <intent-filter>
-60-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:41:7-44:23
-61                <action android:name="android.intent.action.MAIN" />
-61-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:42:9-60
-61-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:42:17-58
-62
-63                <category android:name="android.intent.category.LAUNCHER" />
-63-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:43:9-68
-63-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:43:19-66
-64            </intent-filter>
-65        </activity>
-66        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-66-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:46:5-81
-66-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:46:15-79
-67
-68        <provider
-68-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:9-27:20
-69            android:name="expo.modules.filesystem.FileSystemFileProvider"
-69-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:13-74
-70            android:authorities="com.fincal.FileSystemFileProvider"
-70-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:20:13-74
-71            android:exported="false"
-71-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:13-37
-72            android:grantUriPermissions="true" >
-72-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:22:13-47
-73            <meta-data
-73-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:24:13-26:70
-74                android:name="android.support.FILE_PROVIDER_PATHS"
-74-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:25:17-67
-75                android:resource="@xml/file_system_provider_paths" />
-75-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:26:17-67
-76        </provider>
-77
-78        <service
-78-->[:expo-location] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:9-18:40
-79            android:name="expo.modules.location.services.LocationTaskService"
-79-->[:expo-location] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-78
-80            android:exported="false" />
-80-->[:expo-location] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:13-37
-81
-82        <activity
-82-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\f9205996fb6b108da79b641ee9533015\jetified-play-services-base-16.0.1\AndroidManifest.xml:23:9-26:75
-83            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-83-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\f9205996fb6b108da79b641ee9533015\jetified-play-services-base-16.0.1\AndroidManifest.xml:24:13-79
-84            android:exported="false"
-84-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\f9205996fb6b108da79b641ee9533015\jetified-play-services-base-16.0.1\AndroidManifest.xml:25:13-37
-85            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-85-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\f9205996fb6b108da79b641ee9533015\jetified-play-services-base-16.0.1\AndroidManifest.xml:26:13-72
-86
-87        <meta-data
-87-->[com.google.android.gms:play-services-basement:16.0.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\2211a3db3fde98ddb76f809726186064\jetified-play-services-basement-16.0.1\AndroidManifest.xml:23:9-25:69
-88            android:name="com.google.android.gms.version"
-88-->[com.google.android.gms:play-services-basement:16.0.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\2211a3db3fde98ddb76f809726186064\jetified-play-services-basement-16.0.1\AndroidManifest.xml:24:13-58
-89            android:value="@integer/google_play_services_version" />
-89-->[com.google.android.gms:play-services-basement:16.0.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\2211a3db3fde98ddb76f809726186064\jetified-play-services-basement-16.0.1\AndroidManifest.xml:25:13-66
-90
-91        <service
-91-->[androidx.room:room-runtime:2.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\dd7893f26029167e3adbacf60755e755\room-runtime-2.1.0\AndroidManifest.xml:25:9-27:40
-92            android:name="androidx.room.MultiInstanceInvalidationService"
-92-->[androidx.room:room-runtime:2.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\dd7893f26029167e3adbacf60755e755\room-runtime-2.1.0\AndroidManifest.xml:26:13-74
+32    <uses-permission android:name="android.permission.WAKE_LOCK" />
+32-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:25:5-68
+32-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:25:22-65
+33    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+33-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:26:5-110
+33-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:26:22-107
+34    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+34-->[com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:26:5-82
+34-->[com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:26:22-79
+35    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+35-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:15:5-98
+35-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:15:22-95
+36    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+36-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:16:5-94
+36-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:16:22-91
+37
+38    <application
+38-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:23:3-47:17
+39        android:name="com.fincal.MainApplication"
+39-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:24:5-36
+40        android:allowBackup="false"
+40-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:28:5-32
+41        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+41-->[androidx.core:core:1.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\705b88940fd5503830c8b8343fc34cde\core-1.1.0\AndroidManifest.xml:24:18-86
+42        android:debuggable="true"
+43        android:icon="@mipmap/ic_launcher"
+43-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:26:5-39
+44        android:label="@string/app_name"
+44-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:25:5-37
+45        android:roundIcon="@mipmap/ic_launcher_round"
+45-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:27:5-50
+46        android:theme="@style/AppTheme"
+46-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:29:5-36
+47        android:usesCleartextTraffic="true" >
+47-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\debug\AndroidManifest.xml:6:18-53
+48        <meta-data
+48-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:31:5-103
+49            android:name="expo.modules.updates.EXPO_UPDATE_URL"
+49-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:31:16-67
+50            android:value="YOUR-APP-URL-HERE" />
+50-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:31:68-101
+51        <meta-data
+51-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:32:5-112
+52            android:name="expo.modules.updates.EXPO_SDK_VERSION"
+52-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:32:16-68
+53            android:value="YOUR-APP-SDK-VERSION-HERE" />
+53-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:32:69-110
+54
+55        <activity
+55-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:33:5-45:16
+56            android:name="com.fincal.MainActivity"
+56-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:34:7-35
+57            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+57-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:36:7-77
+58            android:label="@string/app_name"
+58-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:35:7-39
+59            android:launchMode="singleTask"
+59-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:37:7-38
+60            android:theme="@style/Theme.App.SplashScreen"
+60-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:39:7-52
+61            android:windowSoftInputMode="adjustResize" >
+61-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:38:7-49
+62            <intent-filter>
+62-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:41:7-44:23
+63                <action android:name="android.intent.action.MAIN" />
+63-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:42:9-60
+63-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:42:17-58
+64
+65                <category android:name="android.intent.category.LAUNCHER" />
+65-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:43:9-68
+65-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:43:19-66
+66            </intent-filter>
+67        </activity>
+68        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+68-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:46:5-81
+68-->C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:46:15-79
+69
+70        <provider
+70-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:9-27:20
+71            android:name="expo.modules.filesystem.FileSystemFileProvider"
+71-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:13-74
+72            android:authorities="com.fincal.FileSystemFileProvider"
+72-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:20:13-74
+73            android:exported="false"
+73-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:13-37
+74            android:grantUriPermissions="true" >
+74-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:22:13-47
+75            <meta-data
+75-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:24:13-26:70
+76                android:name="android.support.FILE_PROVIDER_PATHS"
+76-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:25:17-67
+77                android:resource="@xml/file_system_provider_paths" />
+77-->[:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:26:17-67
+78        </provider>
+79
+80        <service
+80-->[:expo-location] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:9-18:40
+81            android:name="expo.modules.location.services.LocationTaskService"
+81-->[:expo-location] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-78
+82            android:exported="false" />
+82-->[:expo-location] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:13-37
+83
+84        <receiver
+84-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:29:9-33:20
+85            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+85-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:30:13-85
+86            android:enabled="true"
+86-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:31:13-35
+87            android:exported="false" >
+87-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:32:13-37
+88        </receiver>
+89
+90        <service
+90-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:35:9-38:40
+91            android:name="com.google.android.gms.measurement.AppMeasurementService"
+91-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:36:13-84
+92            android:enabled="true"
+92-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:37:13-35
 93            android:exported="false" />
-93-->[androidx.room:room-runtime:2.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\dd7893f26029167e3adbacf60755e755\room-runtime-2.1.0\AndroidManifest.xml:27:13-37
+93-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:38:13-37
 94        <service
-94-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\d67e4b2ed4c1a45f6be580b0c2282961\jetified-library-3.2.11\AndroidManifest.xml:19:9-21:40
-95            android:name="io.nlopez.smartlocation.activity.providers.ActivityGooglePlayServicesProvider$ActivityRecognitionService"
-95-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\d67e4b2ed4c1a45f6be580b0c2282961\jetified-library-3.2.11\AndroidManifest.xml:20:13-132
-96            android:exported="false" />
-96-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\d67e4b2ed4c1a45f6be580b0c2282961\jetified-library-3.2.11\AndroidManifest.xml:21:13-37
-97        <service
-97-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\d67e4b2ed4c1a45f6be580b0c2282961\jetified-library-3.2.11\AndroidManifest.xml:22:9-24:40
-98            android:name="io.nlopez.smartlocation.geofencing.providers.GeofencingGooglePlayServicesProvider$GeofencingService"
-98-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\d67e4b2ed4c1a45f6be580b0c2282961\jetified-library-3.2.11\AndroidManifest.xml:23:13-127
-99            android:exported="false" />
-99-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\d67e4b2ed4c1a45f6be580b0c2282961\jetified-library-3.2.11\AndroidManifest.xml:24:13-37
-100        <service
-100-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\d67e4b2ed4c1a45f6be580b0c2282961\jetified-library-3.2.11\AndroidManifest.xml:25:9-27:40
-101            android:name="io.nlopez.smartlocation.geocoding.providers.AndroidGeocodingProvider$AndroidGeocodingService"
-101-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\d67e4b2ed4c1a45f6be580b0c2282961\jetified-library-3.2.11\AndroidManifest.xml:26:13-120
-102            android:exported="false" />
-102-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\d67e4b2ed4c1a45f6be580b0c2282961\jetified-library-3.2.11\AndroidManifest.xml:27:13-37
-103    </application>
-104
-105</manifest>
+94-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:39:9-43:72
+95            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+95-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:40:13-87
+96            android:enabled="true"
+96-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:41:13-35
+97            android:exported="false"
+97-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:42:13-37
+98            android:permission="android.permission.BIND_JOB_SERVICE" />
+98-->[com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:43:13-69
+99        <service
+99-->[com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:27:9-33:19
+100            android:name="com.google.firebase.components.ComponentDiscoveryService"
+100-->[com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:28:13-84
+101            android:directBootAware="true"
+101-->[com.google.firebase:firebase-common:19.3.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c75159d6c44472db62c1364f9ae82a8c\jetified-firebase-common-19.3.0\AndroidManifest.xml:34:13-43
+102            android:exported="false" >
+102-->[com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:29:13-37
+103            <meta-data
+103-->[com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:30:13-32:85
+104                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+104-->[com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:31:17-139
+105                android:value="com.google.firebase.components.ComponentRegistrar" />
+105-->[com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:32:17-82
+106            <meta-data
+106-->[com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:32:13-34:85
+107                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+107-->[com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:33:17-96
+108                android:value="com.google.firebase.components.ComponentRegistrar" />
+108-->[com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:34:17-82
+109            <meta-data
+109-->[com.google.firebase:firebase-installations:16.2.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\da7a13c27f597191c0c8ebce33b010df\firebase-installations-16.2.1\AndroidManifest.xml:17:13-19:85
+110                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+110-->[com.google.firebase:firebase-installations:16.2.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\da7a13c27f597191c0c8ebce33b010df\firebase-installations-16.2.1\AndroidManifest.xml:18:17-127
+111                android:value="com.google.firebase.components.ComponentRegistrar" />
+111-->[com.google.firebase:firebase-installations:16.2.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\da7a13c27f597191c0c8ebce33b010df\firebase-installations-16.2.1\AndroidManifest.xml:19:17-82
+112        </service>
+113
+114        <receiver
+114-->[com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:37:9-44:20
+115            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+115-->[com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:38:13-78
+116            android:exported="true"
+116-->[com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:39:13-36
+117            android:permission="com.google.android.c2dm.permission.SEND" >
+117-->[com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:40:13-73
+118            <intent-filter>
+118-->[com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:41:13-43:29
+119                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+119-->[com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:42:17-81
+119-->[com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:42:25-78
+120            </intent-filter>
+121        </receiver>
+122
+123        <provider
+123-->[com.google.firebase:firebase-common:19.3.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c75159d6c44472db62c1364f9ae82a8c\jetified-firebase-common-19.3.0\AndroidManifest.xml:26:9-30:39
+124            android:name="com.google.firebase.provider.FirebaseInitProvider"
+124-->[com.google.firebase:firebase-common:19.3.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c75159d6c44472db62c1364f9ae82a8c\jetified-firebase-common-19.3.0\AndroidManifest.xml:27:13-77
+125            android:authorities="com.fincal.firebaseinitprovider"
+125-->[com.google.firebase:firebase-common:19.3.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c75159d6c44472db62c1364f9ae82a8c\jetified-firebase-common-19.3.0\AndroidManifest.xml:28:13-72
+126            android:exported="false"
+126-->[com.google.firebase:firebase-common:19.3.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c75159d6c44472db62c1364f9ae82a8c\jetified-firebase-common-19.3.0\AndroidManifest.xml:29:13-37
+127            android:initOrder="100" />
+127-->[com.google.firebase:firebase-common:19.3.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c75159d6c44472db62c1364f9ae82a8c\jetified-firebase-common-19.3.0\AndroidManifest.xml:30:13-36
+128
+129        <activity
+129-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c383834dbdc96e232dbc1645561ebaa6\play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
+130            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+130-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c383834dbdc96e232dbc1645561ebaa6\play-services-base-17.0.0\AndroidManifest.xml:24:13-79
+131            android:exported="false"
+131-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c383834dbdc96e232dbc1645561ebaa6\play-services-base-17.0.0\AndroidManifest.xml:25:13-37
+132            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+132-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c383834dbdc96e232dbc1645561ebaa6\play-services-base-17.0.0\AndroidManifest.xml:26:13-72
+133
+134        <meta-data
+134-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\ba991432ecccbf9a4a5ae2606a1491e9\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
+135            android:name="com.google.android.gms.version"
+135-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\ba991432ecccbf9a4a5ae2606a1491e9\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
+136            android:value="@integer/google_play_services_version" />
+136-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\ba991432ecccbf9a4a5ae2606a1491e9\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
+137
+138        <service
+138-->[androidx.room:room-runtime:2.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\79b7ad49787fdb87f24c0edc0d0e0adc\room-runtime-2.1.0\AndroidManifest.xml:25:9-27:40
+139            android:name="androidx.room.MultiInstanceInvalidationService"
+139-->[androidx.room:room-runtime:2.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\79b7ad49787fdb87f24c0edc0d0e0adc\room-runtime-2.1.0\AndroidManifest.xml:26:13-74
+140            android:exported="false" />
+140-->[androidx.room:room-runtime:2.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\79b7ad49787fdb87f24c0edc0d0e0adc\room-runtime-2.1.0\AndroidManifest.xml:27:13-37
+141        <service
+141-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:19:9-21:40
+142            android:name="io.nlopez.smartlocation.activity.providers.ActivityGooglePlayServicesProvider$ActivityRecognitionService"
+142-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:20:13-132
+143            android:exported="false" />
+143-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:21:13-37
+144        <service
+144-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:22:9-24:40
+145            android:name="io.nlopez.smartlocation.geofencing.providers.GeofencingGooglePlayServicesProvider$GeofencingService"
+145-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:23:13-127
+146            android:exported="false" />
+146-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:24:13-37
+147        <service
+147-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:25:9-27:40
+148            android:name="io.nlopez.smartlocation.geocoding.providers.AndroidGeocodingProvider$AndroidGeocodingService"
+148-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:26:13-120
+149            android:exported="false" />
+149-->[io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:27:13-37
+150    </application>
+151
+152</manifest>

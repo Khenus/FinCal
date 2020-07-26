@@ -77,7 +77,7 @@ export default function PieChartWithDynamicSlices(props) {
       value,
       svg: {
         fill: pieChartCols[index],
-        onPress: () => console.log('pie chart pressed ' + index),
+        // onPress: () => console.log('pie chart pressed ' + index),
       },
       key: `pie-${index}`,
     }));

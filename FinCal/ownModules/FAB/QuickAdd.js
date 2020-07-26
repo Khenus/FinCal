@@ -173,7 +173,7 @@ export default function QuickAdd(props) {
     onChangeDate(moment(new Date()).format('LL'));
     onChangeTitle('');
     onChangeAmt('');
-    onChangeCat('');
+    onChangeCat(transCategory[0]);
     onChangeDesc('');
   };
 
@@ -207,14 +207,16 @@ export default function QuickAdd(props) {
         tmpDesc,
         parseInt(coreDate.getTime() / 1000, 10),
       );
-      setAdd(false);
-      resetInput();
-
-      if (typeof pullTransact !== 'undefined') {
-        pullTransact();
-      }
 
       Toast.show(result);
+      if (result === 'Transaction added') {
+        setAdd(false);
+        resetInput();
+
+        if (typeof pullTransact !== 'undefined') {
+          pullTransact();
+        }
+      }
     }
   }
 
@@ -224,7 +226,7 @@ export default function QuickAdd(props) {
       onBackdropPress={() => setAdd(false)}
       overlayStyle={styles.overlaystyle}>
       <ScrollView keyboardShouldPersistTaps={'handled'}>
-        <Text style={styles.header}>Quick add</Text>
+        <Text style={styles.header}>Add Transaction</Text>
 
         <Input
           inputStyle={styles.inputField}
@@ -254,7 +256,7 @@ export default function QuickAdd(props) {
           inputStyle={styles.inputField}
           label="Amount"
           labelStyle={styles.labelstyle}
-          placeholder="e.g. $5.50"
+          placeholder="e.g. 5.50"
           placeholderTextColor={colorScheme.placeHolderText}
           keyboardType="numeric"
           onChangeText={(text) => onChangeAmt(text)}
@@ -265,7 +267,7 @@ export default function QuickAdd(props) {
         <View style={styles.pickerWrap}>
           <Picker
             onValueChange={(newType) => updateType(newType)}
-            selectedValue={tmpCat}
+            selectedValue={type}
             style={styles.dropDown}
             mode="dropdown">
             {transactType.map((currItem, idx) => (

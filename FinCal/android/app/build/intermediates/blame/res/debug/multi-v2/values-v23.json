@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\Orion\\Desktop\\Backup\\Finance\\FinCal\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v23\\values-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Orion\\.gradle\\caches\\transforms-2\\files-2.1\\6e1c3aa384c0bde2d05f603637d0bdf7\\appcompat-1.1.0\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\Orion\\.gradle\\caches\\transforms-2\\files-2.1\\380f5e46abeee6a7feff80b93e332778\\appcompat-1.1.0\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,20,34,35,36,37,41,42,43,44",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -15,26 +15,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Orion\\.gradle\\caches\\transforms-2\\files-2.1\\1873fe9405c2e2a7c5fa3eda6cb1076f\\material-1.1.0\\res\\values-v23\\values-v23.xml",
-                    "from": {
-                        "startLines": "2,6",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,320",
-                        "endLines": "5,9",
-                        "endColumns": "10,10",
-                        "endOffsets": "315,588"
-                    },
-                    "to": {
-                        "startLines": "51,55",
-                        "startColumns": "4,4",
-                        "startOffsets": "3557,3822",
-                        "endLines": "54,58",
-                        "endColumns": "10,10",
-                        "endOffsets": "3817,4090"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Orion\\.gradle\\caches\\transforms-2\\files-2.1\\efb63d3597a659203ea5d47c3771651d\\cardview-1.0.0\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\Orion\\.gradle\\caches\\transforms-2\\files-2.1\\6829bcc549ec3eda4b47ff184a6d41e0\\cardview-1.0.0\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -50,6 +31,25 @@
                         "endLines": "50",
                         "endColumns": "12",
                         "endOffsets": "3552"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Orion\\.gradle\\caches\\transforms-2\\files-2.1\\544607682ad6b373942461b2edccc769\\material-1.1.0\\res\\values-v23\\values-v23.xml",
+                    "from": {
+                        "startLines": "2,6",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,320",
+                        "endLines": "5,9",
+                        "endColumns": "10,10",
+                        "endOffsets": "315,588"
+                    },
+                    "to": {
+                        "startLines": "51,55",
+                        "startColumns": "4,4",
+                        "startOffsets": "3557,3822",
+                        "endLines": "54,58",
+                        "endColumns": "10,10",
+                        "endOffsets": "3817,4090"
                     }
                 }
             ]

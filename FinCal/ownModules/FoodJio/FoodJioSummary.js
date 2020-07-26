@@ -54,7 +54,6 @@ export default function FoodJioSummary(props) {
       for (let i = 0; i < menuData[menuIdx].length; i++) {
         for (let j = 0; j < menuData[menuIdx][i].data.length; j++) {
           if (orderList[i][j] !== 0) {
-            // console.log(menuData[menuIdx][i].data[j]);
             let tempObj = {
               actualItem: menuData[menuIdx][i].data[j],
               Amount: orderList[i][j],

@@ -133,16 +133,6 @@ export default function PieView(props) {
 }
 
 function PieListHandler(props) {
-  // useEffect(() => {
-  //   console.log('Curr Month Data');
-  //   console.log(props.currMonthData);
-  // }, [props.currMonthData]);
-
-  // useEffect(() => {
-  //   console.log('Curr Month Total value');
-  //   console.log(props.monthlyTotal);
-  // }, [props.monthlyTotal]);
-
   let currData = props.currMonthData;
   let monthTotal = props.monthlyTotal;
   let type = props.type;

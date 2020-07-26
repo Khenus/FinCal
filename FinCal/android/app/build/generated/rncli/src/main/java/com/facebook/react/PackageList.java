@@ -17,6 +17,8 @@ import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 import org.reactnative.maskedview.RNCMaskedViewPackage;
 // @react-native-community/picker
 import com.reactnativecommunity.picker.RNCPickerPackage;
+// @react-native-firebase/app
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-reanimated
@@ -77,6 +79,7 @@ public class PackageList {
       new RNDateTimePickerPackage(),
       new RNCMaskedViewPackage(),
       new RNCPickerPackage(),
+      new ReactNativeFirebaseAppPackage(),
       new RNGestureHandlerPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),

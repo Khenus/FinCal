@@ -79,7 +79,7 @@ export default function HomeMenuSummary(props) {
   async function updateMyOrder() {
     let orderPlaced = '';
     if (finalOrderIdx.length === 0) {
-      console.log('inside final order idx');
+      // console.log('inside final order idx');
       orderPlaced = 'Pending';
     } else {
       orderPlaced = 'Ordered';

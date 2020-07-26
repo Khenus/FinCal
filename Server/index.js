@@ -1,10 +1,26 @@
 //Restful services by NodeJS
 
+const monthName = [
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December',
+];
+
 var crypto = require('crypto');
 var uuid = require('uuid');
 var express = require('express');
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
+const e = require('express');
 
 //Connecting to mySql
 var con = mysql.createConnection({
@@ -408,25 +424,10 @@ app.post('/fetchFullMyJio/', (req, res) => {
 app.post('/closeJio/', (req, res) => {
 	var postData = req.body;								//Getting the POST parameters
 
-	const monthName = [
-		'January',
-		'February',
-		'March',
-		'April',
-		'May',
-		'June',
-		'July',
-		'August',
-		'September',
-		'October',
-		'November',
-		'December',
-	];
-
 	var ledgerUUID = uuid.v4();
 
 	var currDate = new Date();
-	var dateStr = `${currDate.getDate()} ${monthName[currDate.getMonth()]} ${currDate.getFullYear()}`
+	// var dateStr = `${currDate.getDate()} ${monthName[currDate.getMonth()]} ${currDate.getFullYear()}`
 	var dateStrTrans = `${monthName[currDate.getMonth()]} ${currDate.getDate()}, ${currDate.getFullYear()}`
 	var unixTime = Math.round(currDate.getTime() / 1000);
 
@@ -444,7 +445,7 @@ app.post('/closeJio/', (req, res) => {
 			detailsArr.forEach(function(currItem) {
 				if (currItem.totalAmt !== 0) {
 					if (currItem.userUUID !== currUUID) {
-						con.query('INSERT INTO `ledger` (`id`, `ledgerUUID`, `fromUUID`, `fromName`, `toUUID`, `toName`, `Amount`, `Detail`, `Status`, `Date`, `createdAt`) VALUES (NULL,?,?,?,?,?,?,?,?,?,NOW())', [ledgerUUID, currItem.userUUID, currItem.userName, currUUID, currName, currItem.totalAmt, `FoodJio (${jioTitle})`, 'Open', dateStr], function (errInner, result, fields){
+						con.query('INSERT INTO `ledger` (`id`, `ledgerUUID`, `fromUUID`, `fromName`, `toUUID`, `toName`, `Amount`, `catIdx`, `Category`, `Detail`, `Status`, `Date`, `createdAt`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,NOW())', [ledgerUUID, currItem.userUUID, currItem.userName, currUUID, currName, currItem.totalAmt, 0, 'Food', `FoodJio (${jioTitle})`, 'Open', dateStrTrans], function (errInner, result, fields){
 							if(errInner != null){
 								console.log(`[${currName}]: MyJio closing error (Part 2) (${errInner})`);
 								res.end(JSON.stringify("MyJio closing error (Part 2)  " + errInner));
@@ -486,6 +487,10 @@ app.post('/deleteLedger/', (req, res) => {
 app.post('/paidLedger/', (req, res) => {
 	var postData = req.body;								//Getting the POST parameters
 	
+	var currDate = new Date();
+	var dateStrTrans = `${monthName[currDate.getMonth()]} ${currDate.getDate()}, ${currDate.getFullYear()}`
+	var unixTime = Math.round(currDate.getTime() / 1000);
+
 	var ledgerUUID = postData.ledgerUUID;
 
 	con.query('UPDATE ledger SET Status = "Closed" WHERE ledgerUUID = ?', [ledgerUUID], function(err, result) {
@@ -493,11 +498,79 @@ app.post('/paidLedger/', (req, res) => {
 			console.log('Paying Ledger Error', err);
 			res.end(JSON.stringify("Paying Ledger Error"));
 		} else {
-			console.log(`Ledger Paid`);
-			res.end(JSON.stringify(`Ledger Paid`));
+			con.query('SELECT * FROM ledger WHERE ledgerUUID = ?', [ledgerUUID], function(errInner, resArr) {
+				if (errInner != null) {
+					console.log(`Paying Ledger error (Part 1) (${errInner})`);
+					res.end(JSON.stringify("Paying Ledger error (Part 1)"));
+				} else {
+					let selRes = resArr[0];
+					con.query('INSERT INTO `transaction` (`id`, `uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (NULL,?,?,?,?,?,?,?,?,NOW(),?)', [selRes.fromUUID, dateStrTrans, `${selRes.Detail} (Paid to ${selRes.toName})`, selRes.Amount, 'Spending', selRes.catIdx, selRes.Category, '', unixTime], function (errInInner, result, fields){
+						if(errInInner != null){
+							console.log(`Paying Ledger error (Part 2) (${errInInner})`);
+							res.end(JSON.stringify("Paying Ledger error (Part 2)"));
+						} else {
+							con.query('INSERT INTO `transaction` (`id`, `uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (NULL,?,?,?,?,?,?,?,?,NOW(),?)', [selRes.toUUID, dateStrTrans, `${selRes.Detail} (Paid by ${selRes.fromName})`, selRes.Amount, 'Earning', selRes.catIdx, selRes.Category, '', unixTime], function (errInInInner, result, fields){
+								if(errInInInner != null){
+									console.log(`Paying Ledger error (Part 3) (${errInInInner})`);
+									res.end(JSON.stringify("Paying Ledger error (Part 3)"));
+								} else {
+									console.log(`Ledger Paid`);
+									res.end(JSON.stringify(`Ledger Paid`));
+								}
+							});
+						}
+					});
+				}
+			});
 		}
 	});
 });
+
+app.post('/newLedger/', (req, res) => {
+	var postData = req.body;								//Getting the POST parameters
+	
+	var fromObj = postData.fromObj;
+  var toArr = postData.toArr;
+	var Amount = postData.Amount;
+	var type = postData.Type;
+  var catIdx = postData.catIdx;
+  var cato = postData.Category;
+  var Detail = postData.Detail;
+  var currDate = postData.currDate;
+
+	// console.log(fromObj);
+	// console.log(toArr);
+	// console.log(type);
+	console.log(cato);
+
+	toArr.forEach(function(currItem) {
+		if (type === 'To Pay') {
+			var ledgerUUID = uuid.v4();
+			con.query('INSERT INTO `ledger` (`id`, `ledgerUUID`, `fromUUID`, `fromName`, `toUUID`, `toName`, `Amount`, `catIdx`, `Category`, `Detail`, `Status`, `Date`, `createdAt`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,NOW())', [ledgerUUID, fromObj.uuid, fromObj.Name, currItem.uuid, currItem.Name, Amount, catIdx, cato, Detail, 'Open', currDate], function (errInner, result, fields){
+				if(errInner != null){
+					console.log(`[${fromObj.uuid}]: Ledger creation error (Part 1) (${errInner})`);
+					res.end(JSON.stringify("Ledger creation error (Part 1)"));
+				} else {
+					console.log(`[${fromObj.uuid}]: Ledger Added`);
+					res.end(JSON.stringify("Ledger Added"));
+				}
+			});
+		} else {
+			var ledgerUUID = uuid.v4();
+			con.query('INSERT INTO `ledger` (`id`, `ledgerUUID`, `fromUUID`, `fromName`, `toUUID`, `toName`, `Amount`, `catIdx`, `Category`, `Detail`, `Status`, `Date`, `createdAt`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,NOW())', [ledgerUUID, currItem.uuid, currItem.Name, fromObj.uuid, fromObj.Name, Amount, catIdx, cato, Detail, 'Open', currDate], function (errInInner, result, fields){
+				if(errInInner != null){
+					console.log(`[${fromObj.uuid}]: Ledger creation error (Part 2) (${errInInner})`);
+					res.end(JSON.stringify("Ledger creation error (Part 2)"));
+				} else {
+					console.log(`[${fromObj.uuid}]: Ledger Added`);
+					res.end(JSON.stringify("Ledger Added"));
+				}
+			});
+		}
+	});
+});
+
+
 
 // app.post('/getThisMonthTransact/', (req, res) =>{
 // 	var postData = req.body;

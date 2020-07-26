@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\Orion\\Desktop\\Backup\\Finance\\FinCal\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v16\\values-v16.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Orion\\.gradle\\caches\\transforms-2\\files-2.1\\7dfdda3e9b1f3eac70960d59b5d8c75a\\core-1.1.0\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\Orion\\.gradle\\caches\\transforms-2\\files-2.1\\705b88940fd5503830c8b8343fc34cde\\core-1.1.0\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Orion\\.gradle\\caches\\transforms-2\\files-2.1\\6e1c3aa384c0bde2d05f603637d0bdf7\\appcompat-1.1.0\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\Orion\\.gradle\\caches\\transforms-2\\files-2.1\\380f5e46abeee6a7feff80b93e332778\\appcompat-1.1.0\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

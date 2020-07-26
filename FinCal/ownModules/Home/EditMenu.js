@@ -12,8 +12,6 @@ function EditMenu(props) {
   let currItem = props.route.params.currItem;
   let navigation = props.navigation;
 
-  console.log(props.route.params.fetchJioAgain);
-
   let parentDarkTheme = currUser.themeIsDark === 'true';
 
   let [themeDark, updateTheme] = useState(true);
