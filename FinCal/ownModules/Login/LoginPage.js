@@ -134,6 +134,7 @@ function LoginPage(props) {
           fetchUser();
         } else {
           redirToVeriEmail();
+          changeIsLoading(false);
         }
       } else {
         changeIsLoading(false);

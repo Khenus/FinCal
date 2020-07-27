@@ -192,7 +192,7 @@ export default function AddLedger(props) {
   };
 
   async function handleConfirm() {
-    if (!tmpDate || !tmpTitle || !tmpAmt) {
+    if (!tmpDate || !tmpTitle || !tmpAmt || addedPeeps.length === 0) {
       var tmp = '';
       if (!tmpDate) {
         tmp = 'Date ';

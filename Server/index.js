@@ -20,7 +20,6 @@ var uuid = require('uuid');
 var express = require('express');
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
-const e = require('express');
 
 //Connecting to mySql
 var con = mysql.createConnection({
@@ -30,34 +29,6 @@ var con = mysql.createConnection({
 	password: '',
 	database: 'financierbase'
 });
-
-//Password encryption
-var genRandomString = function(length){
-	return crypto.randomBytes(Math.floor(length))
-				.toString('hex')
-				.slice(0, length);
-}
-
-function saltHashPassword(userPassword){ 
-	var salt = genRandomString(16); 				//Gen random string with 16 character to salt
-	var passwordData = sha512(userPassword, salt);
-	return passwordData;
-}
-
-function hashLoginPass(enteredPassword, salt){	
-	var enteredPasswordData = sha512(enteredPassword, salt);
-	return enteredPasswordData;
-}
-
-var sha512 = function(password, salt){
-	var hash = crypto.createHmac('sha512', salt);
-	hash.update(password);
-	var value = hash.digest('hex');
-	return {
-		salt: salt,
-		passwordHash: value
-	};
-};
 
 var app = express();									//Creating new express object
 app.use(bodyParser.json());								//Accepting JSON parameters
@@ -100,7 +71,7 @@ con.connect(function (err){
 // 	var openingTime = postData.openingTime;
 // 	var openDays = postData.openDays;
 
-// 	con.query('INSERT INTO `restaurantlist` (`id`, `name`, `uuid`, `Address`, `closingTime`, `openingTime`, `openDays`) VALUES (NULL,?,?,?,?,?,?)', [name, uuniqueID, address, closingTime, openingTime, openDays], function (err, result, fields){
+// 	con.query('INSERT INTO `restaurantlist` (`name`, `uuid`, `Address`, `closingTime`, `openingTime`, `openDays`) VALUES (?,?,?,?,?,?)', [name, uuniqueID, address, closingTime, openingTime, openDays], function (err, result, fields){
 // 		if(err != null){
 // 			console.log(`Menu insertion error (${err})`);
 // 			res.end(JSON.stringify("Menu insertion error: " + err));
@@ -122,7 +93,7 @@ con.connect(function (err){
 // 	var itemCategory = postData.itemCategory;
 // 	var itemSubCategory = postData.itemSubCategory;
 
-// 	con.query('INSERT INTO `menuitems` (`id`, `resName`, `resUUID`, `serialNum`, `itemName`, `itemPrice`, `itemCategory`, `itemSubCategory`) VALUES (NULL,?,?,?,?,?,?,?)', [resName, resUUID, serialNum, itemName, itemPrice, itemCategory, itemSubCategory], function (err, result, fields){
+// 	con.query('INSERT INTO `menuitems` (`resName`, `resUUID`, `serialNum`, `itemName`, `itemPrice`, `itemCategory`, `itemSubCategory`) VALUES (?,?,?,?,?,?,?)', [resName, resUUID, serialNum, itemName, itemPrice, itemCategory, itemSubCategory], function (err, result, fields){
 // 		if(err != null){
 // 			console.log(`Menu item insertion error (${err})`);
 // 			res.end(JSON.stringify("Menu item insertion error: " + err));
@@ -183,7 +154,7 @@ app.post('/register/', (req, res) => {
 				console.log(`[${email}]: User already exists`);
 				res.end(JSON.stringify("User already exists"));
 			} else {
-				con.query('INSERT INTO `users`(`id`, `uuid`, `Email`, `Name`, `Phone`, `themeIsDark`, `createdAt`, `updatedAt`) VALUES (NULL,?,?,?,?,?,NOW(),NOW())', [uuniqueID, email, name, phone, themeDark], function (errOuter, result, fields){
+				con.query('INSERT INTO `users`(`uuid`, `Email`, `Name`, `Phone`, `themeIsDark`, `createdAt`, `updatedAt`) VALUES (?,?,?,?,?,NOW(),NOW())', [uuniqueID, email, name, phone, themeDark], function (errOuter, result, fields){
 					if(errOuter != null){
 						console.log(`[${email}]: Register error (${errOuter})`);
 						res.end(JSON.stringify("Register error"));
@@ -243,7 +214,7 @@ app.post('/addTransact/', (req, res) =>{
 	var desc = postData.Desc;
 	var unixDate = postData.unixDate;
 
-	con.query('INSERT INTO `transaction` (`id`, `uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (NULL,?,?,?,?,?,?,?,?,FROM_UNIXTIME(?),?)', [uuid, date, title, amt, type, catIdx, cato, desc, unixDate, unixDate], function (err, result, fields){
+	con.query('INSERT INTO `transaction` (`uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (?,?,?,?,?,?,?,?,FROM_UNIXTIME(?),?)', [uuid, date, title, amt, type, catIdx, cato, desc, unixDate, unixDate], function (err, result, fields){
 		if(err != null){
 			console.log(`[${uuid}]: Transaction insertion error (${err})`);
 			res.end(JSON.stringify("Transaction insertion error: " + err));
@@ -324,18 +295,18 @@ app.post('/addJio/', (req, res) => {
 	var jioTitle = postData.jioTitle;
 	var jioComments = postData.jioComments;
 
-	con.query('INSERT INTO `jiodetails` (`id`, `jioUUID`, `creatorUUID`, `creatorName`, `jioTitle`, `jioComments`, `jioStatus`, `unixCreatedAt`) VALUES (NULL,?,?,?,?,?,?,UNIX_TIMESTAMP())', [jioUUID, creatorUUID, creatorName, jioTitle, jioComments, 'Open'], function (err, result, fields){
+	con.query('INSERT INTO `jiodetails` (`jioUUID`, `creatorUUID`, `creatorName`, `jioTitle`, `jioComments`, `jioStatus`, `unixCreatedAt`) VALUES (?,?,?,?,?,?,UNIX_TIMESTAMP())', [jioUUID, creatorUUID, creatorName, jioTitle, jioComments, 'Open'], function (err, result, fields){
 		if(err != null){
 			console.log(`[${creatorName}]: Jio insertion (Part 1) error (${err})`);
 			res.end(JSON.stringify("Jio insertion (Part 1) error: " + err));
 		} else {
-			con.query('INSERT INTO `jiousers` (`id`, `jioUUID`, `peepsUUID`, `peepsName`, `orderObj`, `resIdx`, `orderPlaced`) VALUES (NULL,?,?,?,?,?,?)', [jioUUID, creatorUUID, creatorName, JSON.stringify(orderObj), resIdx, "Ordered"], function (errOuter, result, fields){
+			con.query('INSERT INTO `jiousers` (`jioUUID`, `peepsUUID`, `peepsName`, `orderObj`, `resIdx`, `orderPlaced`) VALUES (?,?,?,?,?,?)', [jioUUID, creatorUUID, creatorName, JSON.stringify(orderObj), resIdx, "Ordered"], function (errOuter, result, fields){
 				if(errOuter != null){
 					console.log(`[${creatorName}]: Jio insertion (Part 2) error (${errOuter})`);
 					res.end(JSON.stringify("Jio insertion (Part 2) error: " + errOuter));
 				} else {
 					peepsArr.forEach(function(currUser) {
-						con.query('INSERT INTO `jiousers` (`id`, `jioUUID`, `peepsUUID`, `peepsName`, `orderObj`, `resIdx`, `orderPlaced`) VALUES (NULL,?,?,?,?,?,?)', [jioUUID, currUser.uuid, currUser.Name, JSON.stringify([]), resIdx, "Pending"], function (errInner, result, fields){
+						con.query('INSERT INTO `jiousers` (`jioUUID`, `peepsUUID`, `peepsName`, `orderObj`, `resIdx`, `orderPlaced`) VALUES (?,?,?,?,?,?)', [jioUUID, currUser.uuid, currUser.Name, JSON.stringify([]), resIdx, "Pending"], function (errInner, result, fields){
 							if(errInner != null){
 								console.log(`[${creatorName}]: Jio insertion (Part 3) error (${errInner})`);
 								res.end(JSON.stringify("Jio insertion (Part 3) error: " + errInner));
@@ -426,14 +397,14 @@ app.post('/closeJio/', (req, res) => {
 			detailsArr.forEach(function(currItem) {
 				if (currItem.totalAmt !== 0) {
 					if (currItem.userUUID !== currUUID) {
-						con.query('INSERT INTO `ledger` (`id`, `ledgerUUID`, `fromUUID`, `fromName`, `toUUID`, `toName`, `Amount`, `catIdx`, `Category`, `Detail`, `Status`, `Date`, `createdAt`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,NOW())', [ledgerUUID, currItem.userUUID, currItem.userName, currUUID, currName, currItem.totalAmt, 0, 'Food', `FoodJio (${jioTitle})`, 'Open', dateStrTrans], function (errInner, result, fields){
+						con.query('INSERT INTO `ledger` (`ledgerUUID`, `fromUUID`, `fromName`, `toUUID`, `toName`, `Amount`, `catIdx`, `Category`, `Detail`, `Status`, `Date`, `createdAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())', [ledgerUUID, currItem.userUUID, currItem.userName, currUUID, currName, currItem.totalAmt, 0, 'Food', `FoodJio (${jioTitle})`, 'Open', dateStrTrans], function (errInner, result, fields){
 							if(errInner != null){
 								console.log(`[${currName}]: MyJio closing error (Part 2) (${errInner})`);
 								res.end(JSON.stringify("MyJio closing error (Part 2)  " + errInner));
 							}
 						});
 					} else {
-						con.query('INSERT INTO `transaction` (`id`, `uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (NULL,?,?,?,?,?,?,?,?,NOW(),?)', [currUUID, dateStrTrans, `FoodJio (${jioTitle})`, currItem.totalAmt, 'Spending', 0, 'Food', '', unixTime], function (errInInner, result, fields){
+						con.query('INSERT INTO `transaction` (`uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (?,?,?,?,?,?,?,?,NOW(),?)', [currUUID, dateStrTrans, `FoodJio (${jioTitle})`, currItem.totalAmt, 'Spending', 0, 'Food', '', unixTime], function (errInInner, result, fields){
 							if(errInInner != null){
 								console.log(`[${currName}]: MyJio closing error (Part 3) (${errInInner})`);
 								res.end(JSON.stringify("MyJio closing error (Part 3)  " + errInInner));
@@ -485,12 +456,12 @@ app.post('/paidLedger/', (req, res) => {
 					res.end(JSON.stringify("Paying Ledger error (Part 1)"));
 				} else {
 					let selRes = resArr[0];
-					con.query('INSERT INTO `transaction` (`id`, `uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (NULL,?,?,?,?,?,?,?,?,NOW(),?)', [selRes.fromUUID, dateStrTrans, `${selRes.Detail} (Paid to ${selRes.toName})`, selRes.Amount, 'Spending', selRes.catIdx, selRes.Category, '', unixTime], function (errInInner, result, fields){
+					con.query('INSERT INTO `transaction` (`uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (?,?,?,?,?,?,?,?,NOW(),?)', [selRes.fromUUID, dateStrTrans, `${selRes.Detail} (Paid to ${selRes.toName})`, selRes.Amount, 'Spending', selRes.catIdx, selRes.Category, '', unixTime], function (errInInner, result, fields){
 						if(errInInner != null){
 							console.log(`Paying Ledger error (Part 2) (${errInInner})`);
 							res.end(JSON.stringify("Paying Ledger error (Part 2)"));
 						} else {
-							con.query('INSERT INTO `transaction` (`id`, `uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (NULL,?,?,?,?,?,?,?,?,NOW(),?)', [selRes.toUUID, dateStrTrans, `${selRes.Detail} (Paid by ${selRes.fromName})`, selRes.Amount, 'Earning', selRes.catIdx, selRes.Category, '', unixTime], function (errInInInner, result, fields){
+							con.query('INSERT INTO `transaction` (`uuidBy`, `Date`, `Title`, `Amount`, `Type`, `catIdx`, `Category`, `Description`, `createdAt`, `createdAtUnix`) VALUES (?,?,?,?,?,?,?,?,NOW(),?)', [selRes.toUUID, dateStrTrans, `${selRes.Detail} (Paid by ${selRes.fromName})`, selRes.Amount, 'Earning', selRes.catIdx, selRes.Category, '', unixTime], function (errInInInner, result, fields){
 								if(errInInInner != null){
 									console.log(`Paying Ledger error (Part 3) (${errInInInner})`);
 									res.end(JSON.stringify("Paying Ledger error (Part 3)"));
@@ -527,7 +498,7 @@ app.post('/newLedger/', (req, res) => {
 	toArr.forEach(function(currItem) {
 		if (type === 'To Pay') {
 			var ledgerUUID = uuid.v4();
-			con.query('INSERT INTO `ledger` (`id`, `ledgerUUID`, `fromUUID`, `fromName`, `toUUID`, `toName`, `Amount`, `catIdx`, `Category`, `Detail`, `Status`, `Date`, `createdAt`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,NOW())', [ledgerUUID, fromObj.uuid, fromObj.Name, currItem.uuid, currItem.Name, Amount, catIdx, cato, Detail, 'Open', currDate], function (errInner, result, fields){
+			con.query('INSERT INTO `ledger` (`ledgerUUID`, `fromUUID`, `fromName`, `toUUID`, `toName`, `Amount`, `catIdx`, `Category`, `Detail`, `Status`, `Date`, `createdAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())', [ledgerUUID, fromObj.uuid, fromObj.Name, currItem.uuid, currItem.Name, Amount, catIdx, cato, Detail, 'Open', currDate], function (errInner, result, fields){
 				if(errInner != null){
 					console.log(`[${fromObj.uuid}]: Ledger creation error (Part 1) (${errInner})`);
 					res.end(JSON.stringify("Ledger creation error (Part 1)"));
@@ -538,7 +509,7 @@ app.post('/newLedger/', (req, res) => {
 			});
 		} else {
 			var ledgerUUID = uuid.v4();
-			con.query('INSERT INTO `ledger` (`id`, `ledgerUUID`, `fromUUID`, `fromName`, `toUUID`, `toName`, `Amount`, `catIdx`, `Category`, `Detail`, `Status`, `Date`, `createdAt`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,NOW())', [ledgerUUID, currItem.uuid, currItem.Name, fromObj.uuid, fromObj.Name, Amount, catIdx, cato, Detail, 'Open', currDate], function (errInInner, result, fields){
+			con.query('INSERT INTO `ledger` (`ledgerUUID`, `fromUUID`, `fromName`, `toUUID`, `toName`, `Amount`, `catIdx`, `Category`, `Detail`, `Status`, `Date`, `createdAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())', [ledgerUUID, currItem.uuid, currItem.Name, fromObj.uuid, fromObj.Name, Amount, catIdx, cato, Detail, 'Open', currDate], function (errInInner, result, fields){
 				if(errInInner != null){
 					console.log(`[${fromObj.uuid}]: Ledger creation error (Part 2) (${errInInner})`);
 					res.end(JSON.stringify("Ledger creation error (Part 2)"));

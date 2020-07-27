@@ -247,7 +247,7 @@ export default function AddPeople(props) {
         {searchDis}
       </View>
       <View style={styles.peopleWrap}>
-        <Text style={styles.searchText}>People Added to Jio: </Text>
+        <Text style={styles.searchText}>People Added: </Text>
         <ScrollView nestedScrollEnabled={true}>{addedPeeps}</ScrollView>
       </View>
     </View>

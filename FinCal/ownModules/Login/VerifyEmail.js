@@ -129,6 +129,20 @@ export default function VerifyEmail(props) {
     navigation.pop(1);
   }
 
+  function backWithoutResend() {
+    updateIsLoading(true);
+    auth()
+      .signOut()
+      .then(function () {
+        navigation.pop(1);
+        updateIsLoading(false);
+      })
+      .catch(function (error) {
+        Toast.show(error.message + ' (Verifying Email Error: 1)');
+        updateIsLoading(false);
+      });
+  }
+
   function sendVeriEmail() {
     updateIsLoading(true);
     auth()
@@ -178,7 +192,9 @@ export default function VerifyEmail(props) {
                   Check your Email for the Verification Link
                 </Text>
                 <TouchableOpacity style={Styles.logBtn} onPress={back}>
-                  <Text style={[Styles.logText, Styles.text]}>Confirm</Text>
+                  <Text style={[Styles.logText, Styles.text]}>
+                    Back to Login
+                  </Text>
                 </TouchableOpacity>
                 <Text style={Styles.btmText}>
                   <Text style={Styles.text}> </Text>
@@ -204,8 +220,12 @@ export default function VerifyEmail(props) {
                 <Text style={[Styles.welcomeSub, Styles.text]}>
                   Please verify your Email before continuing
                 </Text>
-                <TouchableOpacity style={Styles.logBtn} onPress={back}>
-                  <Text style={[Styles.logText, Styles.text]}>Confirm</Text>
+                <TouchableOpacity
+                  style={Styles.logBtn}
+                  onPress={backWithoutResend}>
+                  <Text style={[Styles.logText, Styles.text]}>
+                    Back to Login
+                  </Text>
                 </TouchableOpacity>
                 <Text style={Styles.btmText}>
                   <Text style={Styles.text}>

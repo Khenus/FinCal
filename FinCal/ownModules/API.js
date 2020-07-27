@@ -1,4 +1,5 @@
-var url = 'http://10.0.2.2:3000'; //This must be without the last slash
+// var url = 'http://10.0.2.2:3000'; //This must be without the last slash
+var url = 'http://13.59.99.208:3000';
 
 export async function register(email, uuid, name, phone) {
   let data = {

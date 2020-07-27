@@ -12,6 +12,10 @@
     ],
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "splash": {
+      "image": "./Logo.jpg",
+      "backgroundColor": "#121212"
+    }
   }
 }

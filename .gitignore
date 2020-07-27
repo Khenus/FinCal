@@ -1,0 +1,6 @@
+FinCal/ios/
+FinCal/node_modules/
+FinCal/android/
+Server/node_modules/
+Server/serverDetails.js
+Server/TableCreation.sql

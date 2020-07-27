@@ -50,7 +50,7 @@ function LedgerToPay(props) {
       marginTop: 15,
       marginBottom: 15,
       flexDirection: 'row',
-      justifyContent: 'center',
+      justifyContent: 'space-around',
       alignContent: 'center',
     },
 
@@ -72,8 +72,8 @@ function LedgerToPay(props) {
     },
 
     btnWrap: {
-      marginLeft: 10,
-      marginRight: 10,
+      // marginLeft: 10,
+      // marginRight: 10,
       borderRadius: 20,
       width: 110,
       height: 40,
