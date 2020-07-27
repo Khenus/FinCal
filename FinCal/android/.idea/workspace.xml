@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="ee05b319-93da-46ba-aae3-26e3af3849d2" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -128,10 +133,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="214" y="165" key="#app/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1593164379632" />
-    <state x="275" y="274" key="FileChooserDialogImpl" timestamp="1595785633977">
+    <state x="275" y="274" key="FileChooserDialogImpl" timestamp="1595841695727">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="275" y="274" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595785633977" />
+    <state x="275" y="274" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595841695727" />
     <state width="972" height="281" key="GridCell.Tab.0.bottom" timestamp="1595613679648">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

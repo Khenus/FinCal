@@ -14,6 +14,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {CommonActions} from '@react-navigation/native';
 import Toast from 'react-native-simple-toast';
 import {connect} from 'react-redux';
+import auth from '@react-native-firebase/auth';
 
 import {darkTheme, lightTheme} from '../GlobalValues.js';
 import {login} from '../API';
@@ -21,8 +22,11 @@ import {login} from '../API';
 function LoginPage(props) {
   let currWidth = useWindowDimensions().width;
   let currHeight = useWindowDimensions().height;
+
   const [smallerVal, changeSmallerValue] = useState(0);
-  const [isLoading, changeIsLoading] = useState(false);
+  const [isLoading, changeIsLoading] = useState(true);
+
+  let [localUser, updateLocalUser] = useState('none');
 
   let [themeDark, updateTheme] = useState(true);
   let [colorScheme, updateColorScheme] = useState(darkTheme);
@@ -30,7 +34,13 @@ function LoginPage(props) {
   let parentDarkTheme = true;
 
   let navigation = props.navigation;
-  // console.log(props);
+
+  // let fromHome;
+  // if (props.route.params === undefined) {
+  //   fromHome = false;
+  // } else {
+  //   fromHome = props.route.params.fromHome;
+  // }
 
   useEffect(() => {
     themeDark === true
@@ -51,29 +61,107 @@ function LoginPage(props) {
   const [userPass, changeUserPass] = useState('');
 
   function redirSelector() {
-    navigation.navigate('SignupPage');
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'SignupPage',
+          },
+        ],
+      }),
+    );
   }
 
-  async function loginAction() {
-    changeIsLoading(true);
-    var result = await login(userEmail, userPass);
+  function redirForget() {
+    navigation.navigate('ForgetPassword');
+  }
 
-    if (typeof result === 'object') {
-      changeIsLoading(false);
-      props.updateUser(result[0]); //This is the redux part, add this in to the website
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [
-            {
-              name: 'MainStack',
-            },
-          ],
-        }),
-      );
-    } else {
-      changeIsLoading(false);
-      Toast.show(result);
+  useEffect(() => {
+    function onAuthStateChanged(newUser) {
+      updateLocalUser(newUser);
+      // console.log(newUser);
+    }
+
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  useEffect(() => {
+    async function fetchUser() {
+      var result = await login(localUser.uid);
+
+      if (typeof result[0] === 'object') {
+        let tempObj = {
+          Email: localUser.email,
+          Verified: localUser.emailVerified,
+          uuid: localUser.uid,
+          Name: result[0].Name,
+          Phone: result[0].Phone,
+          themeIsDark: result[0].themeIsDark,
+        };
+
+        props.updateUser(tempObj); //This is the redux part, add this in to the website
+        // updateLocalUser(null);
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              {
+                name: 'MainStack',
+              },
+            ],
+          }),
+        );
+
+        // changeIsLoading(false);
+      } else {
+        auth()
+          .signOut()
+          .then(updateLocalUser(null))
+          .catch((err) => Toast.show(err));
+        changeIsLoading(false);
+      }
+    }
+
+    function redirToVeriEmail() {
+      navigation.navigate('VerifyEmail');
+    }
+
+    if (typeof localUser === 'object') {
+      if (localUser) {
+        if (localUser.emailVerified === true) {
+          fetchUser();
+        } else {
+          redirToVeriEmail();
+        }
+      } else {
+        changeIsLoading(false);
+      }
+    }
+  }, [localUser, navigation, props]);
+
+  async function loginAction() {
+    if (userEmail !== '' && userPass !== '') {
+      changeIsLoading(true);
+      auth()
+        .signInWithEmailAndPassword(userEmail, userPass)
+        .then()
+        .catch((error) => {
+          if (error.code === 'auth/email-already-in-use') {
+            Toast.show('That email address is already in use');
+          } else if (error.code === 'auth/invalid-email') {
+            Toast.show('That email address is invalid');
+          } else if (
+            error.code === 'auth/user-not-found' ||
+            error.code === 'auth/wrong-password'
+          ) {
+            Toast.show('Invalid email or password');
+          } else {
+            Toast.show(error.message);
+          }
+          changeIsLoading(false);
+        });
     }
   }
 
@@ -147,12 +235,21 @@ function LoginPage(props) {
       fontSize: 15,
     },
 
+    btmTextWithoutMargin: {
+      width: currWidth,
+      textAlign: 'center',
+      textAlignVertical: 'center',
+      fontSize: 13,
+      marginBottom: 3,
+      marginTop: 10,
+    },
+
     btmText: {
       width: currWidth,
       textAlign: 'center',
       textAlignVertical: 'center',
       fontSize: 13,
-      marginBottom: 60,
+      marginBottom: 20,
     },
 
     signUp: {
@@ -176,6 +273,7 @@ function LoginPage(props) {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
+      backgroundColor: colorScheme.backCol,
     },
     loadingText: {
       color: colorScheme.textCol,
@@ -226,6 +324,14 @@ function LoginPage(props) {
               <TouchableOpacity style={Styles.logBtn} onPress={loginAction}>
                 <Text style={[Styles.logText, Styles.text]}>Log in</Text>
               </TouchableOpacity>
+              <Text style={Styles.btmTextWithoutMargin}>
+                <Text style={Styles.text}>Forget Password?{'  '}</Text>
+                <Text
+                  style={[Styles.signUp, Styles.text]}
+                  onPress={redirForget}>
+                  Reset Password
+                </Text>
+              </Text>
               <Text style={Styles.btmText}>
                 <Text style={Styles.text}>Don't Have an account?{'  '}</Text>
                 <Text

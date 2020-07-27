@@ -6,6 +6,8 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import LoginPage from './Login/LoginPage';
+import VerifyEmail from './Login/VerifyEmail';
+import ForgetPassword from './Login/ForgetPassword';
 import SignupPage from './Login/SignupPage';
 
 import HomeScreen from './Home/HomeScreen';
@@ -25,7 +27,7 @@ import LedgerToPay from './Ledger/LedgerToPay';
 import LedgerToRecv from './Ledger/LedgerToRecv';
 import TransactHist from './Ledger/TransactHist';
 
-import SettingsScreen from './Settings/SettingsScreen';
+// import SettingsScreen from './Settings/SettingsScreen';
 
 const settings = {
   noHeader: {
@@ -237,6 +239,16 @@ export default function AppStack() {
         <LoginStack.Screen
           name="LoginPage"
           component={LoginPage}
+          options={settings.noHeader}
+        />
+        <LoginStack.Screen
+          name="VerifyEmail"
+          component={VerifyEmail}
+          options={settings.noHeader}
+        />
+        <LoginStack.Screen
+          name="ForgetPassword"
+          component={ForgetPassword}
           options={settings.noHeader}
         />
         <LoginStack.Screen

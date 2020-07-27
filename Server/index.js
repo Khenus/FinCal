@@ -167,13 +167,8 @@ con.connect(function (err){
 
 app.post('/register/', (req, res) => {
 	var postData = req.body;								//Getting the POST parameters
-	
-	var uuniqueID = uuid.v4();								//Get UUID V4
-	var plaintPassword = postData.Password;					//Get password from post params
-	var hashData = saltHashPassword(plaintPassword);		//Encrypting the password
-	var actualPassword = hashData.passwordHash;				//Get the hased password
-  var actualSalt = hashData.salt;							//Get the hashed salt
 
+	var uuniqueID = postData.uuid;
 	var phone = postData.Phone;
 	var name = postData.Name;
 	var email = postData.Email;								//Take note your postData.Email, the .sth must be the same as what you are sending in, ie if its caps you must be caps too
@@ -188,7 +183,7 @@ app.post('/register/', (req, res) => {
 				console.log(`[${email}]: User already exists`);
 				res.end(JSON.stringify("User already exists"));
 			} else {
-				con.query('INSERT INTO `users`(`id`, `uuid`, `Email`, `Password`, `Salt`, `Name`, `Phone`, `themeIsDark`, `createdAt`, `updatedAt`) VALUES (NULL,?,?,?,?,?,?,?,NOW(),NOW())', [uuniqueID, email, actualPassword, actualSalt, name, phone, themeDark], function (errOuter, result, fields){
+				con.query('INSERT INTO `users`(`id`, `uuid`, `Email`, `Name`, `Phone`, `themeIsDark`, `createdAt`, `updatedAt`) VALUES (NULL,?,?,?,?,?,NOW(),NOW())', [uuniqueID, email, name, phone, themeDark], function (errOuter, result, fields){
 					if(errOuter != null){
 						console.log(`[${email}]: Register error (${errOuter})`);
 						res.end(JSON.stringify("Register error"));
@@ -205,29 +200,15 @@ app.post('/register/', (req, res) => {
 app.post('/login/', (req, res) =>{
 	var postData = req.body;
 
-	var email = postData.Email;
-	var password = postData.Password;
+	var uuid = postData.uuid;
 
-	con.query('SELECT * from users where Email = ?', [email], function(err, result){
+	con.query('SELECT * from users where uuid = ?', [uuid], function(err, result){
 		if(err != null){
-			console.log(`[${email}]: Login error (${err})`);
+			console.log(`[${uuid}]: Login error (${err})`);
 			res.end(JSON.stringify("Login error: " + err));
 		} else {
-			if(result && result.length){
-				let userInput = hashLoginPass(password, result[0].Salt);
-
-				if (userInput.passwordHash === result[0].Password) {
-					res.end(JSON.stringify(result));
-					console.log(`[${result[0].Email} (${result[0].uuid})]: Login Successful`);
-				} else {
-					res.end(JSON.stringify('Wrong password'));
-					console.log(`[${result[0].Email} (${result[0].uuid})]: Wrong pasword`);
-				}
-				
-			} else {
-				res.end(JSON.stringify("User does not exist"));
-				console.log(`[${email}]: User does not exist`);
-			}
+			res.end(JSON.stringify(result));
+			console.log(`[${uuid}]: User data fetched`);
 		}
 	});
 });

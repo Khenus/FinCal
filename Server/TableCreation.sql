@@ -1,3 +1,29 @@
+-- CREATE TABLE users (
+--   id int(11) NOT NULL AUTO_INCREMENT,
+--   uuid text,
+--   Email text,
+--   Password text,
+--   Salt text,
+--   Name text,
+--   Phone text,
+--   themeIsDark text,
+--   createdAt date,
+--   updatedAt date,
+--   PRIMARY KEY (id)
+-- );
+
+CREATE TABLE users (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  uuid text,
+  Email text,
+  Name text,
+  Phone text,
+  themeIsDark text,
+  createdAt date,
+  updatedAt date,
+  PRIMARY KEY (id)
+);
+
 CREATE TABLE ledger (
   id int(11) NOT NULL AUTO_INCREMENT,
   ledgerUUID text,
@@ -27,20 +53,6 @@ CREATE TABLE transaction (
   Description text,
   createdAtUnix text,
   createdAt date,
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE users (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  uuid text,
-  Email text,
-  Password text,
-  Salt text,
-  Name text,
-  Phone text,
-  themeIsDark text,
-  createdAt date,
-  updatedAt date,
   PRIMARY KEY (id)
 );
 

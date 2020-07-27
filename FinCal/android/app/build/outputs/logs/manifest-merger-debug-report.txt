@@ -10,6 +10,7 @@ MERGED from [:expo-updates] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_mo
 MERGED from [:react-native-community_datetimepicker] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-community\datetimepicker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-13:12
 MERGED from [:react-native-community_masked-view] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-community\masked-view\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-community_picker] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-community\picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:react-native-firebase_auth] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-firebase\auth\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
 MERGED from [:react-native-firebase_app] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-firebase\app\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-gesture-handler] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-reanimated] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\react-native-reanimated\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
@@ -62,12 +63,14 @@ MERGED from [androidx.browser:browser:1.0.0] C:\Users\Orion\.gradle\caches\trans
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\aed4d701a09da421d3d6723c59c24d8c\legacy-support-v4-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.github.bumptech.glide:glide:4.9.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\f6b19f76a27db4cdb2587312ae0fa87b\jetified-glide-4.9.0\AndroidManifest.xml:2:1-12:12
 MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\03aeff921c709c692a2cbd2ade55836d\jetified-play-services-location-16.0.0\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:17:1-42:12
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5390ca72ba305d2e45daf3761ea58b65\firebase-auth-interop-19.0.0\AndroidManifest.xml:2:1-10:12
 MERGED from [com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:17:1-47:12
 MERGED from [com.google.firebase:firebase-installations:16.2.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\da7a13c27f597191c0c8ebce33b010df\firebase-installations-16.2.1\AndroidManifest.xml:2:1-23:12
 MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c75159d6c44472db62c1364f9ae82a8c\jetified-firebase-common-19.3.0\AndroidManifest.xml:15:1-39:12
-MERGED from [com.google.firebase:firebase-installations-interop:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\7b0ddaa8648eff25a44cc0136c581033\firebase-installations-interop-16.0.0\AndroidManifest.xml:15:1-23:12
 MERGED from [com.google.firebase:firebase-iid-interop:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\9a5f70792e500dc87410b4d970e3a806\firebase-iid-interop-17.0.0\AndroidManifest.xml:2:1-10:12
-MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c383834dbdc96e232dbc1645561ebaa6\play-services-base-17.0.0\AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fd803f9893211b6f224bd8b5fb612b38\play-services-base-17.1.0\AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.firebase:firebase-installations-interop:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\7b0ddaa8648eff25a44cc0136c581033\firebase-installations-interop-16.0.0\AndroidManifest.xml:15:1-23:12
 MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\b39bc81cfb7cb217a1bfbf093022ec0d\play-services-tasks-17.0.0\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\785fe2f7b2ed0696bfa05f7da1ff5163\play-services-places-placereport-16.0.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-measurement-impl:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\7e47e17efa8735fef52253e3a460305a\play-services-measurement-impl-17.4.3\AndroidManifest.xml:17:1-31:12
@@ -141,6 +144,8 @@ INJECTED from C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\debug
 		ADDED from C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:1:11-69
 uses-permission#android.permission.INTERNET
 ADDED from C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\main\AndroidManifest.xml:2:3-64
+MERGED from [:react-native-firebase_auth] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-firebase\auth\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-67
+MERGED from [:react-native-firebase_auth] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-firebase\auth\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-67
 MERGED from [:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-67
 MERGED from [:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-67
 MERGED from [com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:23:5-67
@@ -269,6 +274,10 @@ MERGED from [com.github.bumptech.glide:glide:4.9.0] C:\Users\Orion\.gradle\cache
 MERGED from [com.github.bumptech.glide:glide:4.9.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\f6b19f76a27db4cdb2587312ae0fa87b\jetified-glide-4.9.0\AndroidManifest.xml:10:5-20
 MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\03aeff921c709c692a2cbd2ade55836d\jetified-play-services-location-16.0.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\03aeff921c709c692a2cbd2ade55836d\jetified-play-services-location-16.0.0\AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:23:5-40:19
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:23:5-40:19
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5390ca72ba305d2e45daf3761ea58b65\firebase-auth-interop-19.0.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5390ca72ba305d2e45daf3761ea58b65\firebase-auth-interop-19.0.0\AndroidManifest.xml:7:5-8:19
 MERGED from [com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:28:5-45:19
 MERGED from [com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:28:5-45:19
 MERGED from [com.google.firebase:firebase-installations:16.2.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\da7a13c27f597191c0c8ebce33b010df\firebase-installations-16.2.1\AndroidManifest.xml:13:5-21:19
@@ -277,8 +286,8 @@ MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\Orion\.gradle\
 MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c75159d6c44472db62c1364f9ae82a8c\jetified-firebase-common-19.3.0\AndroidManifest.xml:25:5-37:19
 MERGED from [com.google.firebase:firebase-iid-interop:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\9a5f70792e500dc87410b4d970e3a806\firebase-iid-interop-17.0.0\AndroidManifest.xml:7:5-8:19
 MERGED from [com.google.firebase:firebase-iid-interop:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\9a5f70792e500dc87410b4d970e3a806\firebase-iid-interop-17.0.0\AndroidManifest.xml:7:5-8:19
-MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c383834dbdc96e232dbc1645561ebaa6\play-services-base-17.0.0\AndroidManifest.xml:22:5-27:19
-MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c383834dbdc96e232dbc1645561ebaa6\play-services-base-17.0.0\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fd803f9893211b6f224bd8b5fb612b38\play-services-base-17.1.0\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fd803f9893211b6f224bd8b5fb612b38\play-services-base-17.1.0\AndroidManifest.xml:22:5-27:19
 MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\b39bc81cfb7cb217a1bfbf093022ec0d\play-services-tasks-17.0.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\b39bc81cfb7cb217a1bfbf093022ec0d\play-services-tasks-17.0.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\785fe2f7b2ed0696bfa05f7da1ff5163\play-services-places-placereport-16.0.0\AndroidManifest.xml:22:5-20
@@ -387,6 +396,8 @@ MERGED from [:react-native-community_masked-view] C:\Users\Orion\Desktop\Backup\
 MERGED from [:react-native-community_masked-view] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-community\masked-view\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-community_picker] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-community\picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-community_picker] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-community\picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-firebase_auth] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-firebase\auth\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-firebase_auth] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-firebase\auth\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-firebase_app] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-firebase\app\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-firebase_app] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-firebase\app\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-gesture-handler] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
@@ -491,18 +502,22 @@ MERGED from [com.github.bumptech.glide:glide:4.9.0] C:\Users\Orion\.gradle\cache
 MERGED from [com.github.bumptech.glide:glide:4.9.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\f6b19f76a27db4cdb2587312ae0fa87b\jetified-glide-4.9.0\AndroidManifest.xml:6:5-8:41
 MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\03aeff921c709c692a2cbd2ade55836d\jetified-play-services-location-16.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\03aeff921c709c692a2cbd2ade55836d\jetified-play-services-location-16.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:21:5-44
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:21:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5390ca72ba305d2e45daf3761ea58b65\firebase-auth-interop-19.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5390ca72ba305d2e45daf3761ea58b65\firebase-auth-interop-19.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-installations:16.2.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\da7a13c27f597191c0c8ebce33b010df\firebase-installations-16.2.1\AndroidManifest.xml:6:5-8:41
 MERGED from [com.google.firebase:firebase-installations:16.2.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\da7a13c27f597191c0c8ebce33b010df\firebase-installations-16.2.1\AndroidManifest.xml:6:5-8:41
 MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c75159d6c44472db62c1364f9ae82a8c\jetified-firebase-common-19.3.0\AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c75159d6c44472db62c1364f9ae82a8c\jetified-firebase-common-19.3.0\AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.firebase:firebase-installations-interop:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\7b0ddaa8648eff25a44cc0136c581033\firebase-installations-interop-16.0.0\AndroidManifest.xml:19:5-21:41
-MERGED from [com.google.firebase:firebase-installations-interop:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\7b0ddaa8648eff25a44cc0136c581033\firebase-installations-interop-16.0.0\AndroidManifest.xml:19:5-21:41
 MERGED from [com.google.firebase:firebase-iid-interop:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\9a5f70792e500dc87410b4d970e3a806\firebase-iid-interop-17.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-iid-interop:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\9a5f70792e500dc87410b4d970e3a806\firebase-iid-interop-17.0.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c383834dbdc96e232dbc1645561ebaa6\play-services-base-17.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c383834dbdc96e232dbc1645561ebaa6\play-services-base-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fd803f9893211b6f224bd8b5fb612b38\play-services-base-17.1.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fd803f9893211b6f224bd8b5fb612b38\play-services-base-17.1.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-installations-interop:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\7b0ddaa8648eff25a44cc0136c581033\firebase-installations-interop-16.0.0\AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.firebase:firebase-installations-interop:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\7b0ddaa8648eff25a44cc0136c581033\firebase-installations-interop-16.0.0\AndroidManifest.xml:19:5-21:41
 MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\b39bc81cfb7cb217a1bfbf093022ec0d\play-services-tasks-17.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\b39bc81cfb7cb217a1bfbf093022ec0d\play-services-tasks-17.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\785fe2f7b2ed0696bfa05f7da1ff5163\play-services-places-placereport-16.0.0\AndroidManifest.xml:20:5-44
@@ -615,6 +630,8 @@ INJECTED from C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\debug
 		INJECTED from C:\Users\Orion\Desktop\Backup\Finance\FinCal\android\app\src\debug\AndroidManifest.xml
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [:expo-updates] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-updates\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-79
+MERGED from [:react-native-firebase_auth] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-firebase\auth\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
+MERGED from [:react-native-firebase_auth] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-firebase\auth\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
 MERGED from [com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:23:5-79
@@ -631,6 +648,20 @@ MERGED from [io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\cach
 MERGED from [io.nlopez.smartlocation:library:3.2.11] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\3ef2b8154b9b253637c061d0e10ab4bc\jetified-library-3.2.11\AndroidManifest.xml:13:5-79
 	android:name
 		ADDED from [:expo-updates] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-updates\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:22-76
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [:react-native-firebase_auth] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-firebase\auth\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-68
+MERGED from [com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:24:5-68
+MERGED from [com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:24:5-68
+MERGED from [com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:24:5-68
+MERGED from [com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:24:5-68
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\7e47e17efa8735fef52253e3a460305a\play-services-measurement-impl-17.4.3\AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\7e47e17efa8735fef52253e3a460305a\play-services-measurement-impl-17.4.3\AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\49fb143d9f42dfa1870178fe2911a2ea\play-services-measurement-sdk-api-17.4.3\AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\49fb143d9f42dfa1870178fe2911a2ea\play-services-measurement-sdk-api-17.4.3\AndroidManifest.xml:25:5-68
+	android:name
+		ADDED from [:react-native-firebase_auth] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\@react-native-firebase\auth\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-65
 uses-permission#android.permission.STORAGE
 ADDED from [:expo-file-system] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-66
 	android:name
@@ -663,18 +694,6 @@ ADDED from [:expo-location] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_mo
 		ADDED from [:expo-location] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:13-37
 	android:name
 		ADDED from [:expo-location] C:\Users\Orion\Desktop\Backup\Finance\FinCal\node_modules\expo-location\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-78
-uses-permission#android.permission.WAKE_LOCK
-ADDED from [com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:25:5-68
-MERGED from [com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:24:5-68
-MERGED from [com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:24:5-68
-MERGED from [com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:24:5-68
-MERGED from [com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:24:5-68
-MERGED from [com.google.android.gms:play-services-measurement-impl:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\7e47e17efa8735fef52253e3a460305a\play-services-measurement-impl-17.4.3\AndroidManifest.xml:25:5-68
-MERGED from [com.google.android.gms:play-services-measurement-impl:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\7e47e17efa8735fef52253e3a460305a\play-services-measurement-impl-17.4.3\AndroidManifest.xml:25:5-68
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\49fb143d9f42dfa1870178fe2911a2ea\play-services-measurement-sdk-api-17.4.3\AndroidManifest.xml:25:5-68
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\49fb143d9f42dfa1870178fe2911a2ea\play-services-measurement-sdk-api-17.4.3\AndroidManifest.xml:25:5-68
-	android:name
-		ADDED from [com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:25:22-65
 uses-permission#com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE
 ADDED from [com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:26:5-110
 MERGED from [com.google.android.gms:play-services-measurement-impl:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\7e47e17efa8735fef52253e3a460305a\play-services-measurement-impl-17.4.3\AndroidManifest.xml:26:5-110
@@ -709,6 +728,8 @@ ADDED from [com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Or
 		ADDED from [com.google.android.gms:play-services-measurement:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\0ba6c35a9908b139d1ef90e4b5b01b59\play-services-measurement-17.4.3\AndroidManifest.xml:40:13-87
 service#com.google.firebase.components.ComponentDiscoveryService
 ADDED from [com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:27:9-33:19
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:33:9-39:19
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:33:9-39:19
 MERGED from [com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:29:9-35:19
 MERGED from [com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:29:9-35:19
 MERGED from [com.google.firebase:firebase-installations:16.2.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\da7a13c27f597191c0c8ebce33b010df\firebase-installations-16.2.1\AndroidManifest.xml:14:9-20:19
@@ -729,6 +750,28 @@ ADDED from [com.google.android.gms:play-services-measurement-api:17.4.3] C:\User
 		ADDED from [com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:32:17-82
 	android:name
 		ADDED from [com.google.android.gms:play-services-measurement-api:17.4.3] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\31fc6c2f34b8ecd94ef9e88ebefa62a3\play-services-measurement-api-17.4.3\AndroidManifest.xml:31:17-139
+activity#com.google.firebase.auth.internal.FederatedSignInActivity
+ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:24:9-31:50
+	android:excludeFromRecents
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:26:13-46
+	android:launchMode
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:28:13-44
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:27:13-36
+	android:permission
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:29:13-102
+	android:theme
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:30:13-72
+	tools:replace
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:31:13-47
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:25:13-85
+meta-data#com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar
+ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:36:13-38:85
+	android:value
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:38:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fb81075982119751f4aaf83f4348d6c2\firebase-auth-19.3.1\AndroidManifest.xml:37:17-109
 uses-permission#com.google.android.c2dm.permission.RECEIVE
 ADDED from [com.google.firebase:firebase-iid:20.1.5] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\5043a27fe0ea94601d27a84825bc5e8d\firebase-iid-20.1.5\AndroidManifest.xml:26:5-82
 	android:name
@@ -770,13 +813,13 @@ ADDED from [com.google.firebase:firebase-common:19.3.0] C:\Users\Orion\.gradle\c
 	android:name
 		ADDED from [com.google.firebase:firebase-common:19.3.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c75159d6c44472db62c1364f9ae82a8c\jetified-firebase-common-19.3.0\AndroidManifest.xml:27:13-77
 activity#com.google.android.gms.common.api.GoogleApiActivity
-ADDED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c383834dbdc96e232dbc1645561ebaa6\play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
+ADDED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fd803f9893211b6f224bd8b5fb612b38\play-services-base-17.1.0\AndroidManifest.xml:23:9-26:75
 	android:exported
-		ADDED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c383834dbdc96e232dbc1645561ebaa6\play-services-base-17.0.0\AndroidManifest.xml:25:13-37
+		ADDED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fd803f9893211b6f224bd8b5fb612b38\play-services-base-17.1.0\AndroidManifest.xml:25:13-37
 	android:theme
-		ADDED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c383834dbdc96e232dbc1645561ebaa6\play-services-base-17.0.0\AndroidManifest.xml:26:13-72
+		ADDED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fd803f9893211b6f224bd8b5fb612b38\play-services-base-17.1.0\AndroidManifest.xml:26:13-72
 	android:name
-		ADDED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\c383834dbdc96e232dbc1645561ebaa6\play-services-base-17.0.0\AndroidManifest.xml:24:13-79
+		ADDED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\fd803f9893211b6f224bd8b5fb612b38\play-services-base-17.1.0\AndroidManifest.xml:24:13-79
 meta-data#com.google.android.gms.version
 ADDED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\Orion\.gradle\caches\transforms-2\files-2.1\ba991432ecccbf9a4a5ae2606a1491e9\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
 	android:value

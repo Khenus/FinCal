@@ -6,11 +6,14 @@ import {
   StyleSheet,
   useWindowDimensions,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Toast from 'react-native-simple-toast';
+import auth from '@react-native-firebase/auth';
+import {CommonActions} from '@react-navigation/native';
 
 import {register} from '../API';
 import {darkTheme, lightTheme} from '../GlobalValues.js';
@@ -43,6 +46,10 @@ function SignupPage({navigation}) {
   let [validPhone, updateValidPhone] = useState('');
   let [signName, updateSignName] = useState('');
   let [validName, updateValidName] = useState('');
+
+  let [isLoading, updateIsLoading] = useState(false);
+  let [prevAuthState, updatePrevAuthState] = useState(null);
+  let [currAuthState, updateCurrAuthState] = useState(null);
 
   //Verifing password
   useEffect(() => {
@@ -82,16 +89,99 @@ function SignupPage({navigation}) {
     }
   }, [signName]);
 
-  async function callRegister() {
-    if (validEmail === '' && validPass === '') {
-      var result = await register(signEmail, signPass, signName, signPhone);
+  // let [localUser, updateLocalUser] = useState({});
 
-      if (result === 'Register successful') {
-        Toast.show(result);
-        navigation.pop(1);
-      } else {
-        Toast.show(result);
-      }
+  useEffect(() => {
+    function onAuthStateChanged(newUser) {
+      updatePrevAuthState(currAuthState);
+      updateCurrAuthState(newUser);
+    }
+
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, [currAuthState]);
+
+  useEffect(() => {
+    if (prevAuthState !== null && currAuthState === null) {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'LoginPage',
+            },
+          ],
+        }),
+      );
+    }
+  }, [currAuthState, navigation, prevAuthState]);
+
+  async function addDetails(res) {
+    var user = auth().currentUser;
+    let result = await register(signEmail, res.user.uid, signName, signPhone);
+    await auth().currentUser.updateProfile({
+      displayName: signName,
+      // phoneNumber: `+65${signPhone}`,
+    });
+
+    if (result === 'Register successful') {
+      // user
+      //   .updateProfile({
+      //     displayName: signName,
+      //     phoneNumber: `+65${signPhone}`,
+      //   })
+      //   .then(function () {
+      user
+        .sendEmailVerification()
+        .then(function () {
+          auth()
+            .signOut()
+            .then(function () {
+              updateIsLoading(false);
+            })
+            .catch(function (error) {
+              Toast.show(error.message + ' (Signup Error: 4)');
+              updateIsLoading(false);
+            });
+        })
+        .catch(function (error) {
+          Toast.show(error.message + ' (Signup Error: 3)');
+          updateIsLoading(false);
+        });
+      // })
+      // .catch(function (error) {
+      //   Toast.show(error.message + ' (Signup Error: 2)');
+      //   updateIsLoading(false);
+      // });
+    } else {
+      user
+        .delete()
+        .then(function () {
+          Toast.show('Signup Error: 1');
+          updateIsLoading(false);
+        })
+        .catch(function (error) {
+          Toast.show(error.message + ' (Signup Error: 4)');
+          updateIsLoading(false);
+        });
+    }
+
+    // }).catch(function(error) {
+    //   updateErrMsg(error.message);
+    //   updateIsLoading(false);
+    // });
+  }
+
+  async function callRegister() {
+    if (validEmail === '' && validPass === '' && signPass !== '') {
+      updateIsLoading(true);
+      auth()
+        .createUserWithEmailAndPassword(signEmail, signPass)
+        .then((res) => addDetails(res))
+        .catch((error) => {
+          Toast.show(error.message + ' (Signup Error: 5)');
+          updateIsLoading(false);
+        });
     } else if (validEmail !== '') {
       Toast.show('Invalid Email');
     } else if (validPass === 'Password does not match') {
@@ -103,6 +193,20 @@ function SignupPage({navigation}) {
     } else if (validPhone !== '') {
       Toast.show('Phone number cannot be empty');
     }
+  }
+
+  function back() {
+    // navigation.pop(1);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'LoginPage',
+          },
+        ],
+      }),
+    );
   }
 
   var seperatorHeight = 40;
@@ -256,98 +360,113 @@ function SignupPage({navigation}) {
     headerPadding: {
       flex: 1,
     },
+    loadingMain: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: colorScheme.backCol,
+    },
+    loadingText: {
+      color: colorScheme.textCol,
+      fontSize: 20,
+    },
   });
 
-  function back() {
-    navigation.pop(1);
-  }
-
-  return (
-    <SafeAreaView style={Styles.container}>
-      <View style={Styles.headerBar}>
-        <TouchableOpacity onPress={back}>
-          <Icon name="arrow-back" size={25} style={Styles.text} />
-        </TouchableOpacity>
-        <View style={Styles.headerPadding} />
+  if (isLoading) {
+    return (
+      <View style={Styles.loadingMain}>
+        <ActivityIndicator size="large" color={colorScheme.inputTextWrapper} />
+        <Text style={Styles.loadingText}>Loading...</Text>
       </View>
-      <ScrollView contentContainerStyle={Styles.scroller}>
-        <View style={Styles.mainView}>
-          <Text style={[Styles.mainHeader, Styles.text]}>Sign Up Now</Text>
-          <Text style={[Styles.mainSub, Styles.text]}>
-            Please fill in the details
-          </Text>
-
-          <TextInput
-            placeholder="Email"
-            placeholderTextColor={colorScheme.placeHolderText}
-            value={signEmail}
-            style={Styles.inputFields}
-            onChangeText={(newEmail) => updateSignEmail(newEmail)}
-          />
-          <Text style={Styles.validator}>{validEmail}</Text>
-
-          <TextInput
-            secureTextEntry={true}
-            value={signPass}
-            placeholder="Password"
-            placeholderTextColor={colorScheme.placeHolderText}
-            onChangeText={(newPass) => updateSignPass(newPass)}
-            style={Styles.inputFields}
-          />
-          <TextInput
-            secureTextEntry={true}
-            value={signConPass}
-            placeholder="Confirm Password"
-            placeholderTextColor={colorScheme.placeHolderText}
-            onChangeText={(newConPass) => updateSignConPass(newConPass)}
-            style={Styles.inputFields}
-          />
-          <Text style={Styles.validator}>{validPass}</Text>
-
-          <View style={Styles.seperator}>
-            <View style={Styles.line} />
-            <Text style={Styles.details}>Details</Text>
-          </View>
-
-          <Text style={Styles.pickerText}>Name</Text>
-          <TextInput
-            value={signName}
-            placeholder="Enter Here"
-            placeholderTextColor={colorScheme.placeHolderText}
-            onChangeText={(newName) => updateSignName(newName)}
-            style={Styles.detailInput}
-          />
-          <Text style={Styles.validator}>{validName}</Text>
-
-          <Text style={Styles.pickerText}>Phone</Text>
-          <TextInput
-            maxLength={8}
-            value={signPhone}
-            placeholder="Enter Here"
-            placeholderTextColor={colorScheme.placeHolderText}
-            keyboardType="number-pad"
-            onChangeText={(newPhone) => updateSignPhone(newPhone)}
-            style={Styles.detailInput}
-          />
-          <Text style={Styles.validator}>{validPhone}</Text>
-
-          <View style={Styles.btmWrapper}>
-            <TouchableOpacity style={Styles.signBtn} onPress={callRegister}>
-              <Text style={Styles.signText}>Sign up</Text>
-            </TouchableOpacity>
-            <Text style={Styles.btmText}>
-              <Text style={Styles.text}>
-                By signing up, you agree with the{' '}
-              </Text>
-              <Text style={[Styles.privatePolicy, Styles.text]}>
-                Private policy
-              </Text>
-            </Text>
-          </View>
+    );
+  } else {
+    return (
+      <SafeAreaView style={Styles.container}>
+        <View style={Styles.headerBar}>
+          <TouchableOpacity onPress={back}>
+            <Icon name="arrow-back" size={25} style={Styles.text} />
+          </TouchableOpacity>
+          <View style={Styles.headerPadding} />
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+        <ScrollView contentContainerStyle={Styles.scroller}>
+          <View style={Styles.mainView}>
+            <Text style={[Styles.mainHeader, Styles.text]}>Sign Up Now</Text>
+            <Text style={[Styles.mainSub, Styles.text]}>
+              Please fill in the details
+            </Text>
+
+            <TextInput
+              placeholder="Email"
+              placeholderTextColor={colorScheme.placeHolderText}
+              value={signEmail}
+              style={Styles.inputFields}
+              onChangeText={(newEmail) => updateSignEmail(newEmail)}
+            />
+            <Text style={Styles.validator}>{validEmail}</Text>
+
+            <TextInput
+              secureTextEntry={true}
+              value={signPass}
+              placeholder="Password"
+              placeholderTextColor={colorScheme.placeHolderText}
+              onChangeText={(newPass) => updateSignPass(newPass)}
+              style={Styles.inputFields}
+            />
+            <TextInput
+              secureTextEntry={true}
+              value={signConPass}
+              placeholder="Confirm Password"
+              placeholderTextColor={colorScheme.placeHolderText}
+              onChangeText={(newConPass) => updateSignConPass(newConPass)}
+              style={Styles.inputFields}
+            />
+            <Text style={Styles.validator}>{validPass}</Text>
+
+            <View style={Styles.seperator}>
+              <View style={Styles.line} />
+              <Text style={Styles.details}>Details</Text>
+            </View>
+
+            <Text style={Styles.pickerText}>Name</Text>
+            <TextInput
+              value={signName}
+              placeholder="Enter Here"
+              placeholderTextColor={colorScheme.placeHolderText}
+              onChangeText={(newName) => updateSignName(newName)}
+              style={Styles.detailInput}
+            />
+            <Text style={Styles.validator}>{validName}</Text>
+
+            <Text style={Styles.pickerText}>Phone</Text>
+            <TextInput
+              maxLength={8}
+              value={signPhone}
+              placeholder="Enter Here"
+              placeholderTextColor={colorScheme.placeHolderText}
+              keyboardType="number-pad"
+              onChangeText={(newPhone) => updateSignPhone(newPhone)}
+              style={Styles.detailInput}
+            />
+            <Text style={Styles.validator}>{validPhone}</Text>
+
+            <View style={Styles.btmWrapper}>
+              <TouchableOpacity style={Styles.signBtn} onPress={callRegister}>
+                <Text style={Styles.signText}>Sign up</Text>
+              </TouchableOpacity>
+              <Text style={Styles.btmText}>
+                <Text style={Styles.text}>
+                  By signing up, you agree with the{' '}
+                </Text>
+                <Text style={[Styles.privatePolicy, Styles.text]}>
+                  Private policy
+                </Text>
+              </Text>
+            </View>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
 }
 
 export default SignupPage;

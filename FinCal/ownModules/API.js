@@ -1,11 +1,9 @@
-import {date} from 'faker';
-
 var url = 'http://10.0.2.2:3000'; //This must be without the last slash
 
-export async function register(email, pass, name, phone) {
+export async function register(email, uuid, name, phone) {
   let data = {
     Email: email,
-    Password: pass,
+    uuid: uuid,
     Name: name,
     Phone: phone,
   };
@@ -27,10 +25,9 @@ export async function register(email, pass, name, phone) {
   return result;
 }
 
-export async function login(email, pass) {
+export async function login(uuid) {
   let data = {
-    Email: email,
-    Password: pass,
+    uuid: uuid,
   };
 
   var result = await fetch(url + '/login/', {

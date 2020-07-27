@@ -9,6 +9,10 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import moment from 'moment';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import auth from '@react-native-firebase/auth';
+import {CommonActions} from '@react-navigation/native';
+import Toast from 'react-native-simple-toast';
 
 import {monthName} from '../GlobalObject.js';
 import {resData} from '../MenuData.js';
@@ -23,6 +27,8 @@ import {getLedger, getJio} from '../API';
 function HomeScreen(props) {
   let navigation = props.navigation;
   let currUser = props.currUser;
+
+  // console.log(currUser);
 
   let [themeDark, updateTheme] = useState(true);
   let [colorScheme, updateColorScheme] = useState(darkTheme);
@@ -142,6 +148,20 @@ function HomeScreen(props) {
       fontSize: 17,
       fontStyle: 'italic',
     },
+
+    headerWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+
+    logout: {
+      marginRight: 10,
+    },
+
+    text: {
+      color: colorScheme.textCol,
+    },
   });
 
   let [monthlyTransactData, updateMonthlyTransactData] = useState([]);
@@ -150,6 +170,17 @@ function HomeScreen(props) {
   let [isLoading, updateIsLoading] = useState(false);
   let [jioInvite, updateJioInvite] = useState([]);
   let [myJio, updateMyJio] = useState([]);
+
+  let [localUser, updateLocalUser] = useState({});
+
+  useEffect(() => {
+    function onAuthStateChanged(newUser) {
+      updateLocalUser(newUser);
+    }
+
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
 
   useEffect(() => {
     async function fetchLedger() {
@@ -230,6 +261,22 @@ function HomeScreen(props) {
     return reload;
   }, [currUser.Email, currUser.uuid, navigation]);
 
+  useEffect(() => {
+    if (localUser === null) {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'LoginPage',
+              // params: {fromHome: true},
+            },
+          ],
+        }),
+      );
+    }
+  }, [localUser, navigation]);
+
   function toEditMenu(currItem) {
     navigation.navigate('EditMenu', {
       currItem: currItem,
@@ -240,6 +287,15 @@ function HomeScreen(props) {
     navigation.navigate('MyJioSummary', {
       currItem: currItem,
     });
+  }
+
+  function signout() {
+    updateIsLoading(true);
+    auth()
+      .signOut()
+      .then()
+      .catch((err) => Toast.show(err.message));
+    updateIsLoading(false);
   }
 
   let jioInviteShow;
@@ -324,13 +380,18 @@ function HomeScreen(props) {
       <View style={localStyle.mainView}>
         <ScrollView>
           {/* WELCOME HEADER */}
-          <View>
-            <Text style={localStyle.welcomeStyle}>
-              Welcome back, {currUser.Name}!
-            </Text>
-            <Text style={localStyle.dateStyle}>
-              Today is {moment().format('Do MMMM YYYY, dddd')}
-            </Text>
+          <View style={localStyle.headerWrapper}>
+            <View>
+              <Text style={localStyle.welcomeStyle}>
+                Welcome back, {currUser.Name}!
+              </Text>
+              <Text style={localStyle.dateStyle}>
+                Today is {moment().format('Do MMMM YYYY, dddd')}
+              </Text>
+            </View>
+            <TouchableOpacity style={localStyle.logout} onPress={signout}>
+              <Icon name="logout" size={35} style={localStyle.text} />
+            </TouchableOpacity>
           </View>
 
           {/* MONTH OVERVIEW */}
