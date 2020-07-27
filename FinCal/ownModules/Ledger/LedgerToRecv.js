@@ -10,21 +10,24 @@ import {
 } from 'react-native';
 import {Searchbar} from 'react-native-paper';
 import {CommonActions} from '@react-navigation/native';
+import {connect} from 'react-redux';
 
-import getLedger from '../API';
+import FloatActionButton from '../FloatActionButton';
+import {getLedger} from '../API';
 import {darkTheme, lightTheme} from '../GlobalValues';
 import LedgerCard from './LedgerCard';
 
-export default function LedgerToRecv(props) {
+function LedgerToRecv(props) {
   let currWidth = useWindowDimensions().width;
+  let currHeight = useWindowDimensions().height;
 
   let [isLoading, updateLoading] = useState(false);
   let [themeDark, updateTheme] = useState(true);
   let [colorScheme, updateColorScheme] = useState(darkTheme);
 
   let navigation = props.navigation;
-  let parentDarkTheme = true;
-  // let parentDarkTheme = props.route.params.parentDarkTheme || true;
+  let currUser = props.currUser;
+  let parentDarkTheme = currUser.themeIsDark === 'true';
 
   useEffect(() => {
     themeDark === true
@@ -36,6 +39,7 @@ export default function LedgerToRecv(props) {
     updateTheme(parentDarkTheme);
   }, [parentDarkTheme]);
 
+  let [toRecvFull, updateToRecvFull] = useState([]);
   let [toRecvArr, updateToRecvArr] = useState([]);
   let [toRecvAmt, updateToRecvAmt] = useState(0.0);
 
@@ -45,7 +49,7 @@ export default function LedgerToRecv(props) {
       marginTop: 15,
       marginBottom: 15,
       flexDirection: 'row',
-      justifyContent: 'center',
+      justifyContent: 'space-around',
       alignContent: 'center',
     },
 
@@ -57,6 +61,7 @@ export default function LedgerToRecv(props) {
     marginView: {
       flexGrow: 1,
       margin: 20,
+      height: currHeight * 0.8,
     },
 
     headerText: {
@@ -66,8 +71,8 @@ export default function LedgerToRecv(props) {
     },
 
     btnWrap: {
-      marginLeft: 10,
-      marginRight: 10,
+      // marginLeft: 10,
+      // marginRight: 10,
       borderRadius: 20,
       width: 110,
       height: 40,
@@ -145,29 +150,34 @@ export default function LedgerToRecv(props) {
   useEffect(() => {
     async function tempHandler() {
       updateLoading(true);
-      // let result = await getLedger('toPay', currUser.Email, currUser.uuid);
-      let result = [
-        {Name: 'AAA', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
-        {Name: 'VVVVte', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
-        {Name: 'ZCCCoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
-        {Name: 'Xavier', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
-        {Name: 'Yvette', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
-        {Name: 'Zoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
-      ];
-      //Change this to fetch from server
+      let toRecvRes = await getLedger(
+        'getToRecv',
+        currUser.Email,
+        currUser.uuid,
+      );
 
-      let toRecvAmtTemp = 0.0;
+      if (typeof toRecvRes === 'object') {
+        let toRecvAmtTemp = 0.0;
 
-      for (let i = 0; i < result.length; i++) {
-        toRecvAmtTemp += parseFloat(result[i].Amount);
+        for (let i = 0; i < toRecvRes.length; i++) {
+          toRecvAmtTemp += parseFloat(toRecvRes[i].Amount);
+        }
+
+        updateToRecvArr(toRecvRes);
+        updateToRecvAmt(toRecvAmtTemp.toFixed(2));
+        updateToRecvFull(toRecvRes);
       }
 
-      updateToRecvArr(result);
-      updateToRecvAmt(toRecvAmtTemp.toFixed(2));
       updateLoading(false);
     }
     tempHandler();
-  }, []);
+
+    const reload = navigation.addListener('focus', () => {
+      tempHandler();
+    });
+
+    return reload;
+  }, [currUser.Email, currUser.uuid, navigation]);
 
   function toSummaryPage() {
     navigation.dispatch(
@@ -195,6 +205,50 @@ export default function LedgerToRecv(props) {
     );
   }
 
+  function search(incomingWord) {
+    if (incomingWord === '') {
+      updateToRecvArr(toRecvFull);
+    } else {
+      let newWord = incomingWord.toLowerCase();
+      let toRecvTemp = [];
+
+      for (let i = 0; i < toRecvFull.length; i++) {
+        let currItem = toRecvFull[i];
+
+        if (
+          currItem.fromName.toLowerCase().includes(newWord) ||
+          currItem.toName.toLowerCase().includes(newWord) ||
+          currItem.Amount.toLowerCase().includes(newWord) ||
+          currItem.Detail.toLowerCase().includes(newWord) ||
+          currItem.Date.toLowerCase().includes(newWord)
+        ) {
+          toRecvTemp.push(currItem);
+        }
+      }
+
+      updateToRecvArr(toRecvTemp);
+    }
+  }
+
+  async function reloadPage() {
+    updateLoading(true);
+    let toRecvRes = await getLedger('getToRecv', currUser.Email, currUser.uuid);
+
+    if (typeof toRecvRes === 'object') {
+      let toRecvAmtTemp = 0.0;
+
+      for (let i = 0; i < toRecvRes.length; i++) {
+        toRecvAmtTemp += parseFloat(toRecvRes[i].Amount);
+      }
+
+      updateToRecvArr(toRecvRes);
+      updateToRecvAmt(toRecvAmtTemp.toFixed(2));
+      updateToRecvFull(toRecvRes);
+    }
+
+    updateLoading(false);
+  }
+
   if (isLoading) {
     return (
       <View style={styles.mainView}>
@@ -214,7 +268,10 @@ export default function LedgerToRecv(props) {
             </TouchableOpacity>
           </View>
 
-          <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+          <Searchbar
+            style={styles.searchBar}
+            placeholder="Seach for a payment"
+          />
 
           <View style={styles.fullSummary}>
             <View style={styles.loadingMain}>
@@ -223,6 +280,7 @@ export default function LedgerToRecv(props) {
             </View>
           </View>
         </View>
+        <FloatActionButton currUser={currUser} />
       </View>
     );
   } else {
@@ -244,7 +302,11 @@ export default function LedgerToRecv(props) {
             </TouchableOpacity>
           </View>
 
-          <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+          <Searchbar
+            style={styles.searchBar}
+            placeholder="Seach for a payment"
+            onChangeText={(newWord) => search(newWord)}
+          />
 
           <View style={styles.fullSummary}>
             <View style={styles.mainContainers}>
@@ -255,17 +317,28 @@ export default function LedgerToRecv(props) {
                 {toRecvArr.map((currItem, currIdx) => (
                   <LedgerCard
                     key={currIdx}
+                    clickable={true}
                     currObj={currItem}
                     cardType="receive"
                     parentThemeDark={themeDark}
                     parWidth={currWidth - 40}
+                    reloadPage={reloadPage}
                   />
                 ))}
               </ScrollView>
             </View>
           </View>
         </View>
+        <FloatActionButton currUser={currUser} pullLedger={reloadPage} />
       </View>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    currUser: state.currUser,
+  };
+};
+
+export default connect(mapStateToProps)(LedgerToRecv);

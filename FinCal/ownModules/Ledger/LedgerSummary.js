@@ -8,29 +8,26 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
-import {FAB} from 'react-native-paper';
+import {connect} from 'react-redux';
+import FloatActionButton from '../FloatActionButton';
 import {Searchbar} from 'react-native-paper';
 import {CommonActions} from '@react-navigation/native';
 
-import getLedger from '../API';
+import {getLedger} from '../API';
 import {darkTheme, lightTheme} from '../GlobalValues';
 import LedgerCard from './LedgerCard';
-import GlobalStyles from '../GlobalStyles';
 
-export default function LedgerSummary(props) {
+function LedgerSummary(props) {
   let currWidth = useWindowDimensions().width;
+  let currHeight = useWindowDimensions().height;
 
   let [isLoading, updateLoading] = useState(false);
   let [themeDark, updateTheme] = useState(true);
   let [colorScheme, updateColorScheme] = useState(darkTheme);
 
   let navigation = props.navigation;
-  let parentDarkTheme = true;
-  // typeof props.route.params.parentDarkTheme === 'undefined'
-  //   ? true
-  //   : props.route.params.parentDarkTheme;
-
-  // let currUser = props.currUser;
+  let currUser = props.currUser;
+  let parentDarkTheme = currUser.themeIsDark === 'true';
 
   useEffect(() => {
     themeDark === true
@@ -41,6 +38,9 @@ export default function LedgerSummary(props) {
   useEffect(() => {
     updateTheme(parentDarkTheme);
   }, [parentDarkTheme]);
+
+  let [toPayFull, updateToPayFull] = useState([]);
+  let [toRecvFull, updateToRecvFull] = useState([]);
 
   let [toPayArr, updateToPayArr] = useState([]);
   let [toRecvArr, updateToRecvArr] = useState([]);
@@ -53,18 +53,23 @@ export default function LedgerSummary(props) {
       marginTop: 15,
       marginBottom: 15,
       flexDirection: 'row',
-      justifyContent: 'center',
+      justifyContent: 'space-around',
       alignContent: 'center',
     },
 
     mainView: {
       flex: 1,
       backgroundColor: colorScheme.backCol,
+      // borderWidth: 1,
+      // borderColor: 'green',
     },
 
     marginView: {
       flexGrow: 1,
       margin: 20,
+      height: currHeight * 0.8,
+      // borderWidth: 1,
+      // borderColor: 'green',
     },
 
     headerText: {
@@ -74,8 +79,8 @@ export default function LedgerSummary(props) {
     },
 
     btnWrap: {
-      marginLeft: 10,
-      marginRight: 10,
+      // marginLeft: 10,
+      // marginRight: 10,
       borderRadius: 20,
       width: 110,
       height: 40,
@@ -107,9 +112,9 @@ export default function LedgerSummary(props) {
 
     fullSummary: {
       marginTop: 15,
-      flex: 1,
+      flexGrow: 1,
       // borderWidth: 1,
-      // borderColor: 'pink',
+      // borderColor: 'yellow',
     },
 
     mainContainers: {
@@ -153,46 +158,47 @@ export default function LedgerSummary(props) {
   useEffect(() => {
     async function tempHandler() {
       updateLoading(true);
-      // let result = await getLedger('Summary', currUser.Email, currUser.uuid);
-      let result = [
-        {Name: 'Amanda', Date: 'Apr 25', Amount: '5.50', Type: 'toPay'},
-        {Name: 'Bryne', Date: 'May 26', Amount: '6.60', Type: 'toPay'},
-        {Name: 'Colin', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-        {Name: 'Donkey', Date: 'Jan 27', Amount: '50.70', Type: 'toPay'},
-        {Name: 'Echo', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-        {Name: 'Newww', Date: 'Jun 27', Amount: '7.70', Type: 'toPay'},
-        {Name: 'AAA', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
-        {Name: 'VVVVte', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
-        {Name: 'ZCCCoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
-        {Name: 'Xavier', Date: 'Jul 28', Amount: '8.80', Type: 'toRecv'},
-        {Name: 'Yvette', Date: 'Aug 29', Amount: '9.90', Type: 'toRecv'},
-        {Name: 'Zoe', Date: 'Sep 30', Amount: '10.10', Type: 'toRecv'},
-      ];
+      let toPayRes = await getLedger('getToPay', currUser.Email, currUser.uuid);
+      let toRecvRes = await getLedger(
+        'getToRecv',
+        currUser.Email,
+        currUser.uuid,
+      );
 
-      let toPayTemp = [];
-      let toPayAmtTemp = 0.0;
-      let toRecvTemp = [];
-      let toRecvAmtTemp = 0.0;
+      if (typeof toRecvRes === 'object' && typeof toPayRes === 'object') {
+        let toPayTemp = [];
+        let toPayAmtTemp = 0.0;
+        let toRecvTemp = [];
+        let toRecvAmtTemp = 0.0;
 
-      for (let i = 0; i < result.length; i++) {
-        if (result[i].Type === 'toPay') {
-          toPayAmtTemp += parseFloat(result[i].Amount);
-          toPayTemp.push(result[i]);
-        } else {
-          toRecvAmtTemp += parseFloat(result[i].Amount);
-          toRecvTemp.push(result[i]);
+        for (let i = 0; i < toPayRes.length; i++) {
+          toPayAmtTemp += parseFloat(toPayRes[i].Amount);
+          toPayTemp.push(toPayRes[i]);
         }
-      }
 
-      updateToPayAmt(toPayAmtTemp.toFixed(2));
-      updateToRecvAmt(toRecvAmtTemp.toFixed(2));
-      updateToPayArr(toPayTemp);
-      updateToRecvArr(toRecvTemp);
+        for (let i = 0; i < toRecvRes.length; i++) {
+          toRecvAmtTemp += parseFloat(toRecvRes[i].Amount);
+          toRecvTemp.push(toRecvRes[i]);
+        }
+
+        updateToPayAmt(toPayAmtTemp.toFixed(2));
+        updateToRecvAmt(toRecvAmtTemp.toFixed(2));
+        updateToPayArr(toPayTemp);
+        updateToRecvArr(toRecvTemp);
+
+        updateToPayFull(toPayTemp);
+        updateToRecvFull(toRecvTemp);
+      }
 
       updateLoading(false);
     }
-    tempHandler();
-  }, []);
+
+    const reload = navigation.addListener('focus', () => {
+      tempHandler();
+    });
+
+    return reload;
+  }, [currUser.Email, currUser.uuid, navigation]);
 
   function toPayPage() {
     navigation.dispatch(
@@ -220,34 +226,116 @@ export default function LedgerSummary(props) {
     );
   }
 
+  function search(incomingWord) {
+    if (incomingWord === '') {
+      updateToPayArr(toPayFull);
+      updateToRecvArr(toRecvFull);
+    } else {
+      let newWord = incomingWord.toLowerCase();
+
+      let toPayTemp = [];
+      let toRecvTemp = [];
+
+      for (let i = 0; i < toPayFull.length; i++) {
+        let currItem = toPayFull[i];
+
+        if (
+          currItem.fromName.toLowerCase().includes(newWord) ||
+          currItem.toName.toLowerCase().includes(newWord) ||
+          currItem.Amount.toLowerCase().includes(newWord) ||
+          currItem.Detail.toLowerCase().includes(newWord) ||
+          currItem.Date.toLowerCase().includes(newWord)
+        ) {
+          toPayTemp.push(currItem);
+        }
+      }
+
+      for (let i = 0; i < toRecvFull.length; i++) {
+        let currItem = toRecvFull[i];
+
+        if (
+          currItem.fromName.toLowerCase().includes(newWord) ||
+          currItem.toName.toLowerCase().includes(newWord) ||
+          currItem.Amount.toLowerCase().includes(newWord) ||
+          currItem.Detail.toLowerCase().includes(newWord) ||
+          currItem.Date.toLowerCase().includes(newWord)
+        ) {
+          toRecvTemp.push(currItem);
+        }
+      }
+
+      updateToPayArr(toPayTemp);
+      updateToRecvArr(toRecvTemp);
+    }
+  }
+
+  async function reloadPage() {
+    updateLoading(true);
+    let toPayRes = await getLedger('getToPay', currUser.Email, currUser.uuid);
+    let toRecvRes = await getLedger('getToRecv', currUser.Email, currUser.uuid);
+
+    if (typeof toRecvRes === 'object' && typeof toPayRes === 'object') {
+      let toPayTemp = [];
+      let toPayAmtTemp = 0.0;
+      let toRecvTemp = [];
+      let toRecvAmtTemp = 0.0;
+
+      for (let i = 0; i < toPayRes.length; i++) {
+        toPayAmtTemp += parseFloat(toPayRes[i].Amount);
+        toPayTemp.push(toPayRes[i]);
+      }
+
+      for (let i = 0; i < toRecvRes.length; i++) {
+        toRecvAmtTemp += parseFloat(toRecvRes[i].Amount);
+        toRecvTemp.push(toRecvRes[i]);
+      }
+
+      updateToPayAmt(toPayAmtTemp.toFixed(2));
+      updateToRecvAmt(toRecvAmtTemp.toFixed(2));
+      updateToPayArr(toPayTemp);
+      updateToRecvArr(toRecvTemp);
+
+      updateToPayFull(toPayTemp);
+      updateToRecvFull(toRecvTemp);
+    }
+
+    updateLoading(false);
+  }
+
   if (isLoading) {
-    <View style={styles.mainView}>
-      <View style={styles.marginView}>
-        <Text style={styles.headerText}>Ledger</Text>
-        <View style={styles.selectorBar}>
-          <TouchableOpacity style={[styles.btnWrap, styles.selectedBtn]}>
-            <Text style={[styles.btnText, styles.selectedBtnText]}>
-              Summary
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnWrap} onPress={toPayPage}>
-            <Text style={styles.btnText}>To Pay</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnWrap} onPress={toRecvPage}>
-            <Text style={styles.btnText}>To Receive</Text>
-          </TouchableOpacity>
-        </View>
+    return (
+      <View style={styles.mainView}>
+        <View style={styles.marginView}>
+          <Text style={styles.headerText}>Ledger</Text>
+          <View style={styles.selectorBar}>
+            <TouchableOpacity style={[styles.btnWrap, styles.selectedBtn]}>
+              <Text style={[styles.btnText, styles.selectedBtnText]}>
+                Summary
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnWrap} onPress={toPayPage}>
+              <Text style={styles.btnText}>To Pay</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnWrap} onPress={toRecvPage}>
+              <Text style={styles.btnText}>To Receive</Text>
+            </TouchableOpacity>
+          </View>
 
-        <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+          <Searchbar
+            style={styles.searchBar}
+            placeholder="Seach for an entry"
+          />
 
-        <View style={styles.fullSummary}>
-          <View style={styles.loadingMain}>
-            <ActivityIndicator size="small" color="white" />
-            <Text style={styles.loadingText}>Loading...</Text>
+          <View style={styles.fullSummary}>
+            <View style={styles.loadingMain}>
+              <ActivityIndicator size="small" color={colorScheme.textCol} />
+              <Text style={styles.loadingText}>Loading...</Text>
+            </View>
           </View>
         </View>
+        <FloatActionButton currUser={currUser} />
       </View>
-    </View>;
+    );
   } else {
     return (
       <View style={styles.mainView}>
@@ -267,7 +355,11 @@ export default function LedgerSummary(props) {
             </TouchableOpacity>
           </View>
 
-          <Searchbar style={styles.searchBar} placeholder="Seach for a debt" />
+          <Searchbar
+            style={styles.searchBar}
+            placeholder="Seach for an entry"
+            onChangeText={(newWord) => search(newWord)}
+          />
 
           <View style={styles.fullSummary}>
             <View style={styles.mainContainers}>
@@ -276,10 +368,12 @@ export default function LedgerSummary(props) {
                 {toPayArr.map((currItem, currIdx) => (
                   <LedgerCard
                     key={currIdx}
+                    clickable={true}
                     currObj={currItem}
                     cardType="payment"
                     parentThemeDark={themeDark}
                     parWidth={currWidth - 40}
+                    reloadPage={reloadPage}
                   />
                 ))}
               </ScrollView>
@@ -292,22 +386,28 @@ export default function LedgerSummary(props) {
                 {toRecvArr.map((currItem, currIdx) => (
                   <LedgerCard
                     key={currIdx}
+                    clickable={true}
                     currObj={currItem}
                     cardType="receive"
                     parentThemeDark={themeDark}
                     parWidth={currWidth - 40}
+                    reloadPage={reloadPage}
                   />
                 ))}
               </ScrollView>
             </View>
           </View>
         </View>
-        <FAB
-          icon="tooltip-plus-outline"
-          style={GlobalStyles.fab}
-          onPress={() => console.log('FAB pressed!')}
-        />
+        <FloatActionButton currUser={currUser} pullLedger={reloadPage} />
       </View>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    currUser: state.currUser,
+  };
+};
+
+export default connect(mapStateToProps)(LedgerSummary);

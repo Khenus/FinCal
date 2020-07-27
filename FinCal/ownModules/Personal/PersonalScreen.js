@@ -1,25 +1,90 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {FAB} from 'react-native-paper';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  useWindowDimensions,
+  ActivityIndicator,
+} from 'react-native';
+import {connect} from 'react-redux';
 
-import PieChartWithDynamicSlices from './PieChartWithDynamicSlices';
+import FloatActionButton from '../FloatActionButton';
+import PieChartWithDynamicSlices from './Components/PieChartWithDynamicSlices';
 
-import GlobalStyles from '../GlobalStyles.js';
-import TransactionList from './TransactionList.js';
-import fakeData from './fakeData.js';
+import TransactionList from './Components/TransactionList.js';
+import {fetchTransact} from '../API';
+import {darkTheme, lightTheme} from '../GlobalValues.js';
 
-export default function PersonalScreen() {
+function PersonalScreen(props) {
+  let currHeight = useWindowDimensions().height;
+
+  const numMonths = 5;
+  let navigation = props.navigation;
+
+  let [yearArr, updateYearArr] = useState(new Array(12).fill(0));
+  let [currMonthIdx, updateCurrMonthIdx] = useState(0);
   let [transactData, updateTransactData] = useState([]);
+  let [monthlyTransactData, updateMonthlyTransactData] = useState([]);
+  let [isLoading, updateIsLoading] = useState(false);
+  let [themeDark, updateTheme] = useState(true);
+  let [colorScheme, updateColorScheme] = useState(darkTheme);
+
+  let currUser = props.currUser;
+  let parentDarkTheme = currUser.themeIsDark === 'true';
 
   useEffect(() => {
-    //Fetch data from server
-    updateTransactData(fakeData); //Change this to result after you add in teh api
-  }, []);
+    themeDark === true
+      ? updateColorScheme(darkTheme)
+      : updateColorScheme(lightTheme);
+  }, [themeDark]);
+
+  useEffect(() => {
+    updateTheme(parentDarkTheme);
+  }, [parentDarkTheme]);
+
+  useEffect(() => {
+    async function tempHandler() {
+      let result = await fetchTransact(currUser.uuid, numMonths);
+
+      if (typeof result === 'object') {
+        //Updating trasaction data for the recent trasaction
+        updateTransactData(result);
+
+        //Updated trasaction data sorted by month
+        let tempArr = [];
+        let tempYearArr = [];
+        for (let j = 0; j < 12; j++) {
+          tempArr.push([]);
+          tempYearArr.push(0);
+        }
+
+        for (let i = 0; i < result.length; i++) {
+          let currUnix = parseInt(result[i].createdAtUnix, 10) * 1000;
+          let tempMonth = new Date(currUnix).getMonth();
+          tempArr[tempMonth].push(result[i]);
+          tempYearArr[tempMonth] = new Date(currUnix).getFullYear();
+        }
+
+        updateMonthlyTransactData(tempArr);
+        updateYearArr(tempYearArr);
+      }
+    }
+
+    const reload = navigation.addListener('focus', () => {
+      updateIsLoading(true);
+      tempHandler();
+      updateCurrMonthIdx(new Date().getMonth());
+      updateIsLoading(false);
+    });
+
+    return reload;
+  }, [currUser.Email, currUser.uuid, navigation, numMonths]);
 
   const localStyle = StyleSheet.create({
     mainView: {
       flex: 1,
-      backgroundColor: '#121212',
+      backgroundColor: colorScheme.backCol,
     },
 
     header: {
@@ -37,7 +102,7 @@ export default function PersonalScreen() {
     },
 
     subtitleStyle: {
-      color: '#FFFFFF',
+      color: colorScheme.textCol,
       fontSize: 18,
       fontWeight: 'bold',
       fontStyle: 'italic',
@@ -45,7 +110,7 @@ export default function PersonalScreen() {
     },
 
     welcomeStyle: {
-      color: '#FFFFFF',
+      color: colorScheme.textCol,
       fontSize: 25,
       fontWeight: 'bold',
       //backgroundColor: 'grey',
@@ -55,51 +120,150 @@ export default function PersonalScreen() {
 
     transList: {
       flexGrow: 1,
+      marginTop: 20,
+      height: currHeight * 0.431,
+      // borderColor: 'white',
+      // borderWidth: 1,
+    },
+
+    piePadding: {
+      height: 10,
     },
   });
 
-  return (
-    <View style={localStyle.mainView}>
-      {/* Header text */}
-      <View style={localStyle.header}>
-        <Text style={localStyle.welcomeStyle}>Your personal finances.</Text>
+  async function updateData() {
+    let result = await fetchTransact(currUser.Email, currUser.uuid, numMonths);
+
+    if (typeof result === 'object') {
+      //Updating trasaction data for the recent trasaction
+      updateTransactData(result);
+
+      //Updated trasaction data sorted by month
+      let tempArr = [];
+      let tempYearArr = [];
+      for (let j = 0; j < 12; j++) {
+        tempArr.push([]);
+        tempYearArr.push(0);
+      }
+
+      for (let i = 0; i < result.length; i++) {
+        let currUnix = parseInt(result[i].createdAtUnix, 10) * 1000;
+        let tempMonth = new Date(currUnix).getMonth();
+        tempArr[tempMonth].push(result[i]);
+        tempYearArr[tempMonth] = new Date(currUnix).getFullYear();
+      }
+
+      updateMonthlyTransactData(tempArr);
+      updateYearArr(tempYearArr);
+    }
+  }
+
+  function toBudgetDetails() {
+    navigation.navigate('BudgetDetails', {
+      currMonthIdx: currMonthIdx,
+      yearArr: yearArr,
+      sortedMonthArr: monthlyTransactData,
+      pullTransactRef: updateData,
+    });
+  }
+
+  function toAllTransact() {
+    navigation.navigate('AllTransactions', {
+      transactData: transactData,
+      pullTransactRef: updateData,
+    });
+  }
+
+  if (isLoading) {
+    return (
+      <View style={localStyle.mainView}>
+        {/* Header text */}
+        <ScrollView>
+          <View style={localStyle.header}>
+            <Text style={localStyle.welcomeStyle}>Your personal finances.</Text>
+          </View>
+
+          {/* Budget breakdown */}
+          <View>
+            <View style={localStyle.subHeader}>
+              <Text style={localStyle.subtitleStyle}>Budget Overview</Text>
+              <Text style={localStyle.viewDetails} onPress={toBudgetDetails}>
+                View Details
+              </Text>
+            </View>
+
+            {/* Add this into pie chart component disData={sorteddata} */}
+            <ActivityIndicator size="small" color={colorScheme.textCol} />
+          </View>
+
+          {/* Transaction List */}
+          <View style={localStyle.transList}>
+            <View style={localStyle.subHeader}>
+              <Text style={localStyle.subtitleStyle}>Latest Transactions</Text>
+              <Text style={localStyle.viewDetails} onPress={toAllTransact}>
+                View All
+              </Text>
+            </View>
+
+            <ActivityIndicator size="small" color={colorScheme.textCol} />
+          </View>
+        </ScrollView>
+        <FloatActionButton currUser={currUser} pullTransact={updateData} />
       </View>
+    );
+  } else {
+    return (
+      <View style={localStyle.mainView}>
+        {/* Header text */}
+        <ScrollView>
+          <View style={localStyle.header}>
+            <Text style={localStyle.welcomeStyle}>Your personal finances.</Text>
+          </View>
 
-      {/* Budget breakdown */}
-      <View>
-        <View style={localStyle.subHeader}>
-          <Text style={localStyle.subtitleStyle}>Budget</Text>
-          <Text
-            style={localStyle.viewDetails}
-            onPress={() => console.log('to personal > budget breakdown page')}>
-            VIEW DETAILS
-          </Text>
-        </View>
+          {/* Budget breakdown */}
+          <View>
+            <View style={localStyle.subHeader}>
+              <Text style={localStyle.subtitleStyle}>Budget Overview</Text>
+              <Text style={localStyle.viewDetails} onPress={toBudgetDetails}>
+                View Details
+              </Text>
+            </View>
 
-        <PieChartWithDynamicSlices />
+            {/* Add this into pie chart component disData={sorteddata} */}
+            <View style={localStyle.piePadding} />
+            <PieChartWithDynamicSlices
+              currUser={currUser}
+              disData={monthlyTransactData[currMonthIdx]}
+            />
+            <View style={localStyle.piePadding} />
+          </View>
+
+          {/* Transaction List */}
+          <View style={localStyle.transList}>
+            <View style={localStyle.subHeader}>
+              <Text style={localStyle.subtitleStyle}>Latest Transactions</Text>
+              <Text style={localStyle.viewDetails} onPress={toAllTransact}>
+                View All
+              </Text>
+            </View>
+
+            <TransactionList
+              dataArr={transactData}
+              num={5}
+              themeDark={themeDark}
+            />
+          </View>
+        </ScrollView>
+        <FloatActionButton currUser={currUser} pullTransact={updateData} />
       </View>
-
-      {/* Transaction List */}
-      <View style={localStyle.transList}>
-        <View style={localStyle.subHeader}>
-          <Text style={localStyle.subtitleStyle}>Latest Transactions</Text>
-          <Text
-            style={localStyle.viewDetails}
-            onPress={() =>
-              console.log('to personal > full transaction list page')
-            }>
-            View all transactions
-          </Text>
-        </View>
-
-        <TransactionList dataArr={transactData} num="5" />
-      </View>
-
-      <FAB
-        icon="tooltip-plus-outline"
-        style={GlobalStyles.fab}
-        onPress={() => console.log('FAB pressed!')}
-      />
-    </View>
-  );
+    );
+  }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    currUser: state.currUser,
+  };
+};
+
+export default connect(mapStateToProps)(PersonalScreen);
